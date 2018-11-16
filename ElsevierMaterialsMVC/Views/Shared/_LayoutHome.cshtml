@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Design_V1/Skin.css" rel="stylesheet" />
+    <link href="~/Content/Design_V1/Structure.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/commonScripts")
+
+    
+</head>
+<body>
+    @RenderSection("scripts", required: false)
+ 
+   
+    <div id="main"> 
+        <div id="knovel-logo-container">
+            <div id="knovel-logo" style="margin-bottom:10px;">
+                <div id="knovel-logo-title">
+                    <div><img src="~/Content/images/Logo.png" /></div>
+                    <div id="knovel-logo-name">
+                        Engineering Materials Tool
+                    </div>
+                </div>              
+                <div style="clear:both;"> </div>
+            </div>
+            <div style="clear:both;"></div>
+            <div style="height:2px;background-color:#ECECEC;margin-left:12px;margin-right:12px;"></div>
+        </div>      
+        @*<div id="knovel-logo-container">
+            <div id="knovel-logo">
+                <div><img src="~/Content/images/Logo.png" /></div>
+                <div id="knovel-logo-name">
+                    Knovel Materials Solutions
+                </div>
+                <div style="clear:both;"> </div>
+            </div>
+            <div style="clear:both;"></div>
+            <div>
+                <hr />
+            </div>
+        </div>*@
+        @RenderBody()
+        <div id="overlay" class="overlayPopUp" style="display: none;">
+            <div id="popup" style="display: none;">
+                <div style="border-top: 3px solid #e9711c"></div>
+                <div id="popupTitle"></div>
+                <div id="popupClose"><img id="popup-close" class="svg" src="~/Content/images/ic-close-k.svg" /></div>
+                <div id="popupContainer"></div>
+            </div>
+        </div>
+
+        <div id="confirmContainer" style="display: none; font-size: 1.2em;">
+            <div id="confirm">
+                <div id="confirmMessage"></div>
+                <br />
+                <a href="#" class="confirmOkButton" onclick="" id="confirmOk"><span>OK</span></a>
+                <a href="#" class="reset" onclick="" id="confirmCancel"><span>Cancel</span></a>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        © 2018 Elsevier B.V. All Rights Reserved.
+    </div>
+    <div class="progress-indicator" style="display: none;">
+        <img src="@Url.Content("~/Content/images/loader_big.gif")" alt="" />
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+        jQuery('img.svg').each(function () {
+            var $img = jQuery(this);
+            var imgID = $img.attr('id');
+            var imgClass = $img.attr('class');
+            var imgURL = $img.attr('src');
+
+            jQuery.get(imgURL, function (data) {
+                // Get the SVG tag, ignore the rest
+                var $svg = jQuery(data).find('svg');
+
+                // Add replaced image's ID to the new SVG
+                if (typeof imgID !== 'undefined') {
+                    $svg = $svg.attr('id', imgID);
+                }
+                // Add replaced image's classes to the new SVG
+                if (typeof imgClass !== 'undefined') {
+                    $svg = $svg.attr('class', imgClass + ' replaced-svg');
+                }
+
+                // Remove any invalid XML tags as per http://validator.w3.org
+                $svg = $svg.removeAttr('xmlns:a');
+
+                // Replace image with new SVG
+                $img.replaceWith($svg);
+
+            }, 'xml');
+
+        });
+    </script> 

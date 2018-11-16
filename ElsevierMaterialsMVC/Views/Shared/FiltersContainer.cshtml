@@ -1,0 +1,260 @@
+﻿@model ElsevierMaterialsMVC.Models.Search.SearchResultsCondition
+<script src="~/Scripts/dist/jstree.js"></script>
+<link href="~/Scripts/dist/themes/default/style.css" rel="stylesheet" />
+
+@*<link href="~/Content/jquery-ui.css" rel="stylesheet" />*@
+
+<style>
+    .filtersPage {
+        font-size: 12px;
+     
+    }
+</style>
+
+<div class="filtersPage">
+    <div class="filtersContainerHeader">
+        <a style="float: left;" class="browseSerach" href="#" onclick="applyFilters();">Apply filters</a>
+        <a href="#" style="float: right;" class="label" onclick="resetFilters();">Reset filters</a>
+        <div style="clear: both;"></div>
+        <div>
+            <div class="label" style="text-decoration: none; margin-top: 0px;">
+                Sources:
+            </div>
+            <select id="sourcesSelection" class="gray" style="width:100%;">
+                <option value="0">All</option>
+                @foreach (var item in Model.Sources)
+                {
+                    var isSelected = (Model.SelectedSource == String.Concat(item.Id.ToString(), ',', item.Databook_id));
+                    if (isSelected)
+                    {
+                    <option value="@(String.Concat(item.Id.ToString(), '#', item.Databook_id))" selected="selected">@item.Name</option>
+                    }
+                    else
+                    {
+                    <option value="@(String.Concat(item.Id.ToString(), '#', item.Databook_id))">@item.Name</option>
+                    }
+                }
+
+            </select>
+
+        </div>
+    </div>
+    <div id="filtersContainerContent">
+        @*<br />
+            <div>
+                <a href="#" id="btnFiltersSearch"></a>
+                <input type="text" id="tbFiltersSearch" value=" " />
+            </div>*@
+
+        <div id="tabsFilters" class="tabsContainer" style="margin-top: 10px;">
+            <ul id="ulTabsSearch" class="tabs">
+                <li><a href="#materialTab">Materials</a></li>
+                <li id="propertyTabLi"><a href="#propertyTab">Properties</a></li>
+            </ul>
+            <div id="materialTab">
+                <div id="containerMaterial">
+                    <ul>
+                        @foreach (var type in Model.ClassificationTypes)
+                        {
+                            <li id="@type.TypeClassId" nodetype="1">
+                                <a href="#" id="link_TYPE_@type.TypeClassId" onclick="aClick('link_TYPE_' + @type.TypeClassId);">@(type.TypeClassName + " (" + type.TypeClassCount + ")")</a>
+                                <ul>
+                                    @foreach (var cl in type.Classes)
+                                    {
+                                        <li id="@cl.ClassModelId" nodetype="2">
+                                            <a href="#" class="node" title="@cl.ClassModelName" id="link_CLASS_@cl.ClassModelId" onclick="aClick('link_CLASS_' + @(cl.ClassModelId));">@(cl.ClassModelName + " (" + cl.ClassCount + ")")</a>
+                                            <ul>
+                                                @foreach (var subclass in cl.Subclasses)
+                                                {
+                                                    <li id="@subclass.SubclassModelId" nodetype="3">
+                                                        <a class="node" title="@subclass.SubclassName" href="#" id="link_SUBCLASS_@subclass.SubclassModelId" onclick="aClick('link_SUBCLASS_' + @(subclass.SubclassModelId));">@(subclass.SubclassName + " (" + subclass.SubclassCount + ")")</a>
+                                                        <ul>
+                                                            @foreach (var group in subclass.Groups)
+                                                            {
+                                                                <li id="@group.GroupModelId" nodetype="4"><a class="node" title="@group.GroupModelName" href="#" id="link_GROUP_@group.GroupModelId" onclick="aClick('link_GROUP_' + @(group.GroupModelId));">@(group.GroupModelName + " (" + group.GroupCount + ")")</a></li>
+                                                            }
+                                                        </ul>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div id="propertyTab">
+                <div id="containerProperty">
+                    <ul>
+                        @foreach (var propGroup in Model.PropertyGroups)
+                        {
+                            <li>
+                                @propGroup.PropertyGroupModelName
+                                <ul>
+                                    @foreach (var prop in propGroup.Properties)
+                                    {
+                                        <li  id="@prop.PropertyModelId"><a class="node" title="@prop.PropertyModelName" href=""  id="link_PROPERTY_@prop.PropertyModelId" onclick="aClick('link_PROPERTY_' + @(prop.PropertyModelId));">@prop.PropertyModelName</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+
+    searchFunc.applyFiltershPath = '@Url.Action("ApplyFilters", "Search")';
+
+    $(document).ready(function () {
+
+        classificationId= @Model.ClasificationId;
+        classificationTypeId= @Model.ClasificationTypeId;
+        showPropertiesFilters='@(Model.ShowPropertiesFilters)';
+
+        if (showPropertiesFilters == 'False') {
+            showPropertiesFilters = false;
+        }
+
+
+        $('#tabsFilters').tabs();
+
+        $('#containerMaterial').jstree({
+            plugins: ["themes", "html_data", "ui", "crrm"]
+        }).bind("select_node.jstree", function (event, data) {
+            return data.instance.toggle_node(data.node);
+        });
+
+        $('#containerProperty').jstree({
+            plugins: ["themes", "html_data", "ui", "crrm"]
+        }).bind("select_node.jstree", function (event, data) {
+            return data.instance.toggle_node(data.node);
+        });
+
+
+        //if (classificationId > 0) {
+        //    $('#containerMaterial').jstree('select_node', '#'+ classificationId).click();
+        //}
+
+
+        //$("#containerMaterial ul:first-child li").find(">:first-child").hide();
+        //$("#containerProperty ul:first-child li").find(">:first-child").hide();
+
+
+        if (showPropertiesFilters == false) {
+
+            $(".filtersPage").hide();
+
+        } else {
+            $(".filtersPage").show();
+
+        }
+
+        var notZero = new Array();
+        var notZeroProp = new Array();
+        var classificationSelection = new Array();
+
+        @{
+            foreach (var item in Model.ClassificationTypes)
+            {
+                if (item.TypeClassCount != 0)
+                {
+                    @: notZero.push(@item.TypeClassId);
+                }
+                foreach (var item2 in item.Classes)
+                {
+                    if (item2.ClassCount != 0)
+                    {
+                    @: notZero.push(@item2.ClassModelId);
+                    }
+                    foreach (var item3 in item2.Subclasses)
+                    {
+                        if (item3.SubclassCount != 0)
+                        {
+                            @: notZero.push(@item3.SubclassModelId);
+                        }
+                        foreach (var item4 in item3.Groups)
+                        {
+                            if (item4.GroupCount != 0)
+                            {
+                            @: notZero.push(@item4.GroupModelId);
+                        }
+                        }
+                    }
+                }
+            }
+
+            foreach (var pg in Model.PropertyGroups)
+            {
+                if (pg.Properties.Count != 0)
+                {
+                    foreach (var p in pg.Properties)
+                    {
+                     @: notZeroProp.push(@p.PropertyModelId);
+                     }
+                }
+            }
+
+            if (HttpContext.Current.Session["ClassificationSelection"] != null)
+            {
+                IList<int> classificationSelection = (IList<int>)HttpContext.Current.Session["ClassificationSelection"];
+                foreach (var item in classificationSelection)
+                {
+                     @: classificationSelection.push(@item);
+                }
+            }
+            
+            }
+
+        for (var i = 0; i < notZero.length; i++) {
+            $('#containerMaterial').jstree('select_node', '#'+ notZero[i]).click();
+            if (classificationSelection.indexOf(notZero[i]) < 0){
+                $('#link_TYPE_' + notZero[i]).css( "background-color","white");        
+                $('#link_TYPE_' + notZero[i]).css( "color","rgb(119,119,119)");
+                $('#link_CLASS_' + notZero[i]).css( "background-color","white");        
+                $('#link_CLASS_' + notZero[i]).css( "color","rgb(119,119,119)");
+                $('#link_SUBCLASS_' + notZero[i]).css( "background-color","white");        
+                $('#link_SUBCLASS_' + notZero[i]).css( "color","rgb(119,119,119)");
+                $('#link_GROUP_' + notZero[i]).css( "background-color","white");        
+                $('#link_GROUP_' + notZero[i]).css( "color","rgb(119,119,119)");
+            } else {
+                $('#link_TYPE_' + notZero[i]).attr('treeClicked', notZero[i]);
+                $('#link_CLASS_' + notZero[i]).attr('treeClicked', notZero[i]);
+                $('#link_SUBCLASS_' + notZero[i]).attr('treeClicked', notZero[i]);
+                $('#link_GROUP_' + notZero[i]).attr('treeClicked', notZero[i]);
+            }
+        }
+        for (var i = 0; i < notZeroProp.length; i++) {
+            $('#containerProperty').jstree('select_node', '#'+ notZeroProp[i]).click();
+            if (classificationSelection.indexOf(notZeroProp[i]) < 0){
+                $('#link_PROPERTY_' + notZeroProp[i]).css( "background-color","white");        
+                $('#link_PROPERTY_' + notZeroProp[i]).css( "color","rgb(119,119,119)");
+                $('#link_PROPERTY_' + notZeroProp[i]).removeAttr('treeClicked');
+            } else {
+                $('#link_PROPERTY_' + notZeroProp[i]).attr('treeClicked', notZeroProp[i]);
+            }
+        }
+        
+    });
+    function aClick(id){
+        // alert(id);
+        //$('#containerMaterial').jstree('select_node', '#'+ id).attr('treeClicked', id);
+        var aLink = $('#' + id);
+        if (aLink.attr('treeClicked') != undefined ){
+            aLink.css( "background-color","white");        
+            aLink.css( "color","rgb(119,119,119)");
+            aLink.removeAttr('treeClicked', id);
+        } else {
+            aLink.css( "background-color","rgb(255,130,0)");        
+            aLink.css( "color","rgb(249,249,249)");
+            aLink.attr('treeClicked', id);
+        }
+    }
+</script>
+
+

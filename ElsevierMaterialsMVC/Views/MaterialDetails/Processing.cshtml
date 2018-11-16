@@ -1,0 +1,409 @@
+﻿@model ElsevierMaterialsMVC.Models.MaterialDetails.ProcessingModel
+@using ElsevierMaterialsMVC.Models.MaterialDetails;
+@{int cnt = 0;}
+<div class="accordionDarkContainer">
+ @if (Model.HeatTreatment != null && (!string.IsNullOrEmpty(Model.HeatTreatment.Comment) || Model.HeatTreatment.Diagrams.Count>0))
+ {
+     cnt++; 
+
+    <div class="accordion"  id="propAccordionProcess_@(cnt == 1 ? "first" : "other_" + cnt.ToString())">
+        <h4 class="accordion-header">
+            <span class="title">heat treatment (@(Model.HeatTreatment.Diagrams.Count + (!string.IsNullOrEmpty(Model.HeatTreatment.Comment)?1:0) ))</span>
+        </h4>
+        <div class="accordion-content">
+            @if(!string.IsNullOrEmpty(Model.HeatTreatment.Comment))
+            {
+             <table class="details" style="width: 100%;">
+               
+                <tbody>
+                     <tr>
+                            <td>@Model.HeatTreatment.Comment</td>
+                         </tr>
+                
+                </tbody>
+            </table>
+            }
+               @foreach (var item in Model.HeatTreatment.Diagrams) {
+            <table class="details" style="width: 100%;">
+               <thead>
+                     <tr>
+                            <th>@item.DiagramName</th>
+                          
+                        </tr>
+               </thead>
+                <tbody>
+                     <tr>
+                            <td>  <img src="@item.ImageName" /></td>
+                          
+                        </tr>
+                 
+                </tbody>
+            </table>
+                           }
+        </div>
+    </div>
+
+}
+   <div style="clear:both;"></div> 
+ @if (Model.Metallography != null && Model.Metallography.MetConditions.Count>0)
+ {
+     cnt++;
+         <div class="accordion" id="propAccordionProcess_@(cnt == 1 ? "first" : "other_" + cnt.ToString())">
+
+  <h4 class="accordion-header">
+                <span class="title">metallography (@Model.Metallography.MetConditions.Count)</span>
+            </h4>
+             
+            <div class="accordion-content">
+
+                <div class="conditionContent" >
+                Material Detail: @Html.DropDownListFor(o => o.Metallography.MetConditions.FirstOrDefault().ConditionId, new SelectList( Model.Metallography.MetConditions, "ConditionId", "Name"), htmlAttributes: new { @class = "conditions gray", @id = "selectCondMetallography", @onchange = "materialDetails.changeConditionMetallography(" + Model.Metallography.MetConditions.FirstOrDefault().ConditionId + ");" })
+                    </div>
+
+                 
+  <div>@for (int i = 0; i < Model.Metallography.MetConditions.Count; i++) {
+           <div id="condMetallography_@(Model.Metallography.MetConditions[i].ConditionId)" style="@((Model.Metallography.MetConditions.FirstOrDefault().ConditionId == Model.Metallography.MetConditions[i].ConditionId) ? "" : "display:none;")">
+            <div>
+                <div style="float:left;margin-right:10px;">
+                    <br />
+                    General Information<br /> 
+                    <table class="details" >
+                   <thead>  
+                       <tr>
+                   <th colspan="2" >@Model.Metallography.MetConditions[i].Details.HeatTreatment</th>
+                         
+                  </tr></thead>
+                 <tbody>
+                       <tr>
+                   <td>Microstructure: </td>
+                         <td> @Model.Metallography.MetConditions[i].Details.MicroStructure</td>
+                  </tr>
+
+                    <tr>
+                   <td>Etching medium: </td>
+                         <td> @Model.Metallography.MetConditions[i].Details.EtchingMedium</td>
+                  </tr>
+
+
+                  
+
+                    <tr>
+                   <td>Note:</td>
+                         <td> @Model.Metallography.MetConditions[i].Details.Comment </td>
+                  </tr>
+
+                     </tbody>
+               </table>
+                    @if (Model.Metallography.MetConditions[i].Details.MSList.Count > 0)
+                    {
+                        <div>
+                            <br />
+                            Microstructure<br />
+                            @foreach (var item in Model.Metallography.MetConditions[i].Details.MSList)
+                            {
+                                <div>@(item.Enlargement)x</div>
+                                <div>   <img src="@System.Web.Configuration.WebConfigurationManager.AppSettings["picturePath"]/Content/static/Metallography/@item.FileName" /></div>
+                            }
+                        </div>
+                    }
+
+                </div>
+           
+                @if (Model.Metallography.MetConditions[i].Details.CCList.Count>0)
+                {
+                         <div style="float:left;">
+                     <br />
+                      
+Chemical Composition<br />
+                      <table class="details" >
+                   <thead>  <tr>
+                   <th>Criteria</th>
+                      <th>Min.</th>     
+                          <th>Max.</th>     
+<th>Approx</th>    
+                  </tr></thead>
+                 <tbody>
+@foreach(var item in Model.Metallography.MetConditions[i].Details.CCList)
+{
+                    <tr>
+                
+                         <td> @item.Criteria</td>
+                          <td> @item.Min</td>
+                          <td> @item.Max</td>
+                          <td> @item.Approx</td>
+                  </tr>
+}
+
+                 
+                     </tbody>
+               </table>
+                 </div>
+                }
+                <div style="clear:both"></div>
+                @if (Model.Metallography.MetConditions[i].SelectedReferences != null && Model.Metallography.MetConditions[i].SelectedReferences.Count > 0) {
+                        <br />
+                    <span><a id="selectedRefProcLink_@i" onclick="showSelectedRefProc(@i);return false;" href="#">+ </a><B>Reference for the selected material and condition</B></span>
+                        <br />
+                    <div id="selectedReferenceProc_@i" style="display:none">
+                    <table>
+                        <tbody>
+                                @{int cntRef = 0;}
+                                @foreach (var reference in Model.Metallography.MetConditions[i].SelectedReferences) {
+                                    cntRef++;
+                                    <tr>
+                                        <td style="border-right:none; padding-right:10px">@cntRef</td>
+                                        <td>@reference</td>
+                                    </tr>
+                                }
+                            
+                        </tbody>
+                    </table>
+                        </div>
+                    }
+
+            </div>
+              
+                                       
+                    </div>
+       }
+            </div>
+                 <div style="clear:both"></div>
+                @if (Model.Metallography.AllReferences != null && Model.Metallography.AllReferences.Count > 0) {
+                        <br />
+                    <span><a id="allRefProcLink_@cnt" onclick="showAllRefProc(@cnt);return false;" href="#">+ </a><B>All references for the selected material</B></span>
+                        <br />
+                    <div id="allReferenceProc_@cnt" style="display:none">
+                    <table>
+                        <tbody>
+                                @{int cntRef = 0;}
+                                @foreach (var reference in Model.Metallography.AllReferences) {
+                                    cntRef++;
+                                    <tr>
+                                        <td style="border-right:none; padding-right:10px">@cntRef</td>
+                                        <td>@reference</td>
+                                    </tr>
+                                }
+                            
+                        </tbody>
+                    </table>
+                        </div>
+                    }
+                </div>
+             
+             </div>
+    }
+
+        
+
+@if (Model.Machinability != null && Model.Machinability.MachinabilityData.Count>0)
+ {
+     cnt++; 
+
+    <div class="accordion"  id="propAccordionProcess_@(cnt == 1 ? "first" : "other_" + cnt.ToString())">
+        <h4 class="accordion-header">
+            <span class="title">machinability (@(Model.Machinability.MachinabilityData.Count))</span>
+        </h4>
+        <div class="accordion-content">
+            @foreach (var item in Model.Machinability.MachinabilityData) {
+            
+            <table class="details" style="width: 100%;">
+               <thead>
+                   <tr>
+                       <th colspan="2">@item.HeatTreatment</th>
+                   </tr>
+               </thead>
+                <tbody>
+                     <tr>
+                         <td>machinability</td>
+                            <td>@item.Machinability %</td>
+                         </tr>
+                
+                        <tr>
+                             <td>description</td>
+                            <td>@item.Description</td>
+                          
+                        </tr>
+                           <tr>
+                             <td>note</td>
+                            <td>@item.Comment</td>
+                          
+                        </tr>
+                   
+                </tbody>
+            </table>
+            }
+            <div style="clear:both"></div>
+                @if (Model.Machinability.AllReferences != null && Model.Machinability.AllReferences.Count > 0) {
+                        <br />
+                    <span><a id="allRefProcLink_@cnt" onclick="showAllRefProc(@cnt);return false;" href="#">+ </a><B>All references for the selected material</B></span>
+                        <br />
+                    <div id="allReferenceProc_@cnt" style="display:none">
+                    <table>
+                        <tbody>
+                                @{int cntRef = 0;}
+                                @foreach (var reference in Model.Machinability.AllReferences) {
+                                    cntRef++;
+                                    <tr>
+                                        <td style="border-right:none; padding-right:10px">@cntRef</td>
+                                        <td>@reference</td>
+                                    </tr>
+                                }
+                            
+                        </tbody>
+                    </table>
+                        </div>
+                    }
+        </div>
+    </div>
+
+}
+
+@if (Model.Manufacturing != null && Model.Manufacturing.Conditions.Count > 0)
+ {
+     cnt++; 
+    
+        @*<div class="accordion" id="propAccordion_@(cnt==1 ? "first": "other_" + cnt.ToString() )">*@
+            <div class="accordion" id="propAccordionProcess_@(cnt == 1 ? "first" : "other_" + cnt.ToString())">
+            <h4 class="accordion-header">
+                <span class="title">@Model.Manufacturing.Name (@Model.Manufacturing.PropertyCount)</span>
+            </h4>
+            <div class="accordion-content">
+                <div class="conditionContent">
+
+                    @if (Model.Manufacturing.Conditions[0].ConditionName != null && Model.Manufacturing.Conditions[0].ConditionName.Trim() != "")
+                    {
+                        @:Material Detail: @Html.DropDownListFor(o => o.Manufacturing.Conditions[0].ConditionId, new SelectList(Model.Manufacturing.Conditions, "ConditionId", "ConditionName"), htmlAttributes: new { @class = "conditions gray", @id = "selectCondManufacturing" , @onchange = "materialDetails.changeConditionManufacturing(" + Model.Manufacturing.Conditions.FirstOrDefault().ConditionId + ");"  })
+                }
+
+                </div>
+
+                @for (int i = 0; i < Model.Manufacturing.Conditions.Count; i++)
+                {
+                    <div id="condManufacturing_@(Model.Manufacturing.Conditions[i].ConditionId)" style="@((Model.Manufacturing.Conditions[i].ConditionId == Model.Manufacturing.ConditionId) ? "" : "display:none;")">
+                        @if (Model.Manufacturing.Conditions[i].Properties != null && Model.Manufacturing.Conditions[i].Properties.Count > 0)
+                        {
+                            <table id="tableMaterialDetails_man" class="details" style="width: 100%; margin-top:0px;">
+                                <thead>
+                                    <tr>
+                                        <th>Property</th>
+                                        <th>Value</th>
+                                        <th>Unit</th>
+                                        <th>Note</th>
+                                    </tr>
+                                </thead>
+                                @foreach (var itemP in Model.Manufacturing.Conditions[i].Properties)
+                                {
+                                 <tbody>
+                                        <tr>
+                                            <td class="addToComparisonCell">
+                                               
+                                                       @* <div class="checkbox">
+                                                            <input type="checkbox" id="tg_@(itemP.PropertyId)_@((int)Model.Manufacturing.Conditions.ProductGroupId)_@(Model.Manufacturing.Conditions.Conditions[i].ConditionId)_@(itemP.ValueId)" groupid="@((int)Model.Manufacturing.Conditions.ProductGroupId)" conditionid="@Model.Manufacturing.Conditions.Conditions[i].ConditionId" rowid="@itemP.ValueId" name="@(itemP.PropertyId)_@(itemP.SourcePropertyId)" typeid="@itemP.PropertyId" sourcepropertyid="@itemP.SourcePropertyId" />
+                                                            <label for="tg_@(itemP.PropertyId)_@((int)Model.Manufacturing.Conditions.ProductGroupId)_@(Model.Manufacturing.Conditions.Conditions[i].ConditionId)_@(itemP.ValueId)"></label>
+                                                        </div>*@
+                                                  
+                                                <div>
+                                                    @Html.Raw(itemP.PropertyName)
+                                                </div>
+                                            </td>
+                                            <td>@Html.Raw(itemP.OrigValue)</td>
+                                            <td>@Html.Raw(itemP.OrigUnit)</td>
+                                            <td>@Html.Raw(itemP.OrigValueText)</td>
+                                        </tr>
+                                    </tbody>
+                                }
+                            </table>
+                        }
+                    </div>
+                }
+                @*currently manufacturing reference not visible on TM website also*@
+               @* <div style="clear:both"></div>
+                @if (Model.Manufacturing.AllReferences != null && Model.Manufacturing.AllReferences.Count > 0) {
+                        <br />
+                    <span><B>All references for the selected material</B></span>
+                        <br />
+                    <table>
+                        <tbody>
+                                @{int cntRef = 0;}
+                                @foreach (var reference in Model.Manufacturing.AllReferences) {
+                                    cntRef++;
+                                    <tr>
+                                        <td style="border-right:none; padding-right:10px">@cntRef</td>
+                                        <td>@reference</td>
+                                    </tr>
+                                }
+                            
+                        </tbody>
+                    </table>
+                    }*@
+            </div>
+
+        </div>
+        <div style="clear:both;"></div>
+    }
+
+
+
+
+</div>
+<script type="text/javascript">
+    $('.accordion').accordion({ collapsible: true, autoHeight: false });
+    var active = [];
+    var initialOpenedPage = true;
+    $(document).ready(function () {
+        var firstIsActive = false;
+
+        if (active.length == 0 && initialOpenedPage) {
+            $('[id^="propAccordionProcess_other"]').accordion({ active: false });
+        }
+        //else {
+        //    $('.accordion').each(function () {
+        //        var isActive = false;
+        //        var indexOfAccordion = $(this).attr("indexofaccordionparent");
+        //        for (i = 0; i < active.length; i++) {
+
+        //            if (active[i] == 1 && indexOfAccordion == 1) {
+        //                firstIsActive = true;
+        //            }
+
+        //            if (active[i] == indexOfAccordion) {
+        //                isActive = true;
+        //                break;
+        //            }
+        //        }
+        //        if (!firstIsActive) {
+        //            $('#propAccordion_first').accordion({ "active": false });
+        //        }
+
+        //        if (indexOfAccordion > 1 && !isActive) {
+        //            $('#propAccordion_other_' + indexOfAccordion).accordion({ "active": false });
+        //        }
+
+        //    });
+        //}
+    });
+
+    function showSelectedRefProc(cnt) {
+        var divRef = $('#selectedReferenceProc_' + cnt);
+        var closedA = $('#selectedRefProcLink_' + cnt);
+        if (closedA[0].innerHTML == "+ ") {
+            divRef.show();
+            closedA[0].innerHTML = "- ";
+        } else {
+            divRef.hide();
+            closedA[0].innerHTML = "+ ";
+        }
+    }
+
+    function showAllRefProc(cnt) {
+        var divRef = $('#allReferenceProc_' + cnt);
+        var closedA = $('#allRefProcLink_' + cnt);
+        if (closedA[0].innerHTML == "+ ") {
+            divRef.show();
+            closedA[0].innerHTML = "- ";
+        } else {
+            divRef.hide();
+            closedA[0].innerHTML = "+ ";
+        }
+    }
+</script>

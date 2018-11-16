@@ -1,0 +1,14 @@
+﻿@model ElsevierMaterialsMVC.Models.Shared.HasSearchFiltersEnum 
+@using ElsevierMaterialsMVC.Models.Shared;
+@{
+    ViewBag.Title = "Browse";
+    Layout = "~/Views/Shared/_LayoutFilters.cshtml";
+}
+
+<div id="mainContent">  
+   
+        @Html.Partial("Plugins", new Plugin() { HasSearchFilters = Model  , ActivePage = PageEnum.Browse})
+        @Html.Partial("BrowseFacets")
+   
+    
+</div>

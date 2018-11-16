@@ -1,0 +1,145 @@
+﻿@model ElsevierMaterialsMVC.Models.Search.BaseSearchModel
+@using ElsevierMaterialsMVC.BL.Helpers;
+
+@if (!Model.IsStructureSearch)
+{
+    <div class="filtersContainerHeader" style="margin-top: 10px; margin-bottom: 10px;">
+        <div>
+            <span class="label" style="text-decoration: none; margin-top: 0px;">Sources:&nbsp;</span>
+            <select id="sourcesSelection" class="gray" style="width: 450px;" onchange="advSearchFunc.searchByPropertiesAndSource();">
+                <option value="0">All</option>
+                @foreach (var item in Model.Filter.Sources.OrderBy(s => s.Name))
+                {
+                    var isSelected = (Model.Filter.SelectedSource == String.Concat(item.Id.ToString(), ',', item.Databook_id));
+                    if (isSelected)
+                    {
+                    <option value="@(String.Concat(item.Id.ToString(), '#', item.Databook_id))" selected="selected">@item.Name</option>
+                    }
+                    else
+                    {
+                    <option value="@(String.Concat(item.Id.ToString(), '#', item.Databook_id))">@item.Name</option>
+                    }
+                }
+
+            </select>
+
+        </div>
+    </div>
+}
+
+
+
+@if (Model.ListOfMaterials.ToList().Count == 0)
+{
+    <div class="message" style="margin-top: 15px; margin-bottom: 100px; width: 100%;">
+        @*@ViewBag.ErrorMsg*@
+        There are no search results to be displayed.
+        <br />
+        <br />
+        Please enter wanted search term in the box on the top or use Advanced Search to find materials of interest.
+    </div>
+}
+else
+{
+    <div class="tableInfo">
+
+        <div class="totalCountRecords">Number of results:  @Model.Descriptor.Pager.TotalRecordCount</div>
+        @*<div style="margin-left:10px;float:left;padding-top:3px;">
+                <a href="#" class="label" onclick="openFiltersContainer()">Filter results</a>
+            </div>*@
+        <div style="float: right;">
+            @Html.KTMPager(Model.Descriptor.Pager)
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+    
+    <table class="details" id="materialList">
+        <thead>
+            <tr>
+                <th>Name</th>
+				@if (!Model.IsStructureSearch)
+                {
+                <th>Type</th>
+                <th>Class</th>
+                <th>Subclass</th>
+                <th>Group</th>
+				}
+                @if (Model.IsStructureSearch)
+                {
+					<th>Type</th>
+                    <th>Structure</th>
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ListOfMaterials)
+            {
+                <tr class="linkedRow" @*onclick="searchFunc.getEquivalenceMaterialsAdv(@item.Id, '@Model.Filter.FullText')"*@>
+                    <td onclick="searchFunc.getEquivalenceMaterialsAdv(@item.Id, '@Model.Filter.FullText')">@Html.Raw(item.Name)</td>
+					@if (!Model.IsStructureSearch)
+                    {
+                    <td onclick="searchFunc.getEquivalenceMaterialsAdv(@item.Id, '@Model.Filter.FullText')">@item.TypeName</td>
+                    <td onclick="searchFunc.getEquivalenceMaterialsAdv(@item.Id, '@Model.Filter.FullText')">@item.GroupName</td>
+                    <td onclick="searchFunc.getEquivalenceMaterialsAdv(@item.Id, '@Model.Filter.FullText')">@item.ClassName</td>
+                    <td onclick="searchFunc.getEquivalenceMaterialsAdv(@item.Id, '@Model.Filter.FullText')">@item.SubClassName</td>
+					}
+                    @if (Model.IsStructureSearch)
+                    {
+						<td onclick="searchFunc.getEquivalenceMaterialsAdv(@item.Id, '@Model.Filter.FullText')">@item.TypeName<br />@item.GroupName<br />@item.ClassName<br />@item.SubClassName</td>
+                        if (item.StructureImage != null)
+                        {
+                        <td onclick="showStructure('@item.StructureImage'); return false;" style="width:300px">
+                            <img src="@Url.Content("~/Content/images/Structures/" + @item.StructureImage)"style="width: 300px; height: 150px;" border="0"  alt="" /></td>
+                        }
+                        else
+                        { 
+                        <td></td>
+                        }
+
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <div style="float: right; width: 100%">
+        @Html.KTMPager(Model.Descriptor.Pager)
+    </div>
+
+    <div style="clear: both"></div>
+    <br />
+    
+    <div id="structureContainer" style="display: none;">
+        <div id="structure">
+        </div>
+    </div>
+    
+}
+
+<script>
+    advSearchFunc.applyAdvSearchSourcePath = '@Url.Action("ApplyAdvSearchSource", "AdvSearch")';
+
+    $(document).ready(function () {
+        $('#home').hide();
+        $('#sampleMaterial').show();
+        $('#eqMaterial').hide();
+        $('#details').hide();
+
+        //
+        removeProgressIndicator('main');
+        $('.progress-indicator').css('display', 'none');
+
+        // add a click event handler to the pager
+        $('.pager').find('.pages a').each(function () {
+            $(this).click(function (e) {
+                displayProgressIndicator('main');
+                $('.progress-indicator').css('display', 'block');
+                return true;
+            });
+        });
+        // /add a click event handler to the pager
+
+    });
+</script>

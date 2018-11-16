@@ -1,0 +1,74 @@
+﻿@model ElsevierMaterialsMVC.Models.Search.SearchSubgroupCondition
+
+<script src="~/Scripts/dist/jstree.js"></script>
+<link href="~/Scripts/dist/themes/default/style.css" rel="stylesheet" />
+
+<div class="filtersPage" style="position:relative;width:250px;">
+    <div class="filtersContainerHeader">
+
+        <a style="float:left;" class="browseSerach" onclick="applySubgroupFilters(@Model.MaterialId);" href="#">Apply filters</a>
+        <a href="#" style="float: right;" class="label" onclick="closeSubgroupFiltersContainer();">Close filters</a>
+        <div style="clear: both;"></div>
+
+        <div>
+            <div class="label" style="text-decoration: none; margin-top: 0px;">
+                Source:
+            </div>
+            <select class="gray" id="sources">
+                <option value="0">All</option>
+                @foreach (var item in Model.Sources.OrderBy(o1 => o1.Id).ThenBy(o2 => o2.Name))
+                {
+                    var isSelected = (Model.SelectedSource == String.Concat(item.Id.ToString(), '#', item.Databook_id));
+                    if (isSelected)
+                    {
+                        <option value="@(String.Concat(item.Id.ToString(), '#', item.Databook_id))" selected="selected">@item.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@(String.Concat(item.Id.ToString(), '#', item.Databook_id))">@item.Name</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div>
+            <div class="label" style="text-decoration: none; margin-top: 10px;">
+                Standard Development Org:
+            </div>
+            <select class="gray" id="standards">
+                <option value="0">All</option>
+                @foreach (var item in Model.PropertyGroups)
+                {
+                    <option value="@item.PropertyGroupModelName">@Html.Raw(item.PropertyGroupModelName)</option>
+                }
+
+            </select>
+        </div>
+
+        <div>
+            <div class="label" style="text-decoration: none; margin-top: 10px;">
+                Specification:
+            </div>
+            <input id="SpecificationId" type="text" style="width: 238px;" name="name" />
+        </div>
+    </div>
+      
+
+    <div class="filtersContainerHeader" style="margin-bottom: 20px; margin-top: 20px;">
+        <a class="browseSerach" onclick="applySubgroupFilters(@Model.MaterialId);" href="#">Apply filters</a>
+        <a href="#" style="float:right;" class="label" onclick="resetSubgroupFilters(@Model.MaterialId);">Reset filters</a>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (showPropertiesFilters == false) {
+            $(".filtersPage").hide();
+
+        } else {
+            $(".filtersPage").show();
+        }
+    });
+
+</script>

@@ -1,0 +1,127 @@
+﻿@model ElsevierMaterials.Models.Domain.Export.Exporter
+@using ElsevierMaterialsMVC.Models.Shared
+@{
+    ViewBag.Title = "Elsevier :: Exporter";
+    Layout = "~/Views/Shared/_LayoutFilters.cshtml";
+
+}
+
+
+<script src="~/Scripts/Exporter/exporter.js"></script>
+
+
+ @Html.Partial("Plugins", new Plugin() { HasSearchFilters = HasSearchFiltersEnum.Yes, ActivePage = PageEnum.Exporter })
+<div style="clear: both;"></div>
+
+@if (Model.Materials != null && Model.Materials.Count > 0)
+{
+    <div id="exportContainer">
+    <div id="exporterMessage" style="color: rgb(83,83,83); margin: 10px;">Please click on material name to see properties that are added for export</div>
+    <div id="exportedMaterials">
+
+        <table class="details" id="tblMaterials">
+            <thead>
+                <tr>
+                    <th colspan="2">Material Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ElsevierMaterials.Models.Domain.Export.Material material in Model.Materials)
+                {
+                    <tr id="tr_@material.MaterialInfo.RowId"   class="linkedRow">
+                        <td>
+                            <div class="checkbox">
+                                <input type="checkbox" id="@(@material.MaterialInfo.RowId)"/>
+                                <label for="@(@material.MaterialInfo.RowId)"></label>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="#" onclick="exporterChangeMaterial(@material.MaterialInfo.RowId);return false;">
+                                <div style="color: rgb(255,130,0);">@material.MaterialInfo.Name</div>
+                                <div style="color: rgb(83,83,83);"><b>Subgroup:</b> @material.MaterialInfo.SubgroupName</div>
+                            </a>
+
+                        </td>
+                        <td style="border-bottom-color:white;background-color:white;width:35px;">
+                            <div id="arrow_@material.MaterialInfo.RowId" style="border-bottom:none !important;">
+                                <img src="~/Content/images/arrow.png" />
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+          <div style="margin-top: 20px; text-align: left;float:left;">
+            <a style="display: block;  color: rgb(119,119,119);  text-decoration: underline;  font-family: NexusSansCompPro, Arial, Helvetica, sans-serif;  font-size: 16px;  line-height: 120%;
+  text-decoration: solid;  padding: 7px;" href="#" onclick="removeMaterialsFromExport(); return false;">Remove selected</a>
+        </div>
+        <div style="margin-top: 20px; text-align: right;float:right;margin-right:55px;" id="exportTypesButton">
+            <a class="exporterButton" href="#" onclick="ExportTypesShow(); return false;">Export selected</a>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    <div id="exportTypes" style="display: none;">
+        <table class="details" style="width: 100%;margin-top:0px;">
+            <thead>
+                <tr>
+                    <th>Export Types</th>
+                </tr>
+            </thead>
+            @foreach (var exportType in Model.ExportTypes.OrderBy(m => m.Title))
+            {
+                <tr>
+                    <td>
+                       <div class="checkbox">
+                        <input type="checkbox" id="@(exportType.IdKey)Cb" name="Type" value="@((int)exportType.ExportTypeId)" /> <label for="@(exportType.IdKey)Cb"> @exportType.Title</label>
+                         </div>
+                    </td>
+                </tr>
+            }
+        </table>
+       
+        <div style="margin-top: 20px; text-align: right;">
+            <a class="exporterButton" href="#" onclick="Export(); return false;">Export</a>
+        </div>
+    </div>
+
+    <div id="materialExportedProperties">
+        @if (Model.Materials != null && Model.Materials.Count > 0)
+        {
+             @Html.Partial("MaterialProperties", @Model.Materials[0])
+        }
+        else
+        {
+            <div style="color: rgb(83,83,83); margin: 10px;">
+                There is no added materials for export.
+            </div>
+        }
+       
+    </div>
+    <div style="clear: both;"></div>
+</div>
+
+
+    <iframe id="downloadContainer" frameborder="0" width="0"></iframe>
+    <script type="text/javascript">
+
+        $(document).ready(function () {        
+            $('[id^=arrow_]').css({ "display": "none" });
+        });
+   
+        var exporterChangeMaterialPath = '@Url.Action("ChangeMaterial", "Exporter")';
+        var exportKTM = '@Url.Action("ExportData", "Exporter")';
+        var removeMaterialsFromExporterPath = '@Url.Action("RemoveMaterials", "Exporter")';
+        searchFunc.fullTextSearchPath = '@Url.Action("FullTextSearchOnly", "Search")';
+    </script>
+
+    
+    
+}
+else
+{
+    <div style="color: rgb(102,102,102); margin: 10px;">You have not added any materials to Export!</div>
+}
+
+
+
+

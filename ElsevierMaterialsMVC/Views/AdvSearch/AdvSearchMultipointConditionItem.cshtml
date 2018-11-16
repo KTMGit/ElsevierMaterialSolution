@@ -1,0 +1,70 @@
+﻿@model ElsevierMaterials.Models.PropertyConditionModel
+@using ElsevierMaterialsMVC.Models.AdvancedSearch;
+
+<div style="padding-left:10px; margin-top:5px; margin-bottom:5px;"  propid="@Model.Condition.PropertyID" proptype="Property" id="@Model.UniqueID" class="onePropertyConditionDef" >
+    <span style="display: inline-block; width:140px; max-width:140px; word-wrap: break-word;" class="browseFacetContent" id="nmc_@Model.UniqueID">
+        @Model.Condition.X_label
+    </span>
+
+    @*logical operators (static list)*@
+    <span style="display: inline-block; width: 90px; max-width: 90px; word-wrap: break-word;">
+        <select name="logical_operator" class="selectConditionOperator" id="lopc_@Model.UniqueID">
+            @foreach (var item in Model.LogicalOperators)
+            {
+                if (Model.SelectedLogical == item.Id)
+                {
+                <option value="@(item.Id)" selected="selected">@item.Name</option>
+                }
+                else
+                {
+                <option value="@(item.Id)">@item.Name</option>
+                }
+
+            }
+        </select>
+    </span>
+
+    @*input values container*@
+    <span style="display: inline-block; width: 180px; max-width: 180px; word-wrap: break-word;">
+        <label class="ivcConditionDefinitions">
+            <input type="text" class="inputConditionExactValue numericCondition" style="width:60px; display: none;" value="@Model.ValueFrom">
+            <input type="text" class="inputConditionFromValue numericCondition" style="width:60px; display: initial;" value="@Model.ValueFrom">
+
+            @if (Model.SelectedLogical == ElsevierMaterials.Models.LogicalOperators.Between)
+            {
+                <label class="browseFacetContent inputConditionToValueLabel" style="display: initial;">And </label>
+                <input type="text" class="inputConditionToValue numericCondition" style="width:60px; display: initial;" value="@Model.ValueTo">
+            }
+            else
+            {
+                <label class="browseFacetContent inputConditionToValueLabel" style="display: none;">And </label>
+                <input type="text" class="inputConditionToValue numericCondition" style="width:60px; display: none;" value="@Model.ValueTo">
+            }
+        </label>
+    </span>
+
+    <span style="display: /*inline-block*/none; width: 90px; max-width: 90px; word-wrap: break-word;">
+        <select id="unc_@Model.UniqueID" style="display:inline-block; width:90px; max-width:90px;" class="unitCondition">
+            @foreach (var item in Model.Units)
+            {
+                <option name="@item.UnitLabel" value="@item.UnitKey" factor="@item.Factor" offset ="@item.Offset" @(Model.SelectedUnit == item.UnitKey ? "selected=\"selected\"" : "")>@Html.Raw(item.UnitLabel)</option>   
+            }
+        </select>
+    </span>
+
+    <span style="display: /*none*/inline-block; width: 90px; max-width: 90px; word-wrap: break-word;" class="browseFacetContent">
+        @if (Model.Condition.X_label.Trim().ToLower() == "pressure")
+        {
+            <text>&nbsp;kPa</text>;
+        }
+        else if (Model.Condition.X_label.Trim().ToLower() == "temperature")
+        {
+            <text>&nbsp;K</text>;
+        }
+        else if (Model.Condition.X_label.Trim().ToLower() == "wavelength")
+        {
+            <text>&nbsp;nm</text>;
+        }
+    </span>
+
+</div>

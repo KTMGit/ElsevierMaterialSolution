@@ -1,0 +1,27 @@
+﻿@model ElsevierMaterials.Models.StressStrainDetails
+@using ElsevierMaterialsMVC.Models.MaterialDetails;
+    <table class="smallSS" style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Strain</th>
+                @if (Model.UnitType == 2)
+                {
+                           <th>Stress (ksi)</th>
+                }
+                else
+                {
+                    <th>Stress (MPa)</th>
+                 
+                }
+              
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Points) {
+                <tr>
+                    <td>@item.X</td>
+                    <td>@item.Y</td>
+                </tr>
+            }
+        </tbody>
+    </table>

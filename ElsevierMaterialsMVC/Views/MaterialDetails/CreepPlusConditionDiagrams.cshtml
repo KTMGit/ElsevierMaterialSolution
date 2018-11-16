@@ -1,0 +1,44 @@
+﻿@model ElsevierMaterialsMVC.Models.MaterialDetails.CreepPlusConditionModel
+
+<div style="float:left; margin-top:10px">
+    @if (Model.ConditionTemperatures != null){
+        if (Model.ConditionTemperatures.Count>1){
+        @:Temperature: @Html.DropDownListFor(o => o.SelectedConditionTemperature.Value, new SelectList(Model.ConditionTemperatures, "Value", "Text"), htmlAttributes: new { @id = "selectTemperature_CreepPlus", @onchange = "materialDetails.changeTemperatureCreepPlus();" })
+        }
+        else {
+        @:Temperature:@Model.ConditionTemperatures[0].Text
+        }
+    }
+    <br />
+    <img src="@Model.Diagram.Source" />
+</div>
+@if (Model.ConditionTemperatures != null){
+<div style="float:left; margin-top:30px">
+    @if (Model.Stresses != null && Model.Stresses.Count > 0){
+        if (Model.Stresses.Count>1){
+        @:Select stress: @Html.DropDownListFor(o => o.Stresses[0].Value, new SelectList(Model.Stresses, "Value", "Text"), htmlAttributes: new { @id = "selectStresses_CreepPlus", @onchange = "materialDetails.changeStressesCreepPlus(" + Model.ConditionTemperatures[0].Value + ");" })
+        }
+        else {
+        @:Select stress:@Model.Stresses[0].Text
+        }
+    <div style="height:15px"></div>
+        <div id ="creepPlusTable">@Html.Partial("CreepDetailsTable", Model.Points)</div>
+}
+    @if (Model.TimesIso != null && Model.TimesIso.Count > 0){
+        if (Model.TimesIso.Count>1){
+        @:Select time: @Html.DropDownListFor(o => o.TimesIso[0].Value, new SelectList(Model.TimesIso, "Value", "Text"), htmlAttributes: new { @id = "selectTimes_CreepPlus", @onchange = "materialDetails.changeTimesCreepPlus(" + Model.ConditionTemperatures[0].Value + ");" })
+    }
+    else {
+    @:Select time:@Model.TimesIso[0].Text
+    }
+    <div style="height:15px"></div>
+     
+        <div id ="creepPlusTableIso">@Html.Partial("CreepDetailsTableIso", Model.Points)</div>
+     }
+</div>
+}
+
+
+        
+
+

@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Design_V1/Skin.css" rel="stylesheet" />
+    <link href="~/Content/Design_V1/Structure.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/commonScripts")
+    @Styles.Render("~/Content/css")
+</head>
+<body class="container">
+    @RenderSection("scripts", required: false)
+    <div id="main" class="col-12 container">
+        <div id="knovel-logo-container">
+            <div id="knovel-logo">
+                <div id="knovel-logo-title">
+                    <div><img src="~/Content/images/Logo.png" /></div>
+                    <div id="knovel-logo-name">
+                        Engineering Materials Tool
+                    </div>
+                </div>
+                <div style="clear:both;"> </div>
+            </div>
+            <div style="clear:both;"></div>
+            <div>
+                <hr />
+            </div>
+        </div>
+        @RenderBody()
+    </div>
+    <div id="footer" class="col-12 container">
+        © 2018 Elsevier B.V. All Rights Reserved.
+    </div>
+    <div class="progress-indicator" style="display: none;">
+        <img src="@Url.Content("~/Content/images/loader_big.gif")" alt="" />
+    </div>
+</body>
+</html>

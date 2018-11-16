@@ -1,0 +1,21 @@
+﻿@model ElsevierMaterials.Models.Domain.Citation
+@using ElsevierMaterialsMVC.Models.MaterialDetails;
+
+<div style="padding: 20px; font-family: NexusSansCompPro, Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 100; ">
+    Compound name: @Model.MaterialName <br /><br />
+    INCHIKEY: @Model.InChIKey <br /><br />
+    Relationship: @Model.Property <br /><br />
+    @if (Model.MeasuredData!=null)
+    {
+        @:Measured data from @Model.MeasuredData <br /><br />
+    }
+    @if (Model.PredictedData != null)
+    {
+        @:Predicted data obtained by @Model.PredictedData <br /><br />
+    }
+    @if (Model.EquationLink != null || Model.EquationTxt != null)
+    {
+        @: Recomended points obtained by @Model.EquationTxt (<a class="tableLink" target="_blank" href="@Model.EquationLink">@Model.EquationLink</a>)
+    }
+   
+</div>

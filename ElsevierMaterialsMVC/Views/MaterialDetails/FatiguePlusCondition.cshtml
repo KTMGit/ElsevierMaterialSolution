@@ -1,0 +1,210 @@
+﻿@model ElsevierMaterials.Models.FatiguePlusCondition
+@using ElsevierMaterialsMVC.Models.MaterialDetails;
+<div id="cond_FatigueStrain_@(Model.Condition.NoNo1Temperature)">
+    @if (Model.Condition != null)
+    {
+        if (!string.IsNullOrEmpty(Model.Condition.condition_product) && Model.Condition.condition_product != "-")
+        {
+        <div style="float: left">
+            <b>Product:</b>  @Html.Raw(Model.Condition.condition_product)
+        </div>
+        <br />
+        }
+
+
+        if (!string.IsNullOrEmpty(Model.Condition.condition_experiment) && Model.Condition.condition_experiment != "-")
+        {
+        <div style="float: left">
+            <b>Experiment:  </b>@Html.Raw(Model.Condition.condition_experiment)
+        </div> <br />
+        }
+
+
+        if (!string.IsNullOrEmpty(Model.Condition.condition_specimen) && Model.Condition.condition_specimen != "-")
+        {
+        <div style="float: left">
+            <b>Specimen:</b>  @Html.Raw(Model.Condition.condition_specimen)
+        </div> <br />
+        }
+
+
+
+    }
+    @if (Model.Details != null)
+    {
+        if (!string.IsNullOrEmpty(Model.Details.MonotonicProperties) && Model.Details.MonotonicProperties != "-")
+        {
+        <div style="float: left">
+
+
+            <b>Monotonic Properties: </b>@Html.Raw(Model.Details.MonotonicProperties)
+            <br />
+        </div>
+        }
+        if (Model.Details.Data.type_diag != "P")
+        {       
+        <div style="float: left; width: 100%;">
+            <table class="details" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Stress Ratio </th>
+                        <th>Frequency [Hz] </th>
+                        <th>Fatigue strength (MPa)</th>
+                        <th>Number of cycles </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.Raw(Model.Details.Data.StressRatio) </td>
+                        <td>@Html.Raw(Model.Details.Data.Frequency) </td>
+                        <td>@Html.Raw(Model.Details.Data.FatigueLimit)</td>
+                        <td>@Html.Raw(Model.Details.Data.NoCycles)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+    }
+
+
+
+    @if (Model.Details.Points != null && Model.Details.Points.Count > 0)
+    {
+
+
+    <div style="float: left; width: 60%;">
+        <img src="@Model.Diagram.Source" /></div>
+    <div style="float: right; width: 40%;">
+        <br />
+        <br />
+
+     
+            <table class="smallSS">
+                <thead>
+                    <tr>
+                        @if (Model.Details.Data.type_diag == "P")
+                        {
+                            <th>Cycles to failure, Nf </th>
+                            <th>Stress Amplitude [MPa]  </th>
+                        }
+                        else
+                        {
+                            <th>Cycles to failure, Nf </th>
+                            <th>Maximum Absolute Stress [MPa] </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Details.Points)
+                    {
+                        <tr>
+                            @if (Model.Details.Data.type_diag == "P")
+                            {
+                                <td>
+                                    @Math.Round(item.X)
+                                </td>
+       
+                                <td>
+                                    @Math.Round(item.Y, 1)
+                                </td>
+                            }
+                            else if (Model.Details.Data.type_diag == "P1")
+                            {
+                                <td>
+                                    @Math.Round(item.X)
+                                </td>
+       
+                                <td>
+                                    @item.Y
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <span>1E</span>@item.X
+                                </td>
+       
+                                <td>
+                                    @item.Y
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>         
+        
+    </div>
+    }
+    <div style="clear: both"></div>
+    @if (Model.Details.SelectedReferences != null && Model.Details.SelectedReferences.Count > 0)
+    {
+        <br />
+        <span><a id="selectedRefPropLinkFatiguePlus" onclick="showSelectedRefPropFatiguePlus();return false;" href="#">+ </a><b>Reference for the selected material and condition</b></span>
+        <br />
+        <div id="selectedReferencePropFatiguePlus" style="display: none">
+            <table>
+                <tbody>
+                    @{int cntRef = 0;}
+                    @foreach (var reference in Model.Details.SelectedReferences)
+                    {
+                        cntRef++;
+                        <tr>
+                            <td style="border-right: none; padding-right: 10px">@cntRef</td>
+                            <td>@reference</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    }
+    <br />
+    @if (Model.Details.AllReferences != null && Model.Details.AllReferences.Count > 0)
+    {
+        <br />
+        <span><a id="allRefPropLinkFatiguePlus" onclick="showAllRefPropFatiguePlus();return false;" href="#">+ </a><b>All references for the selected material</b></span>
+        <br />
+        <div id="allReferencePropFatiguePlus" style="display: none">
+            <table>
+                <tbody>
+                    @{int cntRef = 0;}
+                    @foreach (var reference in Model.Details.AllReferences)
+                    {
+                        cntRef++;
+                        <tr>
+                            <td style="border-right: none; padding-right: 10px">@cntRef</td>
+                            <td>@reference</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    function showSelectedRefPropFatiguePlus() {
+        var divRef = $('#selectedReferencePropFatiguePlus');
+        var closedA = $('#selectedRefPropLinkFatiguePlus');
+        if (closedA[0].innerHTML == "+ ") {
+            divRef.show();
+            closedA[0].innerHTML = "- ";
+        } else {
+            divRef.hide();
+            closedA[0].innerHTML = "+ ";
+        }
+    }
+
+    function showAllRefPropFatiguePlus() {
+        var divRef = $('#allReferencePropFatiguePlus');
+        var closedA = $('#allRefPropLinkFatiguePlus');
+        if (closedA[0].innerHTML == "+ ") {
+            divRef.show();
+            closedA[0].innerHTML = "- ";
+        } else {
+            divRef.hide();
+            closedA[0].innerHTML = "+ ";
+        }
+    }
+</script>
+

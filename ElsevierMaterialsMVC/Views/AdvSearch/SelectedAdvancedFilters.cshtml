@@ -1,0 +1,104 @@
+﻿@model ElsevierMaterialsMVC.Models.Search.BaseSearchModel
+@using ElsevierMaterialsMVC.BL.Helpers;
+@using ElsevierMaterialsMVC.BL.Binders.PropertyBasic;
+@using ElsevierMaterials.Models.Domain.AdvancedSearch;
+@using SkfCore.Web.Mvc.Helpers;
+@using ElsevierMaterials.Models;
+@{  
+    ElsevierMaterials.Models.Domain.AdvancedSearch.AdvSearchFiltersAll advSerachFilters = (ElsevierMaterials.Models.Domain.AdvancedSearch.AdvSearchFiltersAll)System.Web.HttpContext.Current.Session["AdvancedSearchFilter"];
+}
+<div id="selectedFiltersContainer">
+
+    @if (advSerachFilters != null && advSerachFilters.AllFilters != null)
+    {
+        foreach (var filter in advSerachFilters.AllFilters)
+        {
+            if (filter.propertyType == PropertyType.Material)
+            {
+        <div class="addedFilter" id="class_@filter.propertyId">
+            <span class="addedFilterTitle">
+                @filter.propertyName.Split(':')[0]
+            </span>
+            @*<a class="removeLink" href="#" onclick="searchFunc.removeFilterAdvancedSearch(@filter.propertyId, 1);">X</a>*@
+            <div>
+                @filter.propertyName.Split(':')[1]
+            </div>
+        </div>
+            }
+            else if (filter.propertyType == PropertyType.Property)
+            {
+        <div class="addedFilter" id="prop_@filter.propertyId">
+            <span class="addedFilterTitle">
+                @filter.propertyName
+            </span>
+            @*<a class="removeLink" href="#" onclick="searchFunc.removeFilterAdvancedSearch(@filter.propertyId, 2);">X</a>*@
+            <div class="selectedFilterValues">
+                @{
+                string operatorValue = new Utility().FormatOperator(filter.logicalOperators);
+
+                }
+                @if (filter.logicalOperators == LogicalOperators.Between)
+                {
+                    <span>@Html.Raw(operatorValue)</span> <span>@filter.valueFrom_orig</span><span>and</span><span>@filter.valueTo_orig</span> <span>@Html.Raw(filter.unitName)</span> 
+                }
+                else if (filter.logicalOperators == LogicalOperators.Exists)
+                {
+                    @Html.Raw(operatorValue)
+                }
+                else
+                {
+                    <span>@Html.Raw(operatorValue)</span><span>@filter.valueFrom_orig</span><span>@Html.Raw(filter.unitName)</span>   
+                }
+
+                @foreach (var item in filter.PropertyConditions.Where(c => c.ValueFrom != null || c.ValueTo != null))
+                    {
+                    <br />
+                    <span>@item.Condition.X_label</span> <span>
+                        @switch (item.SelectedLogical)
+                        {
+                            case LogicalOperators.Lte:
+                            <text>&le;&nbsp;</text>@item.ValueFrom
+                                break;
+                            case LogicalOperators.Gte:
+                            <text>&ge;&nbsp;</text>@item.ValueFrom
+                                break;
+                            case LogicalOperators.Between:
+                            @item.ValueFrom<text> - </text>@item.ValueTo
+                                break;
+                            case LogicalOperators.NotDefined:
+                            case LogicalOperators.Exists:
+                            case LogicalOperators.Eq:
+                            default:
+                                break;
+                        }
+                    </span> <span>
+                        @if (item.Condition.X_label.ToLower().Trim() == "pressure")
+                        {
+                            <text>kPa</text>
+                        }
+                        else  if (item.Condition.X_label.ToLower().Trim() == "temperature")
+                                               {
+                                        <text>K</text>
+                                               }
+                                               else
+                                               {
+                                               }
+                    </span>
+                                
+                                
+                    }
+            </div>
+
+
+
+        </div>
+            }
+        }
+
+    }
+
+    <div style="clear: both;"></div>
+</div>
+<script type="text/javascript">
+    searchFunc.removeFiltersPathAdvancedSearch = '@Url.Action("RemoveFilters", "AdvSearch")';
+</script>

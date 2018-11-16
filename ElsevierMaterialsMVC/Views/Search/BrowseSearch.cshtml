@@ -1,0 +1,96 @@
+﻿@model ElsevierMaterialsMVC.Models.Search.BaseSearchModel
+@using ElsevierMaterialsMVC.BL.Helpers;
+@using ElsevierMaterialsMVC.Models.Shared
+@using ElsevierMaterialsMVC.BL.Binders.Search
+
+@*<link href="~/Content/jquery-ui.css" rel="stylesheet" />*@
+@using ElsevierMaterialsMVC.BL.Helpers;
+@{
+    ViewBag.Title = "Elsevier :: Search";
+    Layout = "~/Views/Shared/_LayoutFilters.cshtml";
+}
+
+<div id="mainContent">
+
+    @Html.HiddenFor(m => m.Filter.FullText, new { id = "searchTextHolder" })
+    @Html.HiddenFor(m => m.Filter.ClasificationId, new { id = "classificationId" })
+    @Html.HiddenFor(m => m.Filter.ClasificationTypeId, new { id = "classificationTypeId" })
+    @Html.HiddenFor(m => m.Filter.FromBrowse, new { id = "fromBrowse" })
+    @Html.HiddenFor(m => m.Filter.SelectedSource, new { id = "selectedSource" })
+    @Html.Partial("Plugins", new Plugin() { HasSearchFilters = Model.HasSearchFilters, ActivePage = PageEnum.Browse })
+
+    <div id="divMaterialList">
+
+        <div id="resizableFilters">
+            <div>
+                <a href="#" style="float: left; display: none;" id="divResizableFiltersOpen" onclick="openFiltersResizableContainer()">
+                    <img src="~/Content/images/openFilters.png" /></a>
+                <a href="#" style="float: left;" id="divResizableFiltersClose" onclick="closeFiltersResizableContainer();return false;">
+                    <img src="~/Content/images/closeFilters.png" /></a>
+            </div>
+            <div style="clear: both;"></div>
+            <div id="resizable">
+                @Html.Action("GetFiltersResizable", "Home", new SearchFilters() { ClasificationId = Model.Filter.ClasificationId, ClasificationTypeId = Model.Filter.ClasificationTypeId, Source=Model.Filter.SelectedSource })
+            </div>
+        </div>
+
+        <div id="resultsResizable">
+            @Html.Partial("BrowseResultsContainer", Model)
+        </div>
+    </div>
+    <div style="clear: both"></div>
+
+
+
+</div>
+
+<script type="text/javascript">
+
+    searchFunc.subgroupsPath= '@Url.Action("Subgroup", "Subgroups")';
+    searchFunc.fullTextSearchPath = '@Url.Action("FullTextSearchOnly", "Search")';
+
+    _RegisterGrid('resultsResizable', '@(Url.Action("GetSampleMaterialsResizable", "Search"))?filter=@Model.Filter.FullText&FromBrowse=@Model.Filter.FromBrowse&clId=@Model.Filter.ClasificationId&clTypeId=@Model.Filter.ClasificationTypeId',  @(Html.DescriptorToJson(Model.Descriptor)));
+
+    $('#home').hide();
+    $('#sampleMaterial').show();
+    $('#eqMaterial').hide();
+    $('#details').hide();
+
+
+    $(document).ready(function () {
+
+        $('#tbFullTexSearch').val($('#searchTextHolder').val());      
+        InitResizableContent();
+    });
+
+
+    function InitResizableContent() {
+
+        var cw = $('#mainContent').width();
+        var filtersWidth = $("#resizable").width();
+        var resultsWidth = cw - filtersWidth - 15;
+
+        $("#resultsResizable").width(resultsWidth);
+        $(".corner-wrapper").width(resultsWidth);
+
+        $('#resizable').resizable({
+
+            //handles: "n, e, s, w, nw, ne, sw,se",
+            resize: function (event, ui) {
+
+                //ui.size.height = ui.originalSize.height;
+
+                var cw = $('#mainContent').width();
+                var filtersWidth = $("#resizable").width();
+                globalWidth = filtersWidth;
+                var resultsWidth = cw - filtersWidth - 15;
+
+                $("#resultsResizable").width(resultsWidth);
+                $(".corner-wrapper").width(resultsWidth);
+
+            }
+        });
+    }
+
+</script>
+

@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/commonScripts")
+</head>
+<body>
+    @RenderSection("scripts", required: false)
+    <header>
+        <div class="content-wrapper">
+            <div id="logo">
+                <div style="float:left;"><img src="~/Content/images/Logo.png" /></div>
+                <div style="float:right;">
+                <div id="logoTitle" style="vertical-align:top">Knovel</div>
+                <div id="logoTitleSmall" style="vertical-align:bottom">Materials Solutions</div>
+                    </div>
+            </div>
+            <div style="clear:both;"></div>
+        </div> 
+    </header>
+    <div class="mainLogin">
+        @RenderBody()
+    </div>
+    <div id="footer">     
+        © 2018 Elsevier B.V. All Rights Reserved.
+    </div>
+    <div class="progress-indicator" style="display: none;">
+        <img src="@Url.Content("~/Content/images/loader_big.gif")" alt="" />
+    </div>
+</body>
+</html>

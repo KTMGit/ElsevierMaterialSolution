@@ -1,0 +1,245 @@
+﻿@model ElsevierMaterials.Models.FatigueCondition
+@using ElsevierMaterialsMVC.Models.MaterialDetails;
+@{
+    int type = (int)Model.Type;
+    string curveName = type == 1 ? "total" : "S-N curve";
+}
+<script type="text/javascript">
+    //Initialize Chart data
+    $(document).ready(function () {
+        @*comparisonPlot.InitRadarChart('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model))');*@
+        fatiguePlot.InitData('@Html.Raw(Json.Encode(Model.PointsForDiagram))', '@Html.Raw((int)Model.Type)');
+        fatiguePlot.PlotChart('@Html.Raw((int)Model.Type)');
+    });
+</script>
+<div id="cond_FatigueStrain_@(Model.Condition.ConditionId)">
+    @{
+
+        //TODO: ???
+    }
+    @*@if (Model.Condition != null) {
+            if (!string.IsNullOrEmpty(Model.Condition.Condition_Product) && Model.Condition.Condition_Product !="-")
+            {
+                <div style="float:left">
+
+             <b> Product:</b>  @Html.Raw(Model.Condition.Condition_Product)
+            </div>
+            <br />
+               }
+
+
+            if (!string.IsNullOrEmpty(Model.Condition.Condition_Experiment) && Model.Condition.Condition_Experiment != "-")
+            {
+             <div style="float:left">
+             <b>  Experiment:  </b> @Html.Raw(Model.Condition.Condition_Experiment)
+            </div> <br />
+               }
+
+
+            if (!string.IsNullOrEmpty(Model.Condition.Condition_Speciment) && Model.Condition.Condition_Speciment != "-")
+            {
+             <div style="float:left">
+            <b>   Specimen:</b>  @Html.Raw(Model.Condition.Condition_Speciment)
+            </div> <br />
+               }
+        }*@
+    @if (Model.Details != null)
+    {
+        if (!string.IsNullOrEmpty(Model.Details.Monotonic) && Model.Details.Monotonic != "-")
+        {
+        <div style="float: left">
+
+
+            <b>Monotonic Properties: </b>@Html.Raw(Model.Details.Monotonic)
+            <br />
+        </div>
+        }
+        if (Model.Details.ConditionProperties != null)
+        {
+
+        <div style="float: left; width: 100%;">
+            <table class="details" style="width: 100%;">
+                <thead>
+
+                    @if (Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueStrengthCoefficient) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueStrengthExponent) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueDuctilityCoefficient) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueDuctilityCoefficient) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueDuctilityExponent) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueCyclicStrengthExponent) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueCyclicStrengthCoefficient) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueDuctilityCoefficient) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueNf_maxENDiagram))
+                    {
+
+                        if (Model.UnitType == 2)
+                        {
+                        <tr>
+                            <th>Cyclic yield strength σy´ (ksi)</th>
+                            <th>Cyclic strength exponent n´ </th>
+                            <th>Cyclic strength coefficient K´ (ksi)</th>
+                            <th>Fatigue strength coefficient σf´ (ksi)</th>
+                            <th>Fatigue strength exponent b </th>
+                            <th>Fatigue ductility coefficient εf´</th>
+                            <th>Fatigue ductility exponent c </th>
+                        </tr>
+                        }
+                        else
+                        {
+                        <tr>
+                            <th>Cyclic yield strength σy´ (MPa)</th>
+                            <th>Cyclic strength exponent n´ </th>
+                            <th>Cyclic strength coefficient K´ (MPa)</th>
+                            <th>Fatigue strength coefficient σf´ (MPa)</th>
+                            <th>Fatigue strength exponent b </th>
+                            <th>Fatigue ductility coefficient εf´</th>
+                            <th>Fatigue ductility exponent c </th>
+                        </tr>
+                        }
+
+                    }
+                    else
+                    {
+                        <tr>
+                            <th>Orientation</th>
+                            <th>Specimen </th>
+                            <th>Fatigue strength (MPa)</th>
+                            <th>Number of cycles</th>
+                        </tr>
+                    }
+
+                </thead>
+                <tbody>
+
+                    @if (Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueStrengthCoefficient) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueStrengthExponent) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueDuctilityCoefficient) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueDuctilityCoefficient) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueDuctilityExponent) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueCyclicStrengthExponent) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueCyclicStrengthCoefficient) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueDuctilityCoefficient) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueNf_maxENDiagram))
+                    {
+                        <tr>
+                            <td>@Html.Raw(Model.Details.ConditionProperties[Api.Models.Fatigue.FatiguePropertyType.FatigueCyclicYieldStrength]) </td>
+
+                            <td>@Html.Raw(Model.Details.ConditionProperties[Api.Models.Fatigue.FatiguePropertyType.FatigueCyclicStrengthExponent]) </td>
+
+                            <td>@Html.Raw(Model.Details.ConditionProperties[Api.Models.Fatigue.FatiguePropertyType.FatigueCyclicStrengthCoefficient])</td>
+
+                            <td>@Html.Raw(Model.Details.ConditionProperties[Api.Models.Fatigue.FatiguePropertyType.FatigueStrengthCoefficient])</td>
+
+                            <td>@Html.Raw(Model.Details.ConditionProperties[Api.Models.Fatigue.FatiguePropertyType.FatigueStrengthExponent]) </td>
+
+                            <td>@Html.Raw(Model.Details.ConditionProperties[Api.Models.Fatigue.FatiguePropertyType.FatigueDuctilityCoefficient])</td>
+
+                            <td>@Html.Raw(Model.Details.ConditionProperties[Api.Models.Fatigue.FatiguePropertyType.FatigueDuctilityExponent])</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@Html.Raw(Model.Details.ConditionProperties[Api.Models.Fatigue.FatiguePropertyType.Orientation])</td>
+                            <td>@Html.Raw(Model.Details.ConditionProperties[Api.Models.Fatigue.FatiguePropertyType.Speciment])</td>
+                            <td>@Html.Raw(Model.Details.ConditionProperties[Api.Models.Fatigue.FatiguePropertyType.FatigueLimit])</td>
+                            <td>@Html.Raw(Model.Details.ConditionProperties[Api.Models.Fatigue.FatiguePropertyType.NoCycles])</td>
+                        </tr>
+                    }
+
+
+                </tbody>
+
+
+            </table>
+        </div>
+        }
+        if (!string.IsNullOrEmpty(Model.Details.Comment) && Model.Details.Comment != "-")
+        {
+        <div style="float: left">
+            <b>Comment: </b>@Html.Raw(Model.Details.Comment)
+            <br />
+        </div>
+        <div style="clear: both"></div>
+        }
+    }
+@*<div style="float:left; width:60%;"><img src="@Model.Diagram.Source" /></div>*@
+    @if (Model.PointsForDiagram.Curves.Count > 0 && !(Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueNf_maxENDiagram) && Model.Details.ConditionProperties[Api.Models.Fatigue.FatiguePropertyType.FatigueNf_maxENDiagram] == "0"))
+    {
+    <div style="float: left; width: 60%;">
+        <div>
+            <div id="fatigueChart@(type.ToString())" style="margin-right: 50px;"></div>
+            <div><a id="saveFatigue@(type.ToString())" class="comparison" href="#">save diagram</a></div>
+        </div>
+        <img id="imgFatigue@(type.ToString())" src="@Model.Diagram.Source" style="display:none" />
+        @*<img id="imgFatigue@(type.ToString())" src="@Model.Diagram.Source"/>*@
+    </div>
+    <div style="float: right; width: 40%;">
+                  
+            <span class="smallSS">Points for: </span><span id="curveName@(type.ToString())" class="smallSS">@(curveName)</span><span style="margin-left:5px;"><a href="#" onclick="addFatigueToComparison('@(curveName)'); return false;"><img src="~/Content/images/icon-compare-ss.png" /></a></span><br />
+        @if (Model.Points != null && Model.Points.Count > 0)
+        {
+            if (Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueStrengthCoefficient) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueStrengthExponent) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueDuctilityCoefficient) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueDuctilityCoefficient) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueDuctilityExponent) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueCyclicStrengthExponent) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueCyclicStrengthCoefficient) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueDuctilityCoefficient) || Model.Details.ConditionProperties.ContainsKey(Api.Models.Fatigue.FatiguePropertyType.FatigueNf_maxENDiagram))
+            {
+
+            <table class="smallSS" id="tableData@(type.ToString())">
+                <thead>
+                    <tr>
+                        <th>Reversals to failure, 2Nf </th>
+                        <th>Strain Amplitude </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Points)
+                    {
+                        <tr>
+                            <td>
+                                <span>1E</span>@item.X
+                            </td>
+                            <td>@item.Y</td>
+
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            }
+            else
+            {
+            <table class="smallSS" id="tableData@(type.ToString())">
+                <thead>
+                    <tr>
+                        <th>Cycles to failure, Nf </th>
+                        <th>Stress Amplitude [MPa] </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Points)
+                    {
+                        <tr>
+                            <td>
+                                <span>1E</span>@item.X
+                            </td>
+                            <td>@Math.Round(Math.Pow((double)10, (double)(item.Y == null ? 0 : item.Y)))</td>
+
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            }
+        }
+    </div>
+    }
+
+
+    <div style="clear: both"></div>
+    @if (Model.SelectedReferences != null && Model.SelectedReferences.Count > 0)
+    {
+        <br />
+        <span><a class="selectedRefPropLinkFatigue" onclick="showSelectedRefPropFatigue();return false;" href="#">+ </a><b>Reference for the selected material and condition</b></span>
+        <br />
+        <div class="selectedReferencePropFatigue" style="display: none">
+            <table>
+                <tbody>
+                    @{int cntRef = 0;}
+                    @foreach (var reference in Model.SelectedReferences)
+                    {
+                        cntRef++;
+                        <tr>
+                            <td style="border-right: none; padding-right: 10px">@cntRef</td>
+                            <td>@reference</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

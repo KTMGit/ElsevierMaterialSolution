@@ -1,0 +1,12 @@
+﻿@model ElsevierMaterialsMVC.Models.MaterialDetails.MaterialDetailsModel
+@using ElsevierMaterialsMVC.Models.MaterialDetails;
+@using ElsevierMaterials.Models;
+
+
+@{var item = Model.Properties.ProductGroups.Where(t => t.Key == ProductGroup.ProductGroupType.Mechanical).FirstOrDefault();}
+
+@for (int i = 0; i < item.Value.Conditions.Count; i++)
+{
+    <div id="cond_@((int)item.Key)_@(item.Value.Conditions[i].ConditionId)" style="@((item.Value.Conditions[i].ConditionId == item.Value.ConditionId) ? "" : "display:none;")">
+    </div>
+}

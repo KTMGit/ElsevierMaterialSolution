@@ -1,0 +1,174 @@
+﻿@model ElsevierMaterials.Models.Domain.ComparisonDiagram.PropertyD
+@using ElsevierMaterials.Models.Domain.ComparisonDiagram;
+
+<div style="float: left;">
+    <div id="trueChart" style="margin-right: 50px;"></div>
+</div>
+<div style="float: left;">
+    @{
+
+        <div>
+            @{var counter1 = 0;}
+            Curve:
+                <select id="curvesSelection">
+
+                    @foreach (var material1 in Model.Materials)
+                    {
+                        foreach (var condition1 in material1.Conditions)
+                        {
+                            foreach (var temperature1 in condition1.Temperatures.Where(p=>p.XName==Model.SelectedXName))
+                            {   
+                                counter1+=1;
+                                temperature1.CounterId = counter1;          
+                        <option value="@temperature1.Id">@counter1</option>
+                                
+                            }
+                        }
+                    }
+                </select>
+        </div>
+        var counter=0;
+            foreach (var material in Model.Materials)
+            {
+                foreach (var condition in material.Conditions)
+                {
+                    foreach (var temperature in condition.Temperatures.Where(p => p.XName == Model.SelectedXName))
+                    {
+                        counter += 1;                     
+                        string style = "display:block;";
+                        if (counter > 1)
+                        {
+                            style = "display:none;";
+                        }
+        <div id="tablePointsContainer_@(temperature.Id)" style=@style>
+            <div class="scrollClass">
+                @Html.Partial("PointsForTable", temperature)
+            </div>
+        </div>
+                    }
+
+                }
+            }
+    }
+</div>
+<div style="clear: both;"></div>
+<div>
+    <table id="interactiveDiagramDescTable" class="details" style="width: 100%;">
+        <thead>
+            <tr>
+                <td style="padding-left: 5px;">Curve</td>
+                <td style="padding-left: 5px;">Material</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var counter2=0;
+                    foreach (var material in Model.Materials)
+                    {
+                        foreach (var condition in material.Conditions)
+                        {
+                            foreach (var temperature in condition.Temperatures.Where(p => p.XName == Model.SelectedXName))
+                            {
+                                counter2+=1;
+                <tr>
+                    <td>@counter2</td>
+                    @if (Model.GroupId == GroupTypeEnum.StressStrain || Model.GroupId==GroupTypeEnum.FatigueData)
+	                {
+                        <td>@Html.Raw(material.Name)@("; ")@Html.Raw(condition.Condition.Trim())@("; ")@temperature.Temperature@("°C")</td>
+	                }         
+                    else
+                    {
+                        <td>@Html.Raw(material.Name)@("; ")@Html.Raw(condition.Condition.Trim())</td>
+                    }
+
+
+                    <td><a href="#" onclick="removeCurve(@temperature.Id, @Model.Id); return false;">
+                        <img src="~/Content/images/delete.png" /></a></td>
+                </tr>
+                            }
+                        }
+                    }
+            }
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    var maxX = @Model.MaxXValue;
+    var maxY = @Model.MaxYValue;
+
+    var minX = @Model.MinXValue;
+    var minY = @Model.MinYValue;
+
+
+
+    $("#curvesSelection").click(function(){
+        changeInteractiveCurve();
+    });  
+
+    $(document).ready(function () {
+        @{
+            foreach (var material in Model.Materials)
+            {
+                foreach (var condition in material.Conditions)
+                {
+                    foreach (var temperature in condition.Temperatures.Where(p => p.XName == Model.SelectedXName))
+                    {
+                        if (Model.GroupId == GroupTypeEnum.StressStrain)
+                        {
+                                <text>stressStrainPlot.InitData('@Html.Raw(Json.Encode(temperature))', @Model.SourceTypeId); </text>
+                        }
+                        else if (Model.GroupId == GroupTypeEnum.FatigueData)
+                        {
+                               <text>fatiguePlot.InitData('@Html.Raw(Json.Encode(temperature))', @Model.SourceTypeId);</text>
+                        }
+                        else if (Model.GroupId == GroupTypeEnum.Mechanical || Model.GroupId == GroupTypeEnum.Physical || Model.GroupId == GroupTypeEnum.Thermal)
+                        {
+                              <text>interactiveDiagram.general.InitData('@Html.Raw(Json.Encode(temperature))', @Model.SourceTypeId);</text>
+                        }
+                    }
+                }
+            }
+          }
+
+        @if (Model.GroupId == GroupTypeEnum.StressStrain)
+        {
+        <text>stressStrainPlot.PlotChart();</text>
+        }
+        else if (Model.GroupId == GroupTypeEnum.FatigueData)
+        {
+        <text>fatiguePlot.PlotChart(@Model.SourceTypeId);</text>
+        }
+        else if (Model.GroupId == GroupTypeEnum.Mechanical || Model.GroupId == GroupTypeEnum.Physical || Model.GroupId == GroupTypeEnum.Thermal)
+        {
+        <text>interactiveDiagram.general.PlotChart();</text>
+        }
+    });
+
+
+    function backToTableView() {
+
+        interactiveDiagram.general.resetObjectData();
+
+        seriesData = new Array();
+        legendData = new Array();
+
+        $("#comparisonTableContainer").show();
+        $("#comparisonInteractiveDiagrams").hide();
+        $('#btnBackToTableView').hide();
+
+        $('#btnCompareTable').show();
+        $('#btnComparePlot').show();
+    }
+    function showSelectedRefPropStress() {
+        var divRef = $('#selectedReferencePropStress');
+        var closedA = $('#selectedRefPropLinkStress');
+        if (closedA[0].innerHTML == "+ ") {
+            divRef.show();
+            closedA[0].innerHTML = "- ";
+        } else {
+            divRef.hide();
+            closedA[0].innerHTML = "+ ";
+        }
+    }
+</script>

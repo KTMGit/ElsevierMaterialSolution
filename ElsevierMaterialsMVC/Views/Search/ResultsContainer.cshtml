@@ -1,0 +1,95 @@
+﻿@model ElsevierMaterialsMVC.Models.Search.BaseSearchModel
+@using ElsevierMaterialsMVC.BL.Helpers;
+@using SkfCore.Web.Mvc.Helpers;
+<style>
+    label {
+        width: 140px;
+        display: inline-block;
+    }
+</style>
+
+@Html.Partial("MenuContainer", new ElsevierMaterialsMVC.BL.Binders.TableFiltersBinder().GetSearchTableColumns())
+
+<div class="columnsSelector" style="display:none;">
+    <div id="columnsSelectorId"></div>
+    <div id="columnsSelectorButtonsId" style="margin-top: 15px;">
+        <a href="#" class="exporterButton" id="applyColumnsSelectorId" onclick="searchFunc.applyColumnsSelector()">Apply</a>
+        <a href="#" class="label" id="cancelColumnsSelectorId" onclick="searchFunc.closeColumnsSelector()">Cancel</a>
+        <a href="#" class="label" style="margin-left: 65px;" id="resetColumnsSelectorId" onclick="searchFunc.resetColumnsSelector();">Reset Filters</a>
+    </div>
+</div>
+@Html.Partial("SelectedFilters", Model)
+@if (Model.ListOfMaterials.ToList().Count > 0)
+{
+    <div class="tableInfo" style="margin-top:10px;">
+        <div class="totalCountRecords">Number of results:  @Model.Descriptor.Pager.TotalRecordCount</div>
+        <div style="float: right;">
+            @Html.KTMPager(Model.Descriptor.Pager)
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <div style="clear: both;"></div>
+    <table class="details" id="materialList">
+        
+        <thead>
+            <tr>
+                <th colid="0" isvisible="true" filter="" style="cursor: pointer;" colname="material_designation">Material Name<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="1" isvisible="true" filter="" style="cursor: pointer;" colname="material_type">Type<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="2" isvisible="true" filter="" style="cursor: pointer;" colname="material_group">Class<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="3" isvisible="true" filter="" style="cursor: pointer;" colname="material_class">Subclass<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="4" isvisible="true" filter="" style="cursor: pointer;" colname="UNS">Group<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="5" isvisible="false" filter="" style="display: none; cursor: pointer;" colname="UNSNo">UNS No.<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="6" isvisible="false" filter="" style="display: none; cursor: pointer;" colname="CASRN">CAS RN<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+            </tr>
+            
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ListOfMaterials)
+            {
+                <tr class="linkedRow" onclick="searchFunc.getEquivalenceMaterials(@item.Id, '@Model.Filter.FullText')">
+                    <td colid="0" isvisible="true" filter="" title="@Html.Raw(item.Name)">@(Html.Raw(item.Name))</td>
+                    <td colid="1" isvisible="true" filter="">@item.TypeName</td>
+                    <td colid="2" isvisible="true" filter="" title="@item.GroupName">@(item.GroupName == null ? "" : item.GroupName)</td>
+                    <td colid="3" isvisible="true" filter="" title="@item.ClassName">@(item.ClassName == null ? "" : item.ClassName)</td>
+                    <td colid="4" isvisible="true" filter="" title="@item.SubClassName">@(item.SubClassName == null ? "" : item.SubClassName)</td>
+                    <td colid="5" isvisible="false" filter="" style="display: none;">@item.UNS</td>
+                    <td colid="6" isvisible="false" filter="" style="display: none;">@item.CAS_RN</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <div style="float: right; width: 100%">
+        @Html.KTMPager(Model.Descriptor.Pager)
+    </div>
+    <div style="clear: both"></div>
+}
+else
+{
+    <div class="message" style="width:100%;margin-top:10px;">
+        There are no materials matching search criteria. Please try again by using reduced number of characters to widen the search possibilities.
+    </div>
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        removeProgressIndicator('main');
+        $('.progress-indicator').css('display', 'none');
+
+        // add a click event handler to the pager
+        $('.pager').find('.pages a').each(function () {
+            $(this).click(function (e) {
+                displayProgressIndicator('main');
+                $('.progress-indicator').css('display', 'block');
+                return true;
+            });
+        });
+        // /add a click event handler to the pager
+
+        $('#home').hide();
+        $('#sampleMaterial').show();
+        $('#eqMaterial').hide();
+        $('#details').hide();
+    });
+</script>

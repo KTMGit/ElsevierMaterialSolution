@@ -1,0 +1,47 @@
+﻿@model ElsevierMaterials.Models.Material
+<div id="materialInfoContainer">
+    <table class="detailsInfo" id="materialInfoTable">
+        <thead>
+            <tr>
+                <th colid="0" isvisible="true" filter="" style="cursor: pointer;" colname="material_designation">Material Name<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="1" isvisible="true" filter="" style="cursor: pointer;" colname="material_type">Type<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="2" isvisible="true" filter="" style="cursor: pointer;" colname="material_group">Class<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="3" isvisible="true" filter="" style="cursor: pointer;" colname="material_class">Subclass<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="4" isvisible="true" filter="" style="cursor: pointer;" colname="UNS">Group<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="5" isvisible="false" filter="" style="cursor: pointer;" colname="UNSNo">UNS No.<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="6" isvisible="false" filter="" style="cursor: pointer;" colname="CASRN">CAS RN<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.Raw(Model.Name)</td>
+                <td>
+                    @if (Model.Classification.ClassificationNames.ContainsKey(ElsevierMaterials.Models.ClassificationType.Type))
+                    {
+                        @Model.Classification.ClassificationNames[ElsevierMaterials.Models.ClassificationType.Type]
+                    }
+                </td>
+                <td>
+                    @if (Model.Classification.ClassificationNames.ContainsKey(ElsevierMaterials.Models.ClassificationType.Group))
+                    {
+                        @Model.Classification.ClassificationNames[ElsevierMaterials.Models.ClassificationType.Group]
+                    }
+                </td>
+                <td>
+                    @if (Model.Classification.ClassificationNames.ContainsKey(ElsevierMaterials.Models.ClassificationType.Class))
+                    {
+                        @Model.Classification.ClassificationNames[ElsevierMaterials.Models.ClassificationType.Class]
+                    }
+                </td>
+                <td>
+                    @if (Model.Classification.ClassificationNames.ContainsKey(ElsevierMaterials.Models.ClassificationType.Subclass))
+                    {
+                        @Model.Classification.ClassificationNames[ElsevierMaterials.Models.ClassificationType.Subclass]
+                    }
+                </td>
+                <td>@Html.Raw(Model.UNSNo)</td>
+                <td>@Html.Raw(Model.CASRN)</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

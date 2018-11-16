@@ -1,0 +1,79 @@
+﻿@model ElsevierMaterials.Models.Domain.Comparison.ComparisonModel
+@using ElsevierMaterialsMVC.Models.Shared
+@{
+    ViewBag.Title = "Elsevier :: Material details";
+    Layout = "~/Views/Shared/_LayoutFilters.cshtml";
+}
+
+@*<div id="pluginsWithComponents">
+    <a class="plugin" href="#" onclick="searchFunc.fullTextSearch();return false;">Search results</a>
+    <a class="plugin" href="#">Advanced Search</a>
+    <a class="pluginActive" href="#">Browse properties</a>
+    <a class="plugin" href="#" onclick="goToCompareMaterialsPage();return false;">Compare Materials</a>
+ <a class="plugin" href="#" id="pluginExportData" onclick="goToExporter();return false;">Export Data</a>
+</div>*@
+
+@Html.Partial("Plugins", new Plugin() { HasSearchFilters = HasSearchFiltersEnum.Yes, ActivePage = PageEnum.Comparison })
+<div style="clear: both;"></div>
+
+<table class="details">
+    <thead>
+        <tr>
+            <th>
+                Material Name
+            </th>
+            <th>
+                Property
+            </th>
+            @foreach (var materialName in Model.MaterialNames)
+            {
+                <th>
+                    @materialName
+                </th>
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var condition in Model.Conditions)
+        {
+            <tr>
+                <td>Units</td>
+                <td>Mechanical Property</td>
+                @for (int i = 0; i < condition.NumbersOfMaterials; i++)
+                {
+                    <td></td>
+                }
+            </tr>
+            foreach (var group in condition.Groups)
+            {
+
+                <tr>
+                    <td>
+                        @group.Name
+                    </td>
+                </tr>
+              foreach (var prop in group.Properties)
+                {
+                    <tr>
+                        <td>
+                            @prop.Unit;
+                        </td>
+                        <td>
+                            @prop.Name;
+                        </td>
+                        @foreach (var material in prop.Materials)
+                        {
+                            <td id="@material.Id">
+                                @material.Value;
+                            </td>
+                        }
+                    </tr>
+                }
+
+            }
+        }
+
+    </tbody>
+
+</table>

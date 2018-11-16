@@ -1,0 +1,50 @@
+﻿@model  ElsevierMaterials.Models.Domain.Export.Material
+
+@if (Model == null || (Model != null && Model.Properties.Count == 0))
+{
+}
+else
+{ 
+   
+    
+    <div id="materialProperties" style="display: none;overflow-y:auto; height:500px;">
+        <table class="details" id="tblProperties">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Property</th>
+                    <th>Unit</th>
+                    <th>Value</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (ElsevierMaterials.Models.Domain.Export.Property item in Model.Properties)
+                {
+                    <tr>
+                        <td>
+                            <a href="#" onclick="removePropertyFromExport(@Model.MaterialInfo.MaterialId, @Model.MaterialInfo.SourceMaterialId, @Model.MaterialInfo.SourceId, @Model.MaterialInfo.SubgroupId, @(item.ElsBasicInfo.TypeId), @item.ElsBasicInfo.SourceTypeId, @item.ElsBasicInfo.RowId); return false;">
+                                <img src="~/Content/images/delete.png" /></a>
+                        </td>
+                        <td>
+                            @item.ElsBasicInfo.Name
+                        </td>
+                        <td>
+                            @item.ElsBasicInfo.Unit
+                        </td>
+                        <td>
+                            @item.Value
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>       
+}
+
+
+<script type="text/javascript">
+    var removePropertyFromExporterPath = '@Url.Action("RemovePropertyFromMaterial", "Exporter")'
+</script>

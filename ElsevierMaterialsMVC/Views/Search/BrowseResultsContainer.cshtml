@@ -1,0 +1,59 @@
+﻿@model ElsevierMaterialsMVC.Models.Search.BaseSearchModel
+@using ElsevierMaterialsMVC.BL.Helpers;
+
+
+<div style="clear:both;"></div>
+
+<div class="tableInfo">
+    <div class="totalCountRecords">Number of results:  @Model.Descriptor.Pager.TotalRecordCount</div>     
+    <div style="float:right;">
+        @Html.KTMPager(Model.Descriptor.Pager)
+    </div>
+    <div style="clear:both;"></div>
+</div>
+
+<table class="details" id="materialList" style="width:100%;">
+    <thead>
+        <tr>
+            <th>Material Name</th>
+            <th>Type</th>
+            <th>Class</th>
+            <th>Subclass</th>
+            <th>Group</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ListOfMaterials)
+        {
+            <tr class="linkedRow" onclick="searchFunc.getEquivalenceMaterials(@item.Id, '@Model.Filter.FullText')">
+                <td>@Html.Raw(item.Name)</td>
+                <td>@item.TypeName</td>
+                <td>@item.GroupName</td>
+                <td>@item.ClassName</td>
+                <td>@item.SubClassName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div style="float:right;width:100%;margin-top:10px;">
+    @Html.KTMPager(Model.Descriptor.Pager)
+</div>
+
+<script>
+    $(document).ready(function () {
+        removeProgressIndicator('main');
+        $('.progress-indicator').css('display', 'none');
+
+        // add a click event handler to the pager
+        $('.pager').find('.pages a').each(function () {
+            $(this).click(function (e) {
+                displayProgressIndicator('main');
+                $('.progress-indicator').css('display', 'block');
+                return true;
+            });
+        });
+        // /add a click event handler to the pager
+
+    });
+    searchFunc.fullTextSearchPath = '@Url.Action("FullTextSearchOnly", "Search")';
+</script>

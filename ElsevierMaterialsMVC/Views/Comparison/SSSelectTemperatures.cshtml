@@ -1,0 +1,25 @@
+﻿@model List<float>
+
+<div id="SSselectedTemperaturesForComparison">
+    This diagram has curves for multiple temperatures.<br />
+    Please select temperatures which you want to add to comparison.<br /><br />
+
+<table class="detailsSmall" style="width: 100%; margin-top: 0px; font-size: 12px; font-weight: 100; border-bottom-style:none;">
+    <tbody>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            <tr class="propertyRow" style="border: none;">
+                <td class="addToComparisonCell" style="border: none;">
+                    <div class="checkbox">
+                        <input type="checkbox" id="cb_ss_@i" name="All" temp="@Model[i]" />
+                        <label for="cb_ss_@i" style="padding-top: 2px;"></label>
+                    </div>
+                    @(Model[i])
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+    <input type="button" onclick="addSelectedSSTemperaturesToComparison();return false;"  value="Add selected temperatures to comparison">
+</div>

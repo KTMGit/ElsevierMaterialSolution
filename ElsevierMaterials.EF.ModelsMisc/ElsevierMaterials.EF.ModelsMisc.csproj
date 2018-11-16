@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DB1E90C9-DD11-4B00-A225-BB7FD016FF2D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ElsevierMaterials.EF.ModelsMisc</RootNamespace>
+    <AssemblyName>ElsevierMaterials.EF.ModelsMisc</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Maps\AdvSearchMultipointDataViewMap.cs" />
+    <Compile Include="Maps\AdvSearchPropertyConditionsMap.cs" />
+    <Compile Include="Maps\AdvSearchResultViewMap.cs" />
+    <Compile Include="Maps\BasePropertyMap.cs" />
+    <Compile Include="Maps\CitationMap.cs" />
+    <Compile Include="Maps\DiagramPointMap.cs" />
+    <Compile Include="Maps\GroupChemicalPropertyMap.cs" />
+    <Compile Include="Maps\GroupChemicalPropertyAllMap.cs" />
+    <Compile Include="Maps\GroupTestConditionMap.cs" />
+    <Compile Include="Maps\GroupMaterialConditionMap.cs" />
+    <Compile Include="Maps\EquivalentMaterialMap.cs" />
+    <Compile Include="Maps\EquivalentPropertyMap.cs" />
+    <Compile Include="Maps\FullTextSearchMap.cs" />
+    <Compile Include="Maps\MaterialPropertyMap.cs" />
+    <Compile Include="Maps\EquivalentPropertyViewMap.cs" />
+    <Compile Include="Maps\MaterialPropertyRecordLinkViewMap.cs" />
+    <Compile Include="Maps\MaterialTaxonomyMap.cs" />
+    <Compile Include="Maps\MaterialViewMap.cs" />
+    <Compile Include="Maps\PrefferedNamesMap.cs" />
+    <Compile Include="Maps\PropertiesConversionFactorsMap.cs" />
+    <Compile Include="Maps\GroupConditionMap.cs" />
+    <Compile Include="Maps\PropertyDescriptionMap.cs" />
+    <Compile Include="Maps\PropertyGroupMap.cs" />
+    <Compile Include="Maps\PropertyWithConvertedValuesMap.cs" />
+    <Compile Include="Maps\RecordLinkMap.cs" />
+    <Compile Include="Maps\SourceMap.cs" />
+    <Compile Include="Maps\TaxonomyTreeCountMap.cs" />
+    <Compile Include="Maps\TreeCountMap.cs" />
+    <Compile Include="Maps\TreeMap.cs" />
+    <Compile Include="Maps\UnitMap.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Maps\PropertyUnitsViewMap.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Maps\packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ElsevierMaterials.Models\ElsevierMaterials.Models.csproj">
+      <Project>{57b6e443-0948-4132-b252-5164619d60da}</Project>
+      <Name>ElsevierMaterials.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

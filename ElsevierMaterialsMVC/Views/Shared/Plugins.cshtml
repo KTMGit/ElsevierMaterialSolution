@@ -1,0 +1,69 @@
+﻿@model ElsevierMaterialsMVC.Models.Shared.Plugin
+@using ElsevierMaterialsMVC.Models.Shared;
+@using ElsevierMaterialsMVC.BL.Global;
+@{
+    BreadcrumbNavigation nav = (BreadcrumbNavigation)System.Web.HttpContext.Current.Session["Navigation"];
+    if (nav == null)
+    {
+        nav = new BreadcrumbNavigation();
+    }
+    AdvancedSearchResults asn = nav.GetOrderedItems().Where(n => n.NavigableID == "AdvancedSearchResults").FirstOrDefault() as AdvancedSearchResults;
+   // FullSearch fs = nav.GetOrderedItems().Where(n => n.NavigableID == "FullSearch").FirstOrDefault() as FullSearch;
+}
+@*<div id="@(Model.ActivePage != PageEnum.MaterialDetails ? "plugins" : "pluginsWithComponents")">
+
+    @if (Model.ActivePage == PageEnum.AdvancedSearch && asn != null && asn.PageData != null)
+    {
+        <a class="plugin" href="#" id="pluginSearchResults" onclick="advSearchFunc.fillSelectedProperties();return false;">Search results</a>
+    }
+    else if (Model.ActivePage == PageEnum.Browse || Model.ActivePage == PageEnum.Comparison || Model.ActivePage == PageEnum.Exporter || Model.ActivePage == PageEnum.MaterialDetails)
+    {
+        if (asn != null && asn.PageData != null)
+        {
+            <a class="plugin" href="#" id="pluginSearchResults" onclick="advSearchFunc.fillSelectedProperties();return false;">Search results</a>
+        }
+        else
+        {
+            <a class="plugin" href="#" id="pluginSearchResults" onclick="searchFunc.goToSearchResults(@((int)Model.HasSearchFilters));return false;">Search results</a>
+        }
+
+    }  
+    else if (Model.ActivePage == PageEnum.AdvancedSearchResults)
+    {
+        <a class="pluginActive" href="#" id="pluginSearchResults" onclick="return false;">Search results</a>
+    }
+    else
+    {
+        <a class="@(Model.ActivePage == PageEnum.SearchResults ? "pluginActive": "plugin")" href="#" id="pluginSearchResults" onclick="@(Model.ActivePage != PageEnum.SearchResults ? "searchFunc.goToSearchResults(" + ((int)Model.HasSearchFilters) + ");return false;" : "return false;")">Search results</a>
+    }
+
+    <a class="@(Model.ActivePage == PageEnum.AdvancedSearch ? "pluginActive": "plugin")" href="#" id="pluginAdvancedSearch" onclick="@(Model.ActivePage != PageEnum.AdvancedSearch ? "searchFunc.goToAdvancedSearch(" + ((int)Model.HasSearchFilters) + ");return false;" : "return false;")">Advanced Search</a>
+
+
+    @if (Model.ActivePage == PageEnum.MaterialDetails)
+    {
+        <a class="pluginActive" href="#" id="pluginBrowseProperties" onclick="searchFunc.goToBrowsePage(@((int)Model.HasSearchFilters));return false;">Browse properties</a>
+    }
+    else
+    {
+        <a class="@(Model.ActivePage == PageEnum.Browse ? "pluginActive": "plugin")" href="#" id="pluginBrowseProperties" onclick="@(Model.ActivePage != PageEnum.Browse ? "searchFunc.goToBrowsePage(" + ((int)Model.HasSearchFilters) + ");return false;" : "return false;")">Browse properties</a>
+    }
+
+
+    <a class="@(Model.ActivePage == PageEnum.Comparison ? "pluginActive": "plugin")" href="#" id="pluginCompareMaterial" onclick="@(Model.ActivePage != PageEnum.Comparison ? "goToCompareMaterialsPage();return false;" : "return false;")">Compare Materials</a>
+    <a class="@(Model.ActivePage == PageEnum.Exporter ? "pluginActive": "plugin")" href="#" id="pluginExportData" onclick="@(Model.ActivePage != PageEnum.Exporter ? "goToExporter();return false;" : "return false;")">Export Data</a>
+</div>*@
+
+
+
+<script type="text/javascript">
+    var comparisonMaterialsPath = '@Url.Action("Materials", "Comparison")';
+    var eXporterPath = '@Url.Action("Materials", "Exporter")';
+    var searchResultsPath = '@Url.Action("Search", "Search")';
+
+    var browsePath = '@Url.Action("Browse", "Home")';
+    var browseSearchPath = '@Url.Action("BrowseSearch", "Search")';
+
+    var advSearchPath = '@Url.Action("AdvSearch", "AdvSearch")';
+  
+</script>

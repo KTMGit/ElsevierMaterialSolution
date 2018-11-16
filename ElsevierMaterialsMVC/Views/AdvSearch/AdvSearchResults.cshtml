@@ -1,0 +1,23 @@
+﻿@model ElsevierMaterialsMVC.Models.Search.BaseSearchModel
+@using ElsevierMaterialsMVC.BL.Helpers;
+@using ElsevierMaterialsMVC.Models.Shared;
+@{
+    ViewBag.Title = "Elsevier :: Advanced Search";
+    Layout = "~/Views/Shared/_LayoutFilters.cshtml";
+}
+
+<div id="mainContent">    
+  
+     @Html.Partial("Plugins", new Plugin() { HasSearchFilters = HasSearchFiltersEnum.Yes, ActivePage = PageEnum.AdvancedSearchResults })
+     @Html.Partial("SelectedAdvancedFilters", Model)
+    <div id="advSearchResultsContainer">
+        @Html.Partial("AdvResultsContainer", Model)
+    </div>
+</div>
+<script type="text/javascript">
+    searchFunc.subgroupsPath = '@Url.Action("Subgroup", "Subgroups")';
+    searchFunc.fullTextSearchPath = '@Url.Action("FullTextSearchOnly", "Search")';
+    
+  _RegisterGrid('advSearchResultsContainer', '@(Url.Action("ApplyPager", "AdvSearch"))',  @(Html.DescriptorToJson(Model.Descriptor)));
+
+</script>

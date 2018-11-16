@@ -1,0 +1,6 @@
+﻿@model IList<ElsevierMaterials.Models.PropertyUnitModel>
+
+    @foreach (var item in Model)
+    {
+        @Html.Partial("SearchConditionItem",item)
+    }

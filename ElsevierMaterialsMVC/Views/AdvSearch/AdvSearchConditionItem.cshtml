@@ -1,0 +1,101 @@
+﻿@model ElsevierMaterials.Models.PropertyUnitModel
+@*@using ElsevierMaterialsMVC.Models;*@
+@*@using ElsevierMaterialsMVC.Models.AdvancedSearch;*@
+@using ElsevierMaterials.Models;
+
+<div style="float: left; width: 600px;" propid="@Model.PropertyID" proptype="@Model.PropertyType" id="@Model.UniqueID" class="onePropertyDef">
+    @*binary operators (static list)*@
+    <div style=" width: 600px; margin-top:5px;margin-bottom:5px;border-top: 1px solid lightgray;" id="bop_@Model.UniqueID" class="browseFacetContent">
+        @foreach (var item in Model.BinaryOperators)
+        {
+            <label>
+                <input type="radio" value="@item.Id" name="logicGroup_@Model.UniqueID" @(Model.SelectedBinary == item.Id ? "checked=\"checked\"" : "")>@item.Name
+            </label>
+        }
+    </div>
+
+
+    <div>
+        <span style="display: inline-block; width:400px; max-width:400px; word-wrap: break-word; font-weight: bold;" class="browseFacetContent" id="nm_@Model.UniqueID">
+            @Model.PropertyName
+        </span>
+
+        <span style="display: inline-block; width:110px; max-width:110px; word-wrap: break-word;" class="browseFacetContent" id="cb_@Model.UniqueID">
+            @if ((bool)Session["IsChemical"] == true && Model.PropertyConditions.Count > 0)
+            {
+                <input type="checkbox" id="cond_@Model.UniqueID" containerId="pdc_@Model.UniqueID" name="Condition" value="Condition"  @(Model.IsPropertyConditionsActive ? " checked" : "") class="isPropertyConditionsActive"><text>Condition</text>
+            }
+        </span>
+
+        <span style="display: inline">
+            <button class="deleteProperty" id="del_@Model.UniqueID" title="Remove">X</button>
+        </span>
+        <span style="display: inline">
+            <button class="arrupProperty" id="arrup_@Model.UniqueID" title="Move up">&uarr;</button>
+        </span>
+        <span style="display: inline">
+            <button class="arrdwProperty" id="arrdw_@Model.UniqueID" title="Move down">&darr;</button>
+        </span>
+    </div>
+
+    <div style="clear: both;"></div>
+
+    @*<div>*@
+    @*logical operators (static list)*@
+    <span style="display: inline-block; width: 90px; max-width: 90px; word-wrap: break-word;">
+        @if (Model.PropertyType == ElsevierMaterials.Models.Domain.AdvancedSearch.PropertyType.Property)
+        {
+            <select name="logical_operator" class="selectOperator" id="lop_@Model.UniqueID">
+                @foreach (var item in Model.LogicalOperators)
+                {
+                    <option value="@(item.Id)" @(Model.SelectedLogical == item.Id ? "selected=\"selected\"" : "")>@item.Name</option>
+                }
+            </select>
+        }
+        else if (Model.PropertyType == ElsevierMaterials.Models.Domain.AdvancedSearch.PropertyType.Material)
+        {
+            <select name="logical_operator" class="selectOperator" id="lop_@Model.UniqueID" style="display: none;">
+            </select>
+        }
+    </span>
+
+    @*input values container*@
+    <span style="display: inline-block; width: 180px; max-width: 180px; word-wrap: break-word;">
+        <label class="ivcDefinitions">
+            <input type="text" class="inputExactValue numeric" style="width:60px; display: none;" value="@Model.ValueFrom">
+
+            <input type="text" class="inputFromValue numeric" style="width:60px; display: none;" value="@Model.ValueFrom">
+            <label class="browseFacetContent inputToValueLabel" style="display: none;">And </label>
+            <input type="text" class="inputToValue numeric" style="width:60px; display: none;" value="@Model.ValueTo">
+        </label>
+    </span>
+
+    <span style="display: inline-block; width: 90px; max-width: 90px; word-wrap: break-word;">
+        <select id="un_@Model.UniqueID" style="display:none; width:90px; max-width:90px;">
+            @foreach (var item in Model.Units)
+            {
+                <option name="@item.UnitLabel" value="@item.UnitKey" factor="@item.Factor" offset ="@item.Offset" @(Model.SelectedUnit == item.UnitKey ? "selected=\"selected\"" : "")>@Html.Raw(item.UnitLabel)</option>   
+            }
+
+        </select>
+        @*@Html.DropDownList(Model.PropertyName, new SelectList(Model.Units, "UnitKey", "UnitLabel"))*@
+    </span>
+
+    @*</div>*@
+
+    @if (true /*Model.IsPropertyConditionsActive == false*/)
+    {
+        if (Model.PropertyConditions.Count > 0)
+        {
+        <div style="width: 541px; border: 1px solid #D8D8D8; margin-top: 5px; margin-bottom: 10px; display: @if (Model.IsPropertyConditionsActive)
+                                                                                                            {<text>inline-block</text>}
+                                                                                                            else
+                                                                                                            {<text>none</text>};" class="onePropertyDefConditions" id="pdc_@Model.UniqueID">
+            @foreach (PropertyConditionModel item in Model.PropertyConditions)
+            {
+                @Html.Partial("AdvSearchMultipointConditionItem", item)
+            }
+        </div>
+        }
+    }
+</div>

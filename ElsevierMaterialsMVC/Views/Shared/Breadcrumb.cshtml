@@ -1,0 +1,28 @@
+﻿
+    <div id="breadcrumb">
+        @{
+            ElsevierMaterialsMVC.BL.Global.BreadcrumbNavigation navigation = ((ElsevierMaterialsMVC.BL.Global.BreadcrumbNavigation)Session["Navigation"]);
+            IList<ElsevierMaterials.Common.Interfaces.INavigable> navigables = navigation.GetOrderedItems();
+            for (int i = navigables.Count - 1; i >= 0; i--)
+            {
+                if(navigables[i].IsVisible)
+                {
+                if (i == 0 || navigables[i].NavigableID == navigation.LastNavigable)
+                {
+                  <div id="CurrentNavigable" class="inline" style="float: none;">@navigables[i].NavigableName</div>
+                }
+                else
+                {
+            <div class="inline" style="float: none;">
+                <a href="@Url.Action("Breadcrumb", "Elsevier")?name=@navigables[i].NavigableID">@navigables[i].NavigableName</a>
+            </div>
+                }
+                if (navigables[i].NavigableID == navigation.LastNavigable)
+                {
+                    break;
+                }
+                }
+            }
+        }
+    </div>
+ 

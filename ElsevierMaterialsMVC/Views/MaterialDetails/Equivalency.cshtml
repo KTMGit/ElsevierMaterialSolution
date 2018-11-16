@@ -1,0 +1,29 @@
+﻿@model ElsevierMaterials.Models.EquivalencyModel
+<div class="accordionDarkContainer">
+    <div class="accordion">
+        <h4 class="accordion-header">
+            <span class="title">Equivalency @(Model.Equivalences.Count!=0 ? " (" + Model.Equivalences.Count +")" :"")</span>
+        </h4>
+        <div class="accordion-content" style="  height: 500px; overflow-y: auto;overflow-x: hidden;vertical-align:top; ">
+            @Html.Hidden("equivalencyHidden",1, new { id="idEquivalencyHidden" })
+            <table class="details" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Country/Standard</th>
+                        <th>Equivalency category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Equivalences) {
+                        <tr>
+                            <td><a class="tableLink" href="#" onclick="searchFunc.getEquivalenceMaterialsBySourceId(@item.MaterialId)">@item.MaterialName</a></td>
+                            <td>@item.CountryStandard</td>
+                            <td>@item.EquivalenceCategory</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

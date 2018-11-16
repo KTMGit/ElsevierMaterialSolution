@@ -1,0 +1,532 @@
+﻿@model ElsevierMaterialsMVC.Models.MaterialDetails.MaterialDetailsModel
+@using ElsevierMaterialsMVC.Models.MaterialDetails;
+@using ElsevierMaterials.Models;
+@{int cnt = 0;}
+
+
+<div id="groupsContainer" class="accordionDarkContainer">
+    @Html.HiddenFor(m => m.Material.SourceMaterialId, new { @id = "materialId" })
+    @Html.HiddenFor(m => m.Material.SubgroupId, new { @id = "subgroupId" })
+
+    @{ int plus = Model.Material.SourceId == 3 ? 1 : 0;
+       bool chekedStressStrain = false;
+    }
+
+
+    @{
+        cnt++;
+
+        //mechanical
+        MaterialCountersModel item1 = Model.MaterialCounters.Where(r => r.PropGroupType == ProductGroup.ProductGroupType.Mechanical && r.Counter != null).FirstOrDefault();
+        var itemPG1 = Model.Properties.ProductGroups.Where(t => t.Key == ProductGroup.ProductGroupType.Mechanical).FirstOrDefault();
+
+        if (item1 != null)
+        {
+            cnt++;
+            if (Model.Material.SourceId == 1)
+            {
+
+            }
+            else
+            { 
+        <div class="accordion" indexofaccordionparent="@((int)item1.PropGroupType)" id="propAccordion_@(cnt == 1 ? "first" : "other_" + cnt.ToString())">
+            @if (Model.Material.SourceId == plus)
+            {
+                <h4 class="accordion-header" indexofaccordion="@((int)item1.PropGroupType)">
+                    <span class="title">@item1.PropGroupName@(item1.Counter != 0 ? " (" + item1.Counter + ")" : "")</span>
+                </h4>
+            }
+            else
+            {
+                <h4 class="accordion-header" indexofaccordion="@((int)item1.PropGroupType)" onclick="materialDetails.getPropertyGroupDetails_new(@((int)item1.PropGroupType));return false;">
+                    <span class="title">@item1.PropGroupName@(item1.Counter != 0 ? " (" + item1.Counter + ")" : "")</span>
+                </h4>
+            }
+
+            <div class="accordion-content">
+                @if (itemPG1.Value != null)
+                {
+                    <div class="conditionContent">
+                        @if (itemPG1.Value.Conditions.Count > 0)
+                        {
+
+                            if (!(itemPG1.Value.Conditions.Count == 1 && itemPG1.Value.Conditions[0].ConditionName == "As received") && itemPG1.Value.Conditions[0].ConditionName.Trim() != "")
+                            {
+                            @:Material Condition: @Html.DropDownListFor(o => o.Properties.ProductGroups[itemPG1.Key].ConditionId, new SelectList(itemPG1.Value.Conditions, "ConditionId", "ConditionName"), htmlAttributes: new { @class = "conditions gray", @id = "selectCond_" + (int)itemPG1.Key, @onchange = "materialDetails.changeCondition(" + (int)itemPG1.Key + ");" })
+                        }
+                        }
+
+                    </div>
+                    for (int i = 0; i < itemPG1.Value.Conditions.Count; i++)
+                    {
+                    <div id="cond_@((int)itemPG1.Key)_@(itemPG1.Value.Conditions[i].ConditionId)" style="@((itemPG1.Value.Conditions[i].ConditionId == itemPG1.Value.ConditionId) ? "" : "display:none;")">
+                    </div>
+                    }
+                }
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+            }
+        }
+
+
+
+        //physical
+        MaterialCountersModel item2 = Model.MaterialCounters.Where(r => r.PropGroupType == ProductGroup.ProductGroupType.Physical && r.Counter != null).FirstOrDefault();
+        //var itemPG2 = Model.Properties.ProductGroups.Where(t => t.Key == ProductGroup.ProductGroupType.Physical).FirstOrDefault();
+        if (item2 != null)
+        {
+            cnt++;
+            if (Model.Material.SourceId == 1)
+            {
+
+            }
+            else
+            { 
+        <div class="accordion" indexofaccordionparent="@((int)item2.PropGroupType)" id="propAccordion_@(cnt == 1 ? "first" : "other_" + cnt.ToString())">
+            @if (Model.Material.SourceId == plus)
+            {
+                <h4 class="accordion-header" indexofaccordion="@((int)item2.PropGroupType)">
+                    <span class="title">@item2.PropGroupName@(item2.Counter != 0 ? " (" + item2.Counter + ")" : "")</span>
+                </h4>
+            }
+            else
+            {
+                <h4 class="accordion-header" indexofaccordion="@((int)item2.PropGroupType)" onclick="materialDetails.getPropertyGroupDetails(@((int)item2.PropGroupType));return false;">
+                    <span class="title">@item2.PropGroupName@(item2.Counter != 0 ? " (" + item2.Counter + ")" : "")</span>
+                </h4>
+            }
+            @* <div class="accordion-content" style="display: none;">
+                <div class="conditionContent">
+                    @if (itemPG2.Value.Conditions.Count > 0)
+                    {
+
+                        if (!(itemPG2.Value.Conditions.Count == 1 && itemPG2.Value.Conditions[0].ConditionName == "As received") && itemPG2.Value.Conditions[0].ConditionName.Trim() != "")
+                        {
+                        @:Material Condition: @Html.DropDownListFor(o => o.Properties.ProductGroups[itemPG2.Key].ConditionId, new SelectList(itemPG2.Value.Conditions, "ConditionId", "ConditionName"), htmlAttributes: new { @class = "conditions gray", @id = "selectCond_" + (int)itemPG2.Key, @onchange = "materialDetails.changeCondition(" + (int)itemPG2.Key + ");" })
+                        }
+                    }
+
+                </div>
+                @for (int i = 0; i < itemPG2.Value.Conditions.Count; i++)
+                {
+                    <div id="cond_@((int)itemPG2.Key)_@(itemPG2.Value.Conditions[i].ConditionId)" style="@((itemPG2.Value.Conditions[i].ConditionId == itemPG2.Value.ConditionId) ? "" : "display:none;")">
+                    </div>
+                }
+            </div>*@
+        </div>
+        <div style="clear: both;"></div>
+            }
+        }
+
+
+        //stress-strain
+        MaterialCountersModel item3 = Model.MaterialCounters.Where(r => r.PropGroupType == ProductGroup.ProductGroupType.StressStrain && r.Counter != null).FirstOrDefault();
+        if (plus == 0 && item3 != null)
+        {
+            cnt++;
+        <div class="accordion" indexofaccordionparent="@cnt" id="propAccordion_@(cnt == 1 ? "first" : "other_" + cnt.ToString())">
+            <h4 class="accordion-header" indexofaccordion="@cnt">
+                <span class="title">stress strain @(item3.Counter != 0 ? " (" + item3.Counter + ")" : "")</span>
+            </h4>
+            @*<div class="accordion-content">
+                    <div class="conditionContent">
+                        <div style="display: none;">
+                            <div id="ss_sourceMaterialId">@Model.Material.SourceMaterialId</div>
+                            <div id="ss_subgroupId">@Model.Material.SubgroupId</div>
+                            <div id="ss_plus">@plus</div>
+                        </div>
+                        @if (Model.Properties.StressStrain.MaterialConditions.Count > 0 && !(Model.Properties.StressStrain.MaterialConditions.Count == 1 && Model.Properties.StressStrain.MaterialConditions[0].Description == "As received"))
+                        {
+                            <div class="conditionName">
+                                Material Condition:
+                            </div>
+                            @Html.DropDownListFor(o => o.Properties.StressStrain.MaterialConditions[0].ConditionId, new SelectList(Model.Properties.StressStrain.MaterialConditions, "ConditionId", "Description"), htmlAttributes: new { @class = "conditions gray", @id = "selectedMaterialConditionSS", @onchange = "materialDetails.changeMaterialConditionsSS(" + Model.Material.SourceMaterialId + "," + Model.Material.SubgroupId + ", " + plus + ");" })
+                        }
+                    </div>
+                    <div id="stressStrainGroup">
+                        @Html.Partial("StressStrainGroup", Model.Properties.StressStrain)
+                    </div>
+                    <div style="clear: both"></div>
+                    @if (Model.Properties.StressStrain.AllReferences != null && Model.Properties.StressStrain.AllReferences.Count > 0)
+                    {
+                        <br />
+                        <span><a id="allRefPropLink_@cnt" onclick="showAllRefProp(@cnt);return false;" href="#">+ </a><b>All references for the selected material</b></span>
+                        <br />
+                        <div id="allReferenceProp_@cnt" style="display:none">
+                            <table>
+                                <tbody>
+                                    @{int cntRef = 0;}
+                                    @foreach (var reference in Model.Properties.StressStrain.AllReferences)
+                                    {
+                                        cntRef++;
+                                        <tr>
+                                            <td style="border-right: none; padding-right: 10px">@cntRef</td>
+                                            <td>@reference</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>*@
+        </div>
+        <div style="clear: both;"></div>
+        }
+
+
+
+        if (plus == 1 && item3 != null)
+        {
+            cnt++;
+        <div class="accordion" indexofaccordionparent="@cnt" id="propAccordion_@(cnt == 1 ? "first" : "other_" + cnt.ToString())">
+            <h4 class="accordion-header" indexofaccordion="@cnt">
+                <span class="title">stress strain @(item3.Counter != 0 ? " (" + item3.Counter + ")" : "")</span>
+            </h4>
+            @*<div class="accordion-content">
+                    <div class="conditionContent">
+                        @if (Model.Properties.StressStrain.TestConditions[0].Condition != null && Model.Properties.StressStrain.TestConditions[0].Condition.Trim() != "")
+                        {
+
+                            @:Material Detail: @Html.DropDownListFor(o => o.Properties.StressStrain.TestConditions[0].No, new SelectList(Model.Properties.StressStrain.TestConditions, "No", "Condition"), htmlAttributes: new { @class = "conditions gray", @id = "selectCondSS", @onchange = "materialDetails.changeConditionSSPlus(" + Model.Material.SourceMaterialId + "," + Model.Material.SubgroupId + ", " + plus + ");" })
+                         }
+                    </div>
+
+                    <div id="stressStrainPerCondition">
+                        @Html.Partial("StressStrainPlus", Model.Properties.StressStrain.TestConditions[0])
+                    </div>
+
+                    <div style="clear: both"></div>
+                    @if (Model.Properties.StressStrain.AllReferences != null && Model.Properties.StressStrain.AllReferences.Count > 0)
+                    {
+                        <br />
+                        <span><a id="allRefPropLink_@cnt" onclick="showAllRefProp(@cnt);return false;" href="#">+ </a><b>All references for the selected material</b></span>
+                        <br />
+                        <div id="allReferenceProp_@cnt" style="display:none">
+                            <table>
+                                <tbody>
+                                    @{int cntRef = 0;}
+                                    @foreach (var reference in Model.Properties.StressStrain.AllReferences)
+                                    {
+                                        cntRef++;
+                                        <tr>
+                                            <td style="border-right: none; padding-right: 10px">@cntRef</td>
+                                            <td>@reference</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>*@
+        </div>
+        <div style="clear: both;"></div>
+        }
+
+
+
+        //fatigue
+
+        MaterialCountersModel item4 = Model.MaterialCounters.Where(r => r.PropGroupType == ProductGroup.ProductGroupType.FatigueData && r.Counter != null).FirstOrDefault();
+        if (item4 != null)
+        {
+            cnt++;
+        <div class="accordion" indexofaccordionparent="@((int)item4.PropGroupType)" id="propAccordion_@(cnt == 1 ? "first" : "other_" + cnt.ToString())">
+            <h4 class="accordion-header" indexofaccordion="@((int)item4.PropGroupType)">
+                <span class="title">@item4.PropGroupName@(item4.Counter != 0 ? " (" + item4.Counter + ")" : "")</span>
+            </h4>
+            @*<div class="accordion-content">
+                <div style="padding-top: 7px; padding-bottom: 7px;">
+                    @if (Model.Properties.FatigueStrain.ConditionList.Count > 0 &&
+                        Model.Properties.FatigueStress.ConditionList.Count > 0)
+                    {
+                        @Html.RadioButton("fatigueStrainStress", 1, true, new { id = "" }) <span><b>Strain Life</b></span>
+                        @Html.RadioButton("fatigueStrainStress", 2, false) <span><b>Stress Life</b></span>
+                    }
+
+                    @if (Model.Properties.FatigueStrain.ConditionList.Count > 0 &&
+                        Model.Properties.FatigueStress.Condition == null)
+                    {
+                        @Html.RadioButton("fatigueStrainStress", 1, true, new { id = "" }) <span><b>Strain Life</b></span>
+
+                    }
+
+                    @if (Model.Properties.FatigueStrain.Condition == null &&
+                        Model.Properties.FatigueStress.ConditionList.Count > 0)
+                    {
+                        chekedStressStrain = true;
+                        @Html.RadioButton("fatigueStrainStress", 2, true, new { id = "" }) <span><b>Stress Life</b></span>
+                    }
+                </div>
+
+                @if (Model.Properties.FatigueStrain.ConditionList.Count > 0)
+                {
+                    <div id="strainLife">
+                        <div class="conditionContent">
+                            @if (Model.Properties.FatigueStrain.MaterialConditions.Count > 0 && !(Model.Properties.FatigueStrain.MaterialConditions.Count == 1 && Model.Properties.FatigueStrain.MaterialConditions[0].Text == "As received"))
+                            {
+                                <div class="conditionName">
+                                    Material Condition:
+                                </div>
+                                @Html.DropDownListFor(o => o.Properties.FatigueStrain.MaterialConditions[0].Value, new SelectList(Model.Properties.FatigueStrain.MaterialConditions, "Value", "Text"), htmlAttributes: new { @class = "conditions gray", @id = "selectMaterialCondFatigueStrain", @onchange = "materialDetails.changeMaterialConditionsFatigueStrain(" + Model.Material.SourceMaterialId + ");" })
+                            }
+
+                        </div>
+                        <div id="fatigueStrainGroup">
+                            @Html.Partial("FatigueStrainGroup", Model.Properties.FatigueStrain)
+                        </div>
+                        <div style="clear: both"></div>                        
+                    </div>
+                }
+                <div style="clear: both"></div>
+                @if (Model.Properties.FatigueStress.ConditionList.Count > 0)
+                {
+                    <div id="stressLife" style="display:@((Model.Properties.FatigueStrain.ConditionList.Count > 0) ? "none" : "normal")">
+
+                        <div class="conditionContent">
+
+                            @if (Model.Properties.FatigueStress.MaterialConditions.Count > 0 && !(Model.Properties.FatigueStress.MaterialConditions.Count == 1 && Model.Properties.FatigueStress.MaterialConditions[0].Text == "As received"))
+                            {
+                                <div class="conditionName">
+                                    Material Condition:
+                                </div>
+                                @Html.DropDownListFor(o => o.Properties.FatigueStress.MaterialConditions[0].Value, new SelectList(Model.Properties.FatigueStress.MaterialConditions, "Value", "Text"), htmlAttributes: new { @class = "conditions gray", @id = "selectMaterialCondFatigueStress", @onchange = "materialDetails.changeMaterialConditionFatigueStress(" + Model.Material.SourceMaterialId + ");" })
+                            }
+                        </div>
+                        <div id="fatigueStressGroup">
+                            @Html.Partial("FatigueStressGroup", Model.Properties.FatigueStress)
+                        </div>
+                        <div style="clear: both"></div>                        
+                    </div>
+                }
+
+            </div>*@
+        </div>
+        <div style="clear: both;"></div>
+        }
+
+
+        //creep
+        MaterialCountersModel item5 = Model.MaterialCounters.Where(r => r.PropGroupType == ProductGroup.ProductGroupType.CreepData && r.Counter != null).FirstOrDefault();
+        if (item5 != null)
+        {
+            cnt++;
+        <div class="accordion" indexofaccordionparent="@((int)item5.PropGroupType)" id="propAccordion_@(cnt == 1 ? "first" : "other_" + cnt.ToString())">
+            <h4 class="accordion-header" indexofaccordion="@((int)item5.PropGroupType)">
+                <span class="title">@item5.PropGroupName@(item5.Counter != 0 ? " (" + item5.Counter + ")" : "")</span>
+            </h4>
+            @*<div class="accordion-content">
+                <div class="conditionContent">
+                    @if (Model.Properties.CreepData.MaterialConditions.Count > 0 && !(Model.Properties.CreepData.MaterialConditions.Count == 1 && Model.Properties.CreepData.MaterialConditions[0].Description == "As received"))
+                    {
+
+                        <div class="conditionName">
+                            Material Condition:
+                        </div>
+                        @Html.DropDownListFor(o => o.Properties.CreepData.MaterialConditions[0].ConditionId, new SelectList(Model.Properties.CreepData.MaterialConditions, "ConditionId", "Description"), htmlAttributes: new { @class = "conditions gray", @id = "selectCreepDataMaterialCond", @onchange = "materialDetails.changeCreepDataMaterialCond();" })
+                    }
+
+                </div>
+
+                <div id="creepGroup">
+                    @Html.Partial("CreepGroup", Model.Properties.CreepData)
+                </div>
+                <div style="clear: both"></div>               
+            </div>*@
+        </div>
+        <div style="clear: both;"></div>
+        }
+
+        //chemical
+        MaterialCountersModel item6 = Model.MaterialCounters.Where(r => r.PropGroupType == ProductGroup.ProductGroupType.Chemical && r.Counter != null).FirstOrDefault();
+        //var itemPG6 = Model.Properties.ProductGroups.Where(t => t.Key == ProductGroup.ProductGroupType.Chemical).FirstOrDefault();
+        if (item6 != null)
+        {
+            if (Model.Material.SourceId == 1)
+            {
+                cnt++;            
+        <div class="accordion" indexofaccordionparent="@((int)item6.PropGroupType)" id="propAccordion_@(cnt == 1 ? "first" : "other_" + cnt.ToString())">
+            <h4 class="accordion-header" indexofaccordion="@((int)item6.PropGroupType)">
+                <span class="title">@item6.PropGroupName@(item6.Counter != 0 ? " (" + item6.Counter + ")" : "")</span>
+            </h4>
+            @*<div class="accordion-content" id="accordion-content_@((int)item.Key)">
+                        @Html.Partial("GroupContent", item.Value)
+                    </div>*@
+        </div>        
+        <div style="clear: both;"></div>
+            }
+            else
+            {
+        <div class="accordion" indexofaccordionparent="@((int)item6.PropGroupType))" id="propAccordion_@(cnt == 1 ? "first" : "other_" + cnt.ToString())">
+            @if (Model.Material.SourceId == 3)
+            {
+                <h4 class="accordion-header" indexofaccordion="@((int)item6.PropGroupType))">
+                    <span class="title">@item6.PropGroupType @(item6.Counter != 0 ? " (" + item6.Counter + ")" : "")</span>
+                </h4>
+            }
+            else
+            {
+                <h4 class="accordion-header" indexofaccordion="@((int)item6.PropGroupType))" onclick="materialDetails.getPropertyGroupDetails(@((int)item6.PropGroupType)));return false;">
+                    <span class="title">@item6.PropGroupType @(item6.Counter != 0 ? " (" + item6.Counter + ")" : "")</span>
+                </h4>
+
+            }
+            @*<div class="accordion-content">
+                        <div class="conditionContent">
+                            @if (itemPG6.Value.Conditions.Count > 0)
+                            {
+
+                                if (!(itemPG6.Value.Conditions.Count == 1 && itemPG6.Value.Conditions[0].ConditionName == "As received") && itemPG6.Value.Conditions[0].ConditionName.Trim() != "")
+                                {
+                                @:Material Condition: @Html.DropDownListFor(o => o.Properties.ProductGroups[itemPG6.Key].ConditionId, new SelectList(itemPG6.Value.Conditions, "ConditionId", "ConditionName"), htmlAttributes: new { @class = "conditions gray", @id = "selectCond_" + (int)itemPG6.Key, @onchange = "changeCondition(" + (int)itemPG6.Key + ");" })
+                                                      }
+                                }
+
+                        </div>
+                    </div>*@
+
+        </div>
+        <div style="clear: both;"></div>
+            }
+
+        }
+
+
+    }
+</div>
+
+<script type="text/javascript">
+    var stressChecked = false;
+    var selectedMaterialId = @Model.Material.MaterialId;
+    var selectedSourceMaterialId = @Model.Material.SourceMaterialId;
+    var selectedSourceId = @Model.Material.SourceId;
+    var selectedSubgroupId = @Model.Material.SubgroupId;
+    var selectedBox = null;
+    $('.accordion').accordion({ collapsible: true, autoHeight: false });
+
+
+    $(document).ready(function () {
+
+        @if (!Model.IsChemical)
+        {
+            <text>materialDetails.selectOneValueForSameProperty();</text>
+        }
+
+        materialDetails.openActiveAccordion();
+
+    @if (chekedStressStrain)
+    {
+		 <text>
+        stressChecked = true;
+        </text>
+    }
+        $('input:radio[name="fatigueStrainStress"]').change(function () {
+            var radios = $('input:radio[name="fatigueStrainStress"]');
+
+            var val;
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    val = radios[i].value;
+                    if (val == 1) {
+                        $('#stressLife').hide();
+                        $('#strainLife').show();
+                        stressChecked = false;
+
+                    }
+                    else {
+                        stressChecked = true;
+                        $('#stressLife').show();
+                        $('#strainLife').hide();
+
+                    }
+                    showSelectedRefPropFatigue();
+                }
+            }
+        });
+
+        $('input:radio[name="creepData"]').change(function () {
+            var radios = $('input:radio[name="creepData"]');
+
+            var val;
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    val = radios[i].value;
+                    if (val == 1) {
+                        $('#creepPlusDiagrams').hide();
+                        $('#creepPlusData').show();
+                    }
+                    else {
+                        $('#creepPlusDiagrams').show();
+                        $('#creepPlusData').hide();
+
+                    }
+                }
+            }
+        });
+          
+
+    });
+
+    function showSelectedRefProp(cnt) {
+        var divRef = $('#selectedReferenceProp_' + cnt);
+        var closedA = $('#selectedRefPropLink_' + cnt);
+        if (closedA[0].innerHTML == "+ ") {
+            divRef.show();
+            closedA[0].innerHTML = "- ";
+        } else {
+            divRef.hide();
+            closedA[0].innerHTML = "+ ";
+        }
+    }
+
+    function showAllRefProp(cnt) {
+        var divRef = $('#allReferenceProp_' + cnt);
+        var closedA = $('#allRefPropLink_' + cnt);
+        if (closedA[0].innerHTML == "+ ") {
+            divRef.show();
+            closedA[0].innerHTML = "- ";
+        } else {
+            divRef.hide();
+            closedA[0].innerHTML = "+ ";
+        }
+    }
+
+    function showASelRefCreepPlus() {
+        var divRef = $('#selectedRefCreepPlus');
+        var closedA = $('#selectedRefCreepPlusLink');
+        if (closedA[0].innerHTML == "+ ") {
+            divRef.show();
+            closedA[0].innerHTML = "- ";
+        } else {
+            divRef.hide();
+            closedA[0].innerHTML = "+ ";
+        }
+    }
+
+
+    function showAllRefPropFatStress() {
+        var divRef = $('#allReferencePropFatStress');
+        var closedA = $('#allRefPropLinkFatStress');
+        if (closedA[0].innerHTML == "+ ") {
+            divRef.show();
+            closedA[0].innerHTML = "- ";
+        } else {
+            divRef.hide();
+            closedA[0].innerHTML = "+ ";
+        }
+    }
+
+    function showSelectedRefPropFatigue() {
+        var divRef = $('.selectedReferencePropFatigue');
+        var closedA = $('.selectedRefPropLinkFatigue');
+        if (closedA[0].innerHTML == "+ ") {
+            divRef.show();
+            closedA[0].innerHTML = "- ";
+        } else {
+            divRef.hide();
+            closedA[0].innerHTML = "+ ";
+        }
+    }
+</script>

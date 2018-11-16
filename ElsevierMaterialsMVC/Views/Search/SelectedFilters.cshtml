@@ -1,0 +1,69 @@
+﻿@model ElsevierMaterialsMVC.Models.Search.BaseSearchModel
+@using ElsevierMaterialsMVC.BL.Helpers;
+@using ElsevierMaterialsMVC.BL.Binders.PropertyBasic;
+@using ElsevierMaterials.Models.Domain.AdvancedSearch;
+@using SkfCore.Web.Mvc.Helpers;
+@using ElsevierMaterials.Models;
+@{
+    IList<int> classificationSelection = (IList<int>)HttpContext.Current.Session["ClassificationSelection"];
+    IDictionary<int, string> nodenames = (IDictionary<int, string>)HttpContext.Current.Session["NodeNames"];    
+    ElsevierMaterials.Models.Domain.AdvancedSearch.AdvSearchFiltersAll advSerachFilters = (ElsevierMaterials.Models.Domain.AdvancedSearch.AdvSearchFiltersAll)System.Web.HttpContext.Current.Session["AdvancedSearchFilter"];
+
+
+}
+<div id="selectedFiltersContainer">
+    <div id="selectedSource" style="display: none;" class="addedFilter">
+        <span class="addedFilterTitle">Source</span> <a class="removeLink" href="#" onclick="searchFunc.removeFilter(1, 3);">X</a>
+        <div id="selectedSourceName"></div>
+    </div>
+
+
+    @if (classificationSelection != null)
+    {
+        foreach (var classId in classificationSelection)
+        {
+            <div class="addedFilter" id="class_@classId">
+                <span class="addedFilterTitle">
+                    material
+                </span>
+                <a class="removeLink" href="#" onclick="searchFunc.removeFilter(@classId, 1);">X</a>
+                <div>
+                   @* <a href="#">@nodenames.Where(m => m.Key == classId).Select(m => m.Value).FirstOrDefault()</a>*@
+                    <a href="#">@nodenames[classId]</a>
+                </div>
+            </div>
+        }
+
+    }
+
+    @if (advSerachFilters != null && advSerachFilters.AllFilters != null && advSerachFilters.AllFilters.Count > 0)
+    {
+        foreach (var filter in advSerachFilters.AllFilters)
+        {
+        <div class="addedFilter" id="prop_@filter.propertyId">
+
+            <span class="addedFilterTitle">@filter.propertyName</span>
+            <a  class="removeLink" href="#" onclick="searchFunc.removeFilter(@filter.propertyId, 2);">X</a>
+            <div class="selectedFilterValues">
+                @{                    
+                  string operatorValue = new Utility().FormatOperator(filter.logicalOperators);
+                 }
+                @if (filter.logicalOperators == LogicalOperators.Between)
+                {
+                <span>@Html.Raw(operatorValue)</span><span>@filter.valueFrom</span><span>and</span><span>@filter.valueTo</span><span>@Html.Raw(filter.unitName)</span>            
+                }
+                else if (filter.logicalOperators == LogicalOperators.Exists)
+                {
+                  @Html.Raw(operatorValue)
+                }
+                else
+                {
+                <span>@Html.Raw(operatorValue)</span><span>@filter.valueFrom</span><span>@Html.Raw(filter.unitName)</span>    
+                }
+               
+            </div>
+        </div>
+        }
+    }
+    <div style="clear: both;"></div>
+</div>

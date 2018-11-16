@@ -1,0 +1,45 @@
+﻿@model ElsevierMaterialsMVC.Models.Subgroups.SubgroupsModel
+@using ElsevierMaterialsMVC.Models.Shared
+@using ElsevierMaterialsMVC.BL.Helpers;
+@{
+    ViewBag.Title = "Elsevier :: Subgroups";
+    Layout = "~/Views/Shared/_LayoutFilters.cshtml";
+}
+
+<div id="mainContent">
+    @Html.Partial("Plugins", new Plugin() { HasSearchFilters = HasSearchFiltersEnum.Yes, ActivePage = PageEnum.SearchResults })
+    @Html.HiddenFor(m => m.Filters.FromBrowse, new { id = "fromBrowse" })
+    @Html.HiddenFor(m => m.Filters.FromAdvanced, new { id = "fromAdvanced" })
+    @Html.HiddenFor(m => m.MaterialInfo.MaterialId, new { id = "MaterialId" })
+    <div id="divSubgroupsList">
+        @Html.Partial("EquivalentMaterials", Model)
+    </div>
+</div>
+
+<script type="text/javascript">
+
+   
+    searchFunc.subgroupsPath = '@Url.Action("Subgroup", "Subgroups")';
+    searchFunc.applySubgroupFiltershPath = '@Url.Action("ApplySubgroupFilters", "Subgroups")';
+    searchFunc.advSearchPath = '@Url.Action("AdvSearch", "AdvSearch")';
+    searchFunc.fullTextSearchPath = '@Url.Action("FullTextSearchOnly", "Search")';
+    materialDetails.getMaterialDetailsPath = '@Url.Action("GetMaterialDetails", "MaterialDetails")';
+    showPropertiesFilters = '@(Model.Filters.ShowPropertiesFilters)';
+    initGlobalProperties();
+
+    function initGlobalProperties() {
+        if (showPropertiesFilters == 'False') {
+            showPropertiesFilters = false;
+        }
+        var selectedSource = $("#sources").val();
+        var selectedStandard = $("#standards").val() == "0" ? "" : $("#standards").val();
+        var fullTextSearch = $("#tbFullTexSearch").val();
+        var specification = $("#SpecificationId").val();
+    }
+
+    $(document).ready(function () {
+        $('#tbFullTexSearch').val($('#searchTextHolder').val());
+        setActivePluginForSubgroupListPage();
+    });
+
+</script>

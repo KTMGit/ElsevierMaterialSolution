@@ -1,0 +1,43 @@
+﻿@model ElsevierMaterialsMVC.Models.MaterialDetails.ProductGroup
+<div class="conditionContent">
+    <div class="conditionContentSecond">
+        @if (Model.TestConditionsVisible())
+        {
+            <div class="conditionName">Test Condition:</div>@Html.DropDownListFor(o => o.RowId, new SelectList(Model.TestConditions, "RowId", "ConditionName"), htmlAttributes: new { @class = "conditions gray", @id = "selectCondSecond_" + (int)Model.ProductGroupId, @onchange = "materialDetails.changeConditionSecond(" + (int)Model.ProductGroupId + "); return false;" })
+        }
+    </div>
+</div>
+
+<div id="cond_@((int)Model.ProductGroupId)">
+    @if (Model.TestConditions.Count > 0)
+    {
+        //TOSO: N: Da li postoji slucaj kada nemamo uslove a imamo osobine? Kako bi onda glasilo ispitivanje
+        if (Model.TestConditions.Where(c => c.Properties != null && c.Properties.Count > 0).Any())
+        {
+            @Html.Partial("ConditionPropertiesContent", Model.TestConditions.Where(c => c.Properties != null && c.Properties.Count > 0).FirstOrDefault())
+        }
+    }
+</div>
+
+@if (Model.AllReferences != null && Model.AllReferences.Count > 0)
+{
+    <br />
+    <span><a id="allRefPropLink_@((int)Model.ProductGroupId)" onclick="showAllRefProp(@((int)Model.ProductGroupId));return false;" href="#">+ </a><b>All references for the selected material</b></span>
+    <br />
+    <div id="allReferenceProp_@((int)Model.ProductGroupId)" style="display:none">
+        <table>
+            <tbody>
+                @{int cntRef = 0;}
+                @foreach (var reference in Model.AllReferences)
+                {
+                    cntRef++;
+                    <tr>
+                        <td style="border-right: none; padding-right: 10px">@cntRef</td>
+                        <td>@reference</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+}

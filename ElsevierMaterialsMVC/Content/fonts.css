@@ -1,0 +1,48 @@
+﻿@font-face {
+  font-family: 'NexusSansCompPro';
+  font-style: normal;
+  font-weight: 300;
+  src: local('NexusSansCompPro'), local('NexusSansCompPro'),
+       url(fonts/NexusSansCompPro/NexusSansCompPro.eot) format('embedded-opentype'), /* IE6-IE8 */
+       url(fonts/NexusSansCompPro/NexusSansCompPro.woff2) format('woff2'), /* Super Modern Browsers */
+       url(fonts/NexusSansCompPro/NexusSansCompPro.woff) format('woff'), /* Modern Browsers */
+       url(fonts/NexusSansCompPro/NexusSansCompPro.ttf) format('truetype'), /* Safari, Android, iOS */
+       url(fonts/NexusSansCompPro/NexusSansCompPro.svg) format('svg'); /* Legacy iOS */
+}
+
+@font-face {
+  font-family: 'NexusSansCompPro-Italic';
+  font-style: italic;
+  font-weight: 300;
+  src: local('NexusSansCompPro-Italic'), local('NexusSansCompPro-Italic'),
+       url(fonts/NexusSansCompPro/NexusSansCompPro-Italic.eot) format('embedded-opentype'), /* IE6-IE8 */
+       url(fonts/NexusSansCompPro/NexusSansCompPro-Italic.woff2) format('woff2'), /* Super Modern Browsers */
+       url(fonts/NexusSansCompPro/NexusSansCompPro-Italic.woff) format('woff'), /* Modern Browsers */
+       url(fonts/NexusSansCompPro/NexusSansCompPro-Italic.ttf) format('truetype'), /* Safari, Android, iOS */
+       url(fonts/NexusSansCompPro/NexusSansCompPro-Italic.svg) format('svg'); /* Legacy iOS */
+}
+
+@font-face {
+  font-family: 'NexusSansCompPro-Bold';
+  font-style: normal;
+  font-weight: 600;
+  src: local('NexusSansCompPro-Bold'), local('ONexusSansCompPro-Bold'),
+      url(fonts/NexusSansCompPro/NexusSansCompPro-Bold.eot) format('embedded-opentype'), /* IE6-IE8 */
+       url(fonts/NexusSansCompPro/NexusSansCompPro-Bold.woff2) format('woff2'), /* Super Modern Browsers */
+       url(fonts/NexusSansCompPro/NexusSansCompPro-Bold.woff) format('woff'), /* Modern Browsers */
+       url(fonts/NexusSansCompPro/NexusSansCompPro-Bold.ttf) format('truetype'), /* Safari, Android, iOS */
+       url(fonts/NexusSansCompPro/NexusSansCompPro-Bold.svg) format('svg'); /* Legacy iOS */
+}
+
+@font-face {
+  font-family: 'NexusSansCompPro-BoldItalic';
+  font-style: italic;
+  font-weight: 600;
+  src: local('NexusSansCompPro-BoldItalic'), local('NexusSansCompPro-BoldItalic'),
+      url(fonts/NexusSansCompPro/NexusSansCompPro-BoldItalic.eot) format('embedded-opentype'), /* IE6-IE8 */
+       url(fonts/NexusSansCompPro/NexusSansCompPro-BoldItalic.woff2) format('woff2'), /* Super Modern Browsers */
+       url(fonts/NexusSansCompPro/NexusSansCompPro-BoldItalic.woff) format('woff'), /* Modern Browsers */
+       url(fonts/NexusSansCompPro/NexusSansCompPro-BoldItalic.ttf) format('truetype'), /* Safari, Android, iOS */
+       url(fonts/NexusSansCompPro/NexusSansCompPro-BoldItalic.svg) format('svg'); /* Legacy iOS */
+}
+

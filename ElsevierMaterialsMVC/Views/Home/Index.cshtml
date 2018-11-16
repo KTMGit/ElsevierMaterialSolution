@@ -1,0 +1,104 @@
+﻿@model  ElsevierMaterialsMVC.Models.Home.IndexModel
+
+<div id="home">
+
+    <section class="home-basic-search ">
+        <div class="basic-search-label">BASIC SEARCH</div>
+        <div class="basic-search-input-container" id="fullTextSearch">
+            @using (Html.BeginForm("Search", "Search", FormMethod.Post, new { id = "form-index-page" }))
+            {
+                <a href="#" id="btnFullTexSearchHome" onclick="searchFunc.fullTextSearch();return false;"><img id="mac-glass" class="svg" src="~/Content/images/ic-mag-glass-k.svg" /></a>
+                @Html.TextBoxFor(m => m.SearchText, new Dictionary<string, object>() { { "class", "tbFullTexSearchHome" }, { "placeholder", "Enter search criteria" }, { "id", "tbFullTexSearch" } })
+            }
+            
+        </div>
+    </section>
+
+    <section>
+        <article class="home-advanced-search">
+            <div class="home-advanced-search-title">
+                Advanced Search
+            </div>
+            <div class="home-advanced-search-box" style="cursor:  pointer;" onclick="searchFunc.advSearchHome(true, false, 710);return false;">
+                <div>
+                    <a href="#" onclick="searchFunc.advSearchHome(true, false,710);return false;">Metals</a>
+
+                </div>
+            </div>
+            <div class="home-advanced-search-box" style="cursor:  pointer;" onclick="searchFunc.advSearchHome(true, false,711);return false;">
+                <div>
+                    <a href="#" onclick="searchFunc.advSearchHome(true, false,711);return false;">Polymers</a>
+                </div>
+
+            </div>
+            <div class="home-advanced-search-box" style="cursor:  pointer;" onclick="searchFunc.advSearchHome(true, true,1);return false;">
+                <div>
+                    <a href="#" onclick="searchFunc.advSearchHome(true, true,1);return false;"> Chemicals</a>
+                </div>
+
+            </div>            
+        </article>
+
+        <article class="home-browse-search">
+            <div class="home-browse-search-title">
+                Browse Materials
+            </div>
+            <div class="home-browse-search-box" style="cursor:  pointer;" onclick="MaterialsDatabases(710); return false;">
+                <div>
+                    <a href="#" onclick="MaterialsDatabases(710); return false;">Metals</a>
+                </div>
+
+            </div>
+            <div class="home-browse-search-box" style="cursor:  pointer;" onclick="MaterialsDatabases(711); return false;">
+                <div>
+                    <a href="#" onclick="MaterialsDatabases(711); return false;">Polymers</a>
+                </div>
+
+            </div>
+            <div class="home-browse-search-box" style="cursor:  pointer;" onclick="MaterialsDatabases(1); return false;">
+                <div>
+                    <a href="#" onclick="MaterialsDatabases(1); return false;">Chemicals</a>
+                </div>
+
+            </div>           
+        </article>
+        <div style="clear:both;"></div>
+    </section>
+   
+</div>
+<script type="text/javascript">
+    $('.accordion').accordion({ collapsible: true, autoHeight: false });
+    $('[id^="propAccordion_"]').accordion({ active: false });
+
+    var materialsDatabasesPath = '@Url.Action("Browse", "Home")';
+    searchFunc.fullTextSearchPath = '@Url.Action("FullTextSearchOnly", "Search")';
+    searchFunc.advSearchPath = '@Url.Action("AdvSearch", "AdvSearch")';
+
+    $('#fullTextSearch').bind("keyup keypress", function (e) {
+        var code = e.keyCode || e.which;
+        if (code == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    $(window).load(function () {
+        $("#fullTextSearch").keyup(function (event) {
+            if (event.keyCode == 13) {
+                $("#btnFullTexSearchHome").click();
+                return false;
+            }
+        });
+        $('#tbFullTexSearch').focus();
+    });
+
+    $(document).ready(function () {
+        var act = $('#tabSelectedId').val();
+        $('#tabsSearch').tabs({ active: act });
+
+    });
+
+    function MaterialsDatabases(groupId) {
+        window.location.href = materialsDatabasesPath + '?groupId=' + groupId;
+    }
+</script>

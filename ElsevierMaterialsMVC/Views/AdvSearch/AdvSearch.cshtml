@@ -1,0 +1,28 @@
+﻿@model ElsevierMaterialsMVC.Models.AdvancedSearch.AdvancedSearch
+@using ElsevierMaterialsMVC.BL.Helpers;
+@using ElsevierMaterialsMVC.Models.Shared;
+@using ElsevierMaterialsMVC.BL.Global
+@using ElsevierMaterials.Models.Domain.AdvancedSearch
+@using ElsevierMaterials.Models
+@{
+    ViewBag.Title = "Elsevier :: Advanced Search";
+    Layout = "~/Views/Shared/_LayoutFilters.cshtml";
+}
+
+@*@{
+    BreadcrumbNavigation nav = (BreadcrumbNavigation)System.Web.HttpContext.Current.Session["Navigation"];
+    AdvancedSearchResults asn = nav.GetOrderedItems().Where(n => n.NavigableID == "AdvancedSearchResults").FirstOrDefault() as AdvancedSearchResults;
+  //  FullSearch fs = nav.GetOrderedItems().Where(n => n.NavigableID == "FullSearch").FirstOrDefault() as FullSearch;
+    Dictionary<string, object> allFilters = (Dictionary<string, object>)asn.PageData;
+    AdvSearchFiltersAll asf = (AdvSearchFiltersAll)(allFilters["advFilters"]);
+}*@
+
+
+@Html.HiddenFor(m => m.SearchCondition.FromAdvanced, new { id = "fromAdvanced" })
+<div id="mainContent">      
+      @Html.Partial("Plugins", new Plugin() { HasSearchFilters = HasSearchFiltersEnum.Yes, ActivePage = PageEnum.AdvancedSearch })
+    <div id="advSearchFiltersContainer">
+        @Html.Partial("AdvFiltersContainer", Model)
+    </div>
+</div>
+

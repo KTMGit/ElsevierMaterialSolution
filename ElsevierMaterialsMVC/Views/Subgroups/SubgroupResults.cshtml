@@ -1,0 +1,116 @@
+﻿@model ElsevierMaterialsMVC.Models.Subgroups.SubgroupsModel
+@{
+    string sumStd = "";
+}
+@if (Model.Materials.Count > 0)
+{
+    <div style="clear:both;"></div>
+    <div style="margin-top:15px;" class="totalCountRecords">Number of results: @Model.Descriptor.Pager.TotalRecordCount</div>
+    <div style="clear:both;"></div>
+    @Html.Partial("MenuContainer", new ElsevierMaterialsMVC.BL.Binders.TableFiltersBinder().GetSubgroupListResultsColumns())
+   
+        <table class="details" id="materialsSubgroupList" style="width:950px;">
+            <thead>
+                <tr>
+                    <th colid="0" isvisible="true" filter="" style="cursor: pointer;" colname="SourceText">Reference<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                    <th colid="1" isvisible="true" filter="" style="cursor: pointer;" colname="Manufacturer">Supplier<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                    <th colid="2" isvisible="true" filter="" style="cursor: pointer;" colname="Standard">Std. Org. / Country<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                    <th colid="3" isvisible="true" filter="" style="cursor: pointer;" colname="Specification">Specification<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                    <th colid="4" isvisible="true" filter="" style="cursor: pointer;" colname="Filler">Filler<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                    <th colid="5" isvisible="true" filter=""></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ bool totalMat = !Model.Materials.Any(m => m.SourceId == 1) || !(Model.Materials.Take(1).FirstOrDefault().SourceId == 1);
+                 bool firstTotalMat = true;
+                 IList<string> standards = Model.Materials.Select(m => m.Standard).ToList().Distinct().ToList();
+                 for (int i = 0; i < standards.Count; i++)
+                 {
+                     if (!standards[i].Equals("-"))
+                     {
+                         if (i == standards.Count - 1)
+                         {
+                             sumStd = sumStd + standards[i];
+                         }
+                         else
+                         {
+                             sumStd = sumStd + standards[i] + ", ";
+                         }
+                     }
+                 }
+                 foreach (var item in Model.Materials)
+                 {
+                     string fillerToShow = item.Filler == null ? "-" : item.Filler;
+                     if (fillerToShow.Length > 25)
+                     {
+                         fillerToShow = fillerToShow.Substring(0, 25) + "...";
+                     }
+                     totalMat = (totalMat && firstTotalMat) || (item.SourceId == 1);
+
+                    <tr id="trDetails_@(item.SourceMaterialId)_@(item.SubgroupId)_@(item.SourceId)" class="linkedRow @(totalMat ? "trMat" : "trHideMat")">
+                        <td colid="0" isvisible="true" filter="" id="tdSourceText_@(item.SourceMaterialId)_@(item.SubgroupId)_@(item.SourceId)" onclick="materialDetails.getMaterialDetails(@item.MaterialId, @item.SubgroupId, @item.SourceId, @item.SourceMaterialId, '@Model.Filters.FullText', 'divProperties', @(totalMat ? "1" : "0"))" title="@item.SourceText">@(item.SourceText)</td>
+                        @if (@item.Manufacturer!=null)
+                        {
+                           <td colid="1" isvisible="true" filter="" onclick="materialDetails.getMaterialDetails(@item.MaterialId, @item.SubgroupId, @item.SourceId, @item.SourceMaterialId, '@Model.Filters.FullText', 'divProperties', @(totalMat ? "1" : "0"))" title="@item.Manufacturer">@(item.Manufacturer)</td> 
+                        }
+                        else
+                        {
+                            <td colid="1" isvisible="true" filter="" onclick="materialDetails.getMaterialDetails(@item.MaterialId, @item.SubgroupId, @item.SourceId, @item.SourceMaterialId, '@Model.Filters.FullText', 'divProperties', @(totalMat ? "1" : "0"))" title=""></td> 
+                        }
+                        
+                        <td colid="2" isvisible="true" filter="" id="tdStandard_@(item.SourceMaterialId)_@(item.SubgroupId)_@(item.SourceId)" onclick="materialDetails.getMaterialDetails(@item.MaterialId, @item.SubgroupId, @item.SourceId, @item.SourceMaterialId, '@Model.Filters.FullText', 'divProperties',  @(totalMat ? "1" : "0"))" title="@item.Standard">@(item.Standard)</td>
+                        <td colid="3" isvisible="true" filter="" id="tdSpec_@(item.SourceMaterialId)_@(item.SubgroupId)_@(item.SourceId)" onclick="materialDetails.getMaterialDetails(@item.MaterialId, @item.SubgroupId, @item.SourceId, @item.SourceMaterialId, '@Model.Filters.FullText', 'divProperties',  @(totalMat ? "1" : "0"))" title="@Html.Raw(item.Specification.Replace("<br />", " "))">@Html.Raw(item.Specification)</td>
+
+                        <td colid="4" isvisible="true" filter="" style="width: 112px;" title="@(item.Filler == null ? "-" : item.Filler)" onclick="materialDetails.getMaterialDetails(@item.MaterialId, @item.SubgroupId, @item.SourceId, @item.SourceMaterialId, '@Model.Filters.FullText', 'divProperties',  @(totalMat ? "1" : "0"))">@fillerToShow</td>
+
+                        <td colid="5" isvisible="true" filter="" id="tdDetails_@(item.SourceMaterialId)_@(item.SubgroupId)_@(item.SourceId)" style="width:115px;">
+                            @if (item.NumProperties != 0)
+                            {
+                                <a class="tableLink" href="#" onclick="materialDetails.getMaterialDetails(@item.MaterialId, @item.SubgroupId, @item.SourceId, @item.SourceMaterialId, '@Model.Filters.FullText', 'divProperties')">Properties (@item.NumProperties) </a>
+                            }
+                            else
+                            {
+                                <text>Properties</text>
+
+                            }
+                            <br />
+                            
+                            @if (item.NumEquivalency != 0)
+                            {
+                                <a class="tableLink" href="#" onclick="materialDetails.getMaterialDetails(@item.MaterialId, @item.SubgroupId, @item.SourceId, @item.SourceMaterialId, '@Model.Filters.FullText', 'divEquivalency')">Equivalency (@item.NumEquivalency)</a>
+                            }
+                            else
+                            {
+                                <text> Equivalency</text>
+                            }                          
+                            
+                            <br />  
+                            @if (item.SourceId!=1)
+                            {                         
+                            if (item.NumProcessing != 0)
+                            {
+                                <a class="tableLink" href="#" onclick="materialDetails.getMaterialDetails(@item.MaterialId, @item.SubgroupId, @item.SourceId, @item.SourceMaterialId, '@Model.Filters.FullText', 'divProcessing')">Processing (@item.NumProcessing)</a>
+                            }
+                            else
+                            {
+                                <text> Processing</text>
+                            }
+                            }
+                            
+                        </td>
+                    </tr>
+                            if ((item.SourceId == 2 || item.SourceId == 3) && Model.Materials.Any(m => m.SourceId == 1))
+                            {
+                                firstTotalMat = false;
+                            }
+                 }
+
+                }
+            </tbody>
+        </table>
+
+}
+else
+{
+    <div class="label" style="text-decoration: none;">There are no records meet your search criteria.</div>
+}

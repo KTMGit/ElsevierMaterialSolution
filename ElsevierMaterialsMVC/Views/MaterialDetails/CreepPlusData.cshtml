@@ -1,0 +1,28 @@
+﻿@model Api.Models.CreepDataPLUS.Data
+
+
+<table class="details" style="width: 100%">
+    <tr style="background-color:#ECECEC;">
+        <td></td>
+        <td>Value</td>
+        <td>Test method</td>
+    </tr>
+    
+    @foreach (var item in Model.Properties) {
+        
+        foreach (var item2 in item.DataForCondition) {
+            <tr style="background-color:#ECECEC;">
+                <td colspan="3">@item2.Header @item2.Unit</td>
+            </tr>
+        foreach (var item3 in item2.Rows) {
+             <tr>
+                <td>@item3.Item3</td>
+                <td>@item3.Item1</td>
+                <td>@item3.Item2</td>
+            </tr>
+        }
+           
+        }
+}
+</table>
+

@@ -1,0 +1,230 @@
+﻿@model ElsevierMaterialsMVC.Models.MaterialDetails.ConditionModel
+@using ElsevierMaterialsMVC.Models.MaterialDetails;
+@{
+    string oldPropName = "";
+    int propCout = 0;
+    int propCouter = 0;
+}
+
+@if (Model.ProductGroupId == ProductGroup.ProductGroupType.Applications)
+{
+
+    <table class="details" style="width: 100%; margin-top: 0px;">
+        <thead>
+            <tr>
+                <th style="width: 40%;">Property</th>
+                <th style="width: 60%;">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var itemP in Model.Properties)
+            {
+                <tr>
+                    <td>@itemP.PropertyName</td>
+                    <td>@itemP.OrigValue</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+@*<div style="padding-left:20px;padding-top:10px;">@Html.Raw(Model.Properties.FirstOrDefault().OrigValue)</div>*@  
+}
+else
+{
+    <div id='tableMaterialDetails_@((int)Model.ProductGroupId)'>
+        <table id="tableMaterialDetails_@(Model.RowId)" class="details" style="width: 100%; margin-top:0px;">
+            <thead>
+                <tr>
+                    @if (Model.ProductGroupId == ProductGroup.ProductGroupType.Physical)
+                    {
+                        <th style="width: 33%;">Property</th>
+                        <th style="width: 22%;">Value</th>
+                        <th style="width: 20%;">Unit</th>
+                        <th style="width: 20%;">Note</th>
+                        <th style="width: 5%;">&nbsp;</th>
+                    }
+                    else if (Model.ProductGroupId == ProductGroup.ProductGroupType.Mechanical)
+                    {
+                        <th style="width: 33%;">Property</th>
+                        <th style="width: 22%;">Value</th>
+                        <th style="width: 20%;">Unit</th>
+                        <th style="width: 20%;">Note</th>
+                        <th style="width: 5%;">&nbsp;</th>
+                    }
+                    else
+                    {
+                        <th style="width: 35%;">Property</th>
+                        <th style="width: 25%;">Value</th>
+                        <th style="width: 20%;">Unit</th>
+                        <th style="width: 20%;">Note</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var itemP in Model.Properties)
+                {
+                    if (oldPropName != itemP.PropertyName)
+                    {
+                        oldPropName = itemP.PropertyName;
+                        propCout = Model.Properties.Where(p => p.PropertyId == itemP.PropertyId).Count();
+                        propCouter = 0;
+                    }
+                    propCouter++;
+                
+                    <tr class="propertyRow">
+                        <td class="addToComparisonCell">
+                            @if (Model.ProductGroupId != ElsevierMaterialsMVC.Models.MaterialDetails.ProductGroup.ProductGroupType.Applications)
+                            {
+                                <div class="checkbox">
+                                    <input type="checkbox" id="tg_@(itemP.PropertyId)_@((int)Model.ProductGroupId)_@(Model.RowId)_@(itemP.ValueId)" groupid="@((int)Model.ProductGroupId)" conditionid="@Model.RowId" rowid="@itemP.ValueId" name="@(itemP.PropertyId)_@(itemP.SourcePropertyId)_@(itemP.ChemicalIdentityId)" typeid="@itemP.PropertyId" sourcepropertyid="@itemP.SourcePropertyId" modul="regular" />
+                                    <label for="tg_@(itemP.PropertyId)_@((int)Model.ProductGroupId)_@(Model.RowId)_@(itemP.ValueId)"></label>
+                                </div>
+                            }
+                            <div>
+                                @Html.Raw(itemP.PropertyName)
+                            </div>
+                        </td>
+                        <td class="valueTd" origvalue="@itemP.OrigValue" defaultvalue="@itemP.DeafaultValue" usvalue="@itemP.USValue">@Html.Raw(itemP.OrigValue)</td>
+                        <td class="unitTd" origunit="@itemP.OrigUnit" defaultunit="@itemP.DeafaultUnit" usunit="@itemP.UStUnit">@Html.Raw(itemP.OrigUnit)</td>
+                        <td class="noteTd" orignote="@itemP.OrigValueText" defaultnote="@itemP.DeafaultValueText" usnote="@itemP.USValueText">
+                            <div style="float: left">@Html.Raw(itemP.OrigValueText)</div>
+                        </td>
+
+                        @if (Model.ProductGroupId == ProductGroup.ProductGroupType.Physical)
+                        {
+                            if (propCout > 1)
+                            {
+                                if (propCouter == 1 && itemP.Temperature != null && itemP.OrigValue != null)
+                                {
+                            <td rowspan="@(propCout)" ><a href="#" title="Show diagram for @Html.Raw(itemP.PropertyName)" onclick="physicalPlot.PlotChart('@(itemP.PropertyId)', 'tableMaterialDetails_@((int)Model.ProductGroupId)', @itemP.SourcePropertyId); return false;">
+                                <img src="~/Content/images/diag.png" /></a>
+                            </td>
+                                }
+                            }
+                            else
+                            {
+                            <td>&nbsp;</td>
+                            }
+                        }
+                        else if (Model.ProductGroupId == ProductGroup.ProductGroupType.Mechanical)
+                        {
+                            if (propCout > 1)
+                            {
+                                if (propCouter == 1 && itemP.Temperature != null && itemP.OrigValue != null)
+                                {
+                            <td rowspan="@(propCout)" ><a href="#" title="Show diagram for @Html.Raw(itemP.PropertyName)" onclick="mechanicalPlot.PlotChart('@(itemP.PropertyId)', 'tableMaterialDetails_@((int)Model.ProductGroupId)', @itemP.SourcePropertyId); return false;">
+                                <img src="~/Content/images/diag.png" />
+                            </a>
+                            </td>}
+                            }
+                            else
+                            {
+                            <td>&nbsp;</td>
+                            }
+                        }
+
+                    </tr>
+                
+                }
+
+            </tbody>
+        </table>
+    </div>
+                if (Model.ProductGroupId == ProductGroup.ProductGroupType.Physical)
+                {
+    <div id="diagPhysicalContainer" style="display: none;">
+        <div style="margin-top: 10px;"><b>Property: </b><span id="diagPhysicalPropertyName"></span></div>
+        <input type="button" onclick="physicalPlot.ShowData(); return false;" id="moreFieldsPhysicalButton" value="Show table" style="margin-top: 10px;" /><br />
+        <br />
+        <div style="float: left; width: 60%;">
+            <div id="diagPhysicalChart" style="margin-right: 50px;"></div>
+            <div style="margin-bottom: 20px;"><a id="savePhysical" class="comparison" href="#">save diagram</a></div>
+        </div>
+        <div style="float: right; width: 40%; margin-bottom: 20px;">
+            <div>
+                <a href="#" onclick="addPhysicalToComparison(@Model.ConditionId); return false;">
+                    <img src="~/Content/images/icon-compare-ss.png" /></a>
+            </div>
+            <table class="smallSS" id="diagPhysicalTable" style="width: 350px;">
+                <thead>
+                    <tr>
+                        <th style="width: 175px;">temperature (°C)</th>
+                        <th style="width: 175px;"><span id="diagPhysicalPropertyHeading"></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+                }
+                else if (Model.ProductGroupId == ProductGroup.ProductGroupType.Mechanical)
+                {
+    <div id="diagMechanicalContainer" style="display: none;">
+        <div style="margin-top: 10px;"><b>Property: </b><span id="diagMechanicalPropertyName"></span></div>
+        <input type="button" onclick="mechanicalPlot.ShowData(); return false;" id="moreFieldsMechanicalButton" value="Show table" style="margin-top: 10px;" /><br />
+        <br />
+        <div style="float: left; width: 60%;">
+            <div id="diagMechanicalChart" style="margin-right: 50px;"></div>
+            <div style="margin-bottom: 20px;"><a id="saveMechanical" class="comparison" href="#">save diagram</a></div>
+        </div>
+        <div style="float: right; width: 40%; margin-bottom: 20px;">
+            <div>
+                <a href="#" onclick="addMechanicalToComparison(@Model.ConditionId); return false;">
+                    <img src="~/Content/images/icon-compare-ss.png" /></a>
+            </div>
+            <table class="smallSS" id="diagMechanicalTable" style="width: 350px;">
+                <thead>
+                    <tr>
+                        <th style="width: 175px;">temperature (°C)</th>
+                        <th style="width: 175px;"><span id="diagMechanicalPropertyHeading"></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+                }
+}
+@if (Model.SelectedReferences != null && Model.SelectedReferences.Count > 0)
+{
+    <br />
+    <span><a id="selectedRefPropLink_@(Model.RowId)" onclick="showSelectedRefProp(@(Model.RowId));return false;" href="#">+ </a><b>Reference for the selected material and condition</b></span>
+    <br />
+    <div id="selectedReferenceProp_@(Model.RowId)" style="display:none">
+        <table>
+            <tbody>
+                @{int cntRef = 0;}
+                @foreach (var reference in Model.SelectedReferences)
+                {
+                    cntRef++;
+                    <tr>
+                        <td style="border-right: none; padding-right: 10px">@cntRef</td>
+                        <td>@reference</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+}
+
+<script type="text/javascript">
+
+    var interactiveDigramProperties = $.parseJSON('@Html.Raw(Json.Encode(Model.Properties))');
+
+    $(document).ready(function () {
+        materialDetails.selectOneValueForSameProperty();
+
+        // Plot physical data
+        if ('@Html.Raw((int)Model.ProductGroupId)' == '807') {
+            physicalPlot.InitData('@Html.Raw(Json.Encode(Model))');
+        }
+        // Plot mechanical data
+        if ('@Html.Raw((int)Model.ProductGroupId)' == '806') {
+            mechanicalPlot.InitData('@Html.Raw(Json.Encode(Model))');
+        }
+    });
+</script>

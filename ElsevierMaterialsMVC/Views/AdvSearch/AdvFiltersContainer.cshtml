@@ -1,0 +1,312 @@
+﻿@model ElsevierMaterialsMVC.Models.AdvancedSearch.AdvancedSearch
+@using ElsevierMaterialsMVC.BL.Helpers;
+<script src="~/Scripts/dist/jstree.js"></script>
+<link href="~/Scripts/dist/themes/default/style.css" rel="stylesheet" />
+<div style="padding-bottom: 20px; padding-top: 20px;">
+   
+                    <a href="#" class="pluginActive" onclick="showMaterials(); return false;">Materials</a>
+                    <a href="#" class="pluginActive" onclick="showProperties(); return false;">Properties</a>
+    <a href="#" style="display:@(Model.IsChemical ? "block-inline" : "none")" class="pluginActive" onclick="showStructure(); return false;">Structure</a>
+      
+                </div>
+<div id="advSearchResultsContainer" style="display: none;"></div>
+ 
+<div id="advSearchPropertiesContainer">
+      
+    <div class="advSearchProperties" style="width: 900px;">
+        <div class="filtersPage" style="height: 500px; float: left; width: 300px; margin-left: -24px;">
+            @*<div class="filtersContainerHeader">
+                <div style="clear: both;"></div>
+                <div>
+                    <div class="label" style="text-decoration: none; margin-top: 0px;">
+                        Sources:
+                    </div>
+                    <select class="gray">
+                        <option value="0">All</option>
+                        @foreach (var item in Model.SearchCondition.Sources)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>*@
+          
+            <div id="filtersContainerContent">
+                @*<br />
+            <div>
+                <a href="#" id="btnFiltersSearch"></a>
+                <input type="text" id="tbFiltersSearch" value=" " />
+            </div>*@
+              <input type="hidden" id="selectedTab" value="mat">
+                <div id="tabsFilters" class="tabsContainer" style="margin-top: 10px; height: 250px;">
+                  @*  <ul id="ulTabsSearch" class="tabs" style="width: 260px">
+                        <li><a href="#materialTab">Materials</a></li>
+                        <li id="propertyTabLi"><a href="#propertyTab">Properties</a></li>
+                    </ul>*@
+                    <div id="materialTab" style="width: 300px; height: 420px; display: block;">
+                        <div id="containerMaterial">
+                            <ul>
+                                @foreach (var type in Model.SearchCondition.ClassificationTypes)
+                                {
+                                    <li id="@type.TypeClassId" nodetype="1">
+                                        <a href="#" title="@type.TypeClassName">@type.TypeClassName</a>
+                                        <ul>
+                                            @foreach (var cl in type.Classes)
+                                            {
+                                                <li id="@cl.ClassModelId" nodetype="2">
+                                                    <a href="#" class="node" title="@cl.ClassModelName">@cl.ClassModelName</a>
+                                                    <ul>
+                                                        @foreach (var subclass in cl.Subclasses)
+                                                        {
+                                                            <li id="@subclass.SubclassModelId" nodetype="3">
+                                                                <a class="node" title="@subclass.SubclassName" href="#">@subclass.SubclassName</a>
+                                                                <ul>
+                                                                    @foreach (var group in subclass.Groups)
+                                                                    {
+                                                                        <li id="@group.GroupModelId" nodetype="4"><a class="node" title="@group.GroupModelName" href="#" >@group.GroupModelName</a></li>
+                                                                    }
+                                                                </ul>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="propertyTab" style="width: 300px; height: 420px; display: none;">
+                        <div id="containerProperty">
+                            <ul>
+                                @foreach (var propGroup in Model.SearchCondition.PropertyGroups)
+                                {
+                                    <li title="@propGroup.PropertyGroupModelName" propid="@propGroup.PropertyGroupModelId">
+                                        @propGroup.PropertyGroupModelName
+                                        <ul>
+                                            @foreach (var prop in propGroup.Properties)
+                                            {
+                                                <li><a class="node" title="@prop.PropertyModelName" href="" propid="@prop.PropertyModelId">@prop.PropertyModelName</a></li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="filtersContainerHeader" style="margin-bottom: 20px; margin-top: 20px;">
+                        <a class="browseSerach" href="#" id="add">Add to search</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div style="float: left; width: 600px; height: 560px; margin-left: 330px;" id="divConditions">
+            @Html.Partial("ConditionsContainer", Model.PropertyUnits)
+        </div>
+    </div>
+   
+</div>
+<div id="advStructureContainer" style="display: none;">
+
+    @Html.Partial("AdvChemicalStructureContainer")
+</div>
+
+<script type="text/javascript">
+    advSearchFunc.applyAdvSearchFiltershPath = '@Url.Action("ApplyAdvSearchFilters", "AdvSearch")';
+    advSearchFunc.clearAdvSearchFiltershPath = '@Url.Action("ClearAdvSearchFilters", "AdvSearch")';
+    searchFunc.subgroupsPath = '@Url.Action("Subgroup", "Subgroups")';
+    searchFunc.fullTextSearchPath = '@Url.Action("FullTextSearchOnly", "Search")';
+    advSearchFunc.applyAdvSearchSourcePath = '@Url.Action("ApplyAdvSearchSource", "AdvSearch")';
+
+    function showMaterials()
+    {
+        
+        $("#advSearchPropertiesContainer").show();
+        $("#advStructureContainer").hide();
+        $("#materialTab").show();
+        $("#propertyTab").hide();
+        $("#selectedTab").val("mat");
+       
+    }
+    function showProperties()
+    {
+        $("#advSearchPropertiesContainer").show();
+        $("#advStructureContainer").hide();
+        $("#materialTab").hide();
+        $("#propertyTab").show();
+        $("#selectedTab").val("prop");
+    }
+    function showStructure()
+    {
+        $("#advSearchPropertiesContainer").hide();
+        $("#advStructureContainer").show();
+        $("#materialTab").hide();
+        $("#propertyTab").hide();
+        $("#selectedTab").val("struct");
+    }
+    $(document).ready(
+        function () {
+            if (showPropertiesFilters == 'False') {
+                showPropertiesFilters = false;
+            }
+
+            //$('#tabsFilters').tabs();
+
+            $('#containerMaterial').jstree({
+                plugins: ["themes", "html_data", "ui", "crrm"]
+            }).bind("select_node.jstree", function (event, data) {
+                return data.instance.toggle_node(data.node);
+            });
+
+            var numberOfType =@(Model.SearchCondition.ClassificationTypes.Count);
+            $('#containerMaterial').jstree('select_node', 'ul > li:first').click();
+            $('#710_anchor').css( "background-color","white");        
+            $('#710_anchor').css( "color","rgb(119,119,119)");
+            $('#711_anchor').css( "background-color","white");    
+            $('#711_anchor').css( "color","rgb(119,119,119)");      
+            $('#609397_anchor').css( "background-color","white");    
+            $('#609397_anchor').css( "color","rgb(119,119,119)");      
+            $('#609441_anchor').css( "background-color","white");    
+            $('#609441_anchor').css( "color","rgb(119,119,119)");      
+            if (numberOfType > 1) {
+                $('#containerMaterial').jstree('select_node', 'ul > li:last').click();
+            }
+
+
+
+            $('#containerProperty').jstree({
+                plugins: ["themes", "html_data", "ui", "crrm"]
+            }).bind("select_node.jstree", function (event, data) {
+                return data.instance.toggle_node(data.node);
+            });
+
+            if (classificationId > 0) {
+                $('#containerMaterial').jstree('select_node', '#' + classificationId).click();
+            }
+
+            $("#containerMaterial ul:first-child li").find(">:first-child").hide();
+            $("#containerProperty ul:first-child li").find(">:first-child").hide();
+
+            if (showPropertiesFilters == false) {
+                $(".filtersPage").hide();
+            } else {
+                $(".filtersPage").show();
+            }
+
+            // define "add property" functionality
+            $("#add").click(function (e) {
+
+                //var selectedMaterialFilterId = $("#containerMaterial").jstree('get_selected');
+                //var selectedPropertyFilterId = $("#containerProperty").jstree('get_selected');
+
+                //var materialTypeId = $("#" + selectedMaterialFilterId).attr("id");
+                //var propertyTypeId = $("#" + selectedPropertyFilterId).attr("id");
+                $("#advancedSearchBtns").show();
+                var selectedTab = $("#selectedTab").val();
+
+                // Active is Material TAB
+                //   if (activeTabIndex == 0) {
+               
+                if(selectedTab=="mat")
+                {
+                    var $mat = $('#containerMaterial').find("a.jstree-clicked");
+                    var materialId = jQuery.trim($mat.attr("id")).split("_")[0];
+                    var title = jQuery.trim($mat.attr("title"));
+                    var nodetype = $mat.parent().closest('li').attr("nodetype");
+
+                    ini.ajax.post(
+                            '@Url.Action("AddMaterialToSearch", "AdvSearch")'
+                        , ini.ajax.contentType.Json
+                        , { materialId: materialId, title: title, nodetype: nodetype }
+                        , function (success) {
+                            $("#propItems").append(success);
+                            advSearchFunc.setPropElementsVisability();
+                        }
+                        , function (error) {
+                        }
+                   )
+                }
+
+                // Active is Property TAB
+              
+                if(selectedTab=="prop")
+{
+                    //var propertyId = jQuery.trim($prop.attr("id")).split("_")[1];
+                    var $prop = $('#containerProperty').find("a.jstree-clicked");
+                    var propertyId = jQuery.trim($prop.attr("propid"));
+
+                    if (typeof propertyId != 'undefined' && propertyId != "") {
+                        ini.ajax.post(
+                            '@Url.Action("AddToSearch", "AdvSearch")'
+                        , ini.ajax.contentType.Json
+                        , { propertyId: propertyId }
+                        , function (success) {
+                            $("#propItems").append(success);
+                            advSearchFunc.setPropElementsVisability();
+                        }
+                        , function (error) {
+                        }
+                   )
+                    }
+                    else {
+                        alert('Please select a property!');
+                    }
+                }
+
+            }); // And of Add
+
+            // define "delete property" functionality
+            $("body").on("click", ".deleteProperty", function (e) {
+                $(this).parent().closest('div.onePropertyDef').remove();
+                advSearchFunc.setPropElementsVisability();
+                if ($("#propItems").find('.onePropertyDef').length == 0) {
+                    $("#advancedSearchBtns").hide();
+                }else {
+                    $("#advancedSearchBtns").show();
+                }
+           
+            });
+
+            // define "change operator" functionality
+            $("body").on("change", ".selectOperator", function (e) {
+                advSearchFunc.onSelectOperatorChanged(this);
+                return false;
+            });
+
+            $("body").on("change", ".selectConditionOperator", function (e) {
+                advSearchFunc.onSelectConditionOperatorChanged(this);
+                return false;
+            });
+
+            $("body").on("change", ".isPropertyConditionsActive", function (e) {
+                var divId = $(this).attr('containerId');
+                if($(this).is(':checked')) {
+                    $('#'+divId).show();
+                } else {
+                    $('#'+divId).hide();
+                }
+                return false;
+            });
+
+            // define "arrow up property" functionality 
+            $("body").on("click", ".arrupProperty", function (e) {
+                $(this).parent().closest('.onePropertyDef').insertBefore($(this).parent().closest('.onePropertyDef').prev('.onePropertyDef'));
+                advSearchFunc.setPropElementsVisability();
+            });
+
+            // define "arrow down property" functionality
+            $("body").on("click", ".arrdwProperty", function (e) {
+                $(this).parent().closest('.onePropertyDef').insertAfter($(this).parent().closest('.onePropertyDef').next('.onePropertyDef'));
+                advSearchFunc.setPropElementsVisability();
+            });
+
+            advSearchFunc.setPropElementsVisability();
+            advSearchFunc.setEnteredValuesVisibility();
+            advSearchFunc.setConditionEnteredValuesVisibility();
+        }
+    );
+        _RegisterGrid('advSearchResultsContainer', '@(Url.Action("ApplyPager", "AdvSearch"))',  @(Html.DescriptorToJson(Model.SearchModel.Descriptor)));
+</script>

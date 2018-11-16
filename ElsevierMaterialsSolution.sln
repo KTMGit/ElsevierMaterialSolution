@@ -1,0 +1,101 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsevierMaterialsMVC", "ElsevierMaterialsMVC\ElsevierMaterialsMVC.csproj", "{3CD03E83-09A1-430E-927B-C0BC3EEEEB43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsevierMaterials.EF.MaterialsContext", "ElsevierMaterials.EF.MaterialsContext\ElsevierMaterials.EF.MaterialsContext.csproj", "{F1982BB2-91A3-41C0-B661-89CF7C333375}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsevierMaterials.EF.MaterialsContextUow", "ElsevierMaterials.EF.MaterialsContextUow\ElsevierMaterials.EF.MaterialsContextUow.csproj", "{CB6E999D-334A-48EC-A67C-24D559F1FAAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsevierMaterials.EF.Common", "ElsevierMaterials.EF.Common\ElsevierMaterials.EF.Common.csproj", "{EE4D508D-96FB-4416-BD97-4AB9BF3910FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsevierMaterials.EF.ModelsMisc", "ElsevierMaterials.EF.ModelsMisc\ElsevierMaterials.EF.ModelsMisc.csproj", "{DB1E90C9-DD11-4B00-A225-BB7FD016FF2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsevierMaterials.Common", "ElsevierMaterials.Common\ElsevierMaterials.Common.csproj", "{1272CA8D-D590-41B9-8939-1958D46DEEB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsevierMaterials.Models", "ElsevierMaterials.Models\ElsevierMaterials.Models.csproj", "{57B6E443-0948-4132-B252-5164619D60DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsevierMaterials.Services", "ElsevierMaterials.Services\ElsevierMaterials.Services.csproj", "{EC417360-4F6F-4322-99ED-37F067C8A633}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElsevierMaterials.Export", "ElsevierMaterials.Export\ElsevierMaterials.Export.csproj", "{74472712-6081-41FE-81C4-BBDC8375282C}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 10
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://minsk:8080/tfs/ktm
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ElsevierMaterials.Common\\ElsevierMaterials.Common.csproj
+		SccProjectName1 = ElsevierMaterials.Common
+		SccLocalPath1 = ElsevierMaterials.Common
+		SccProjectUniqueName2 = ElsevierMaterials.EF.Common\\ElsevierMaterials.EF.Common.csproj
+		SccProjectName2 = ElsevierMaterials.EF.Common
+		SccLocalPath2 = ElsevierMaterials.EF.Common
+		SccProjectUniqueName3 = ElsevierMaterials.EF.MaterialsContext\\ElsevierMaterials.EF.MaterialsContext.csproj
+		SccProjectName3 = ElsevierMaterials.EF.MaterialsContext
+		SccLocalPath3 = ElsevierMaterials.EF.MaterialsContext
+		SccProjectUniqueName4 = ElsevierMaterials.EF.MaterialsContextUow\\ElsevierMaterials.EF.MaterialsContextUow.csproj
+		SccProjectName4 = ElsevierMaterials.EF.MaterialsContextUow
+		SccLocalPath4 = ElsevierMaterials.EF.MaterialsContextUow
+		SccProjectUniqueName5 = ElsevierMaterials.EF.ModelsMisc\\ElsevierMaterials.EF.ModelsMisc.csproj
+		SccProjectName5 = ElsevierMaterials.EF.ModelsMisc
+		SccLocalPath5 = ElsevierMaterials.EF.ModelsMisc
+		SccProjectUniqueName6 = ElsevierMaterials.Models\\ElsevierMaterials.Models.csproj
+		SccProjectName6 = ElsevierMaterials.Models
+		SccLocalPath6 = ElsevierMaterials.Models
+		SccProjectUniqueName7 = ElsevierMaterialsMVC\\ElsevierMaterialsMVC.csproj
+		SccProjectName7 = ElsevierMaterialsMVC
+		SccLocalPath7 = ElsevierMaterialsMVC
+		SccProjectUniqueName8 = ElsevierMaterials.Services\\ElsevierMaterials.Services.csproj
+		SccProjectName8 = ElsevierMaterials.Services
+		SccLocalPath8 = ElsevierMaterials.Services
+		SccProjectUniqueName9 = ElsevierMaterials.Export\\ElsevierMaterials.Export.csproj
+		SccProjectName9 = ElsevierMaterials.Export
+		SccLocalPath9 = ElsevierMaterials.Export
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3CD03E83-09A1-430E-927B-C0BC3EEEEB43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CD03E83-09A1-430E-927B-C0BC3EEEEB43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CD03E83-09A1-430E-927B-C0BC3EEEEB43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CD03E83-09A1-430E-927B-C0BC3EEEEB43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1982BB2-91A3-41C0-B661-89CF7C333375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1982BB2-91A3-41C0-B661-89CF7C333375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1982BB2-91A3-41C0-B661-89CF7C333375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1982BB2-91A3-41C0-B661-89CF7C333375}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB6E999D-334A-48EC-A67C-24D559F1FAAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB6E999D-334A-48EC-A67C-24D559F1FAAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB6E999D-334A-48EC-A67C-24D559F1FAAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB6E999D-334A-48EC-A67C-24D559F1FAAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE4D508D-96FB-4416-BD97-4AB9BF3910FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE4D508D-96FB-4416-BD97-4AB9BF3910FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE4D508D-96FB-4416-BD97-4AB9BF3910FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE4D508D-96FB-4416-BD97-4AB9BF3910FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB1E90C9-DD11-4B00-A225-BB7FD016FF2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB1E90C9-DD11-4B00-A225-BB7FD016FF2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB1E90C9-DD11-4B00-A225-BB7FD016FF2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB1E90C9-DD11-4B00-A225-BB7FD016FF2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1272CA8D-D590-41B9-8939-1958D46DEEB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1272CA8D-D590-41B9-8939-1958D46DEEB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1272CA8D-D590-41B9-8939-1958D46DEEB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1272CA8D-D590-41B9-8939-1958D46DEEB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57B6E443-0948-4132-B252-5164619D60DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57B6E443-0948-4132-B252-5164619D60DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57B6E443-0948-4132-B252-5164619D60DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57B6E443-0948-4132-B252-5164619D60DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC417360-4F6F-4322-99ED-37F067C8A633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC417360-4F6F-4322-99ED-37F067C8A633}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC417360-4F6F-4322-99ED-37F067C8A633}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC417360-4F6F-4322-99ED-37F067C8A633}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74472712-6081-41FE-81C4-BBDC8375282C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74472712-6081-41FE-81C4-BBDC8375282C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74472712-6081-41FE-81C4-BBDC8375282C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74472712-6081-41FE-81C4-BBDC8375282C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

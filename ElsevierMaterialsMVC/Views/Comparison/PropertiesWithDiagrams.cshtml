@@ -1,0 +1,213 @@
+﻿@model ElsevierMaterials.Models.Domain.Comparison.Comparison
+@using ElsevierMaterials.Models.Domain.ComparisonDiagram;
+@using ElsevierMaterialsMVC.BL.Binders.ComparisonDiagram;
+@{
+    IList<ElsevierMaterials.Models.Domain.Material.MaterialBasicInfo> materialNames = new ComparisonDiagramControllerBinder().GetMaterialsAddedToBothComparison();
+}
+<script src="~/Scripts/Comparison/Comparison.js"></script>
+<script src="~/Scripts/Comparison/InteractiveDaigram.js"></script>
+<div id="comparisonInteractiveDiagrams" style="color: rgb(119,119,119);">
+</div>
+@if (materialNames.Count > 0 && (Model.Properties.Count > 0 || (Model.ComparisonD != null && Model.ComparisonD.Properties != null && Model.ComparisonD.Properties.Count > 0)))
+{
+    <div id="comparisonTableContainer">
+        <table class="details" style="margin-top: 30px;">
+            <thead class="noHeaderBackground">
+                <tr>
+                    <th></th>
+                    <th>Property
+                    </th>
+                    <th>Unit
+                    </th>
+
+                    @for (int i = 0; i < materialNames.Count; i++)
+                    {
+                        <th>
+                            <div>
+                                <div style="width:100px;overflow:hidden;" title="@Html.Raw(materialNames[i].Name)">
+                                    @Html.Raw(materialNames[i].Name)
+                                </div>
+                                <div style="text-overflow:ellipsis;overflow:hidden;white-space:nowrap; width:100px;font-size:11px;" title="@Html.Raw(materialNames[i].SubgroupName)">
+                                    @materialNames[i].SubgroupName
+                                </div>
+                            </div>
+                            <div style="vertical-align: top;"><a href="" onclick="removeMaterialFromComparison(@materialNames[i].MaterialId, @materialNames[i].SubgroupId, @materialNames[i].SourceId, @materialNames[i].SourceMaterialId);return false;">
+                                <img src="~/Content/images/delete.png" /></a></div>
+                        </th>
+                    }
+                    <th>Compare
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var group in Model.Properties.Select(m => m.PropertyInfo.Group).Distinct())
+                {
+                    <tr style="font-weight: bold;">
+                        <td colspan="8">@group</td>
+
+                    </tr>
+                    foreach (var prop in Model.Properties.Where(m => m.PropertyInfo.Group == group))
+                    {
+                    <tr>
+                        <td>
+                            <a href="#" onclick="removeProperty(@prop.PropertyInfo.TypeId, @prop.PropertyInfo.SourceTypeId, @prop.PropertyInfo.RowId); return false;">
+                                <img src="~/Content/images/delete.png" /></a>
+                        </td>
+                        <td>
+                            @prop.PropertyInfo.Name
+                        </td>
+                        <td>
+                            @Html.Raw(prop.PropertyInfo.Unit)
+                        </td>
+                        @for (int i = 0; i < materialNames.Count; i++)
+                        {
+                            if (i < materialNames.Count)
+                            {
+                                ElsevierMaterials.Models.Domain.Comparison.Material material = prop.Materials.Where(m => m.MaterialId == materialNames[i].MaterialId && m.SourceMaterialId == materialNames[i].SourceMaterialId && m.SubgroupId == materialNames[i].SubgroupId && m.SourceId == m.SourceId).FirstOrDefault();
+
+                                if (material != null)
+                                {
+                            <td id="@material.MaterialId">
+                                @Html.Raw(material.Value)
+                                <div style="text-overflow:ellipsis;overflow:hidden;white-space:nowrap; width:120px;font-size:11px;" title="@Html.Raw(material.Condition)">
+                                    @if (material.Condition != null && material.Condition != "")
+                                    {
+                                        <div>Material Detail: @Html.Raw(material.Condition)</div>
+                                    }
+                                </div>
+                            </td>
+                                }
+                                else
+                                {
+                            <td></td>
+                                }
+                            }
+                            else
+                            {
+                            <td></td>
+                            }
+                        }
+                        <td>
+                            <a href="#" onclick="openDiagramForProperty(@prop.PropertyInfo.TypeId, @prop.PropertyInfo.SourceTypeId); return false;">
+                                <img src="~/Images/compareDiagram.jpg" /></a>
+
+                        </td>
+                    </tr>
+            
+@*
+                                    //TODO: in future for physical, mechanical...
+                            PropertyD propertyWithDiagram = Model.ComparisonD.Properties.Where(m => m.SourceTypeId == prop.PropertyInfo.SourceTypeId && m.TypeId == prop.PropertyInfo.TypeId).FirstOrDefault();
+                        if (propertyWithDiagram != null)
+                        {
+                            <tr style="font-weight:bold;">
+                                <td colspan="8">stress strain</td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#" onclick="removeInteractiveDiagram(@propertyWithDiagram.Id);return false;"><img src="~/Content/images/delete.png" /></a>
+                                </td>
+                                <td>
+                                    @prop.PropertyInfo.Name
+                                </td>
+                                <td>
+                                    @Html.Raw(prop.PropertyInfo.Unit)
+                                </td>
+                                <td style="vertical-align: middle;text-align: -webkit-center;">
+                                    <img style="display:block;" src="~/Content/images/diag.png" />
+                                </td>
+                                <td>
+                                    <a onclick="showComparisonDiagram(@propertyWithDiagram.Id);return false;" href=" #"><img src="~/Content/images/curve.png" /></a>
+
+                                </td>
+                            </tr>
+                          }
+                                                
+                                                *@
+                    }
+                }
+
+
+                @if (Model.ComparisonD != null && Model.ComparisonD.Properties != null && Model.ComparisonD.Properties.Count > 0)
+                {
+                    IList<string> groupsName = Model.ComparisonD.Properties.Select(m => m.GroupName).Distinct().ToList();
+
+                    foreach (var groupName in groupsName)
+                    {
+                    <tr style="font-weight: bold;">
+                        <td colspan="8">@groupName</td>
+                    </tr>
+                        foreach (var propertyWithDiagramA in Model.ComparisonD.Properties.Where(m => m.GroupName == groupName))
+                        {
+                    <tr>
+                        <td>
+                            <a href="#" onclick="removeInteractiveDiagram(@propertyWithDiagramA.Id);return false;">
+                                <img src="~/Content/images/delete.png" /></a>
+                        </td>
+                        <td>
+
+                            @propertyWithDiagramA.Name
+                        </td>
+                        <td>
+                            @if (propertyWithDiagramA.SourceTypeId == -5 || propertyWithDiagramA.SourceTypeId == -1)
+                            {
+                                @propertyWithDiagramA.Unit
+                            }
+                        </td>
+                        @for (int i = 0; i < materialNames.Count; i++)
+                        {
+                            if (i < materialNames.Count)
+                            {
+                                MaterialD material = propertyWithDiagramA.Materials.Where(m => m.MaterialId == materialNames[i].MaterialId && m.SourceMaterialId == materialNames[i].SourceMaterialId && m.SubgroupId == materialNames[i].SubgroupId && m.SourceId == m.SourceId).FirstOrDefault();
+
+                                if (material != null)
+                                {
+                            <td style="vertical-align: middle; text-align: -webkit-center;">
+                                <img style="display: block;" src="~/Content/images/diag.png" />
+                            </td>
+                                }
+                                else
+                                {
+                            <td></td>
+                                }
+                            }
+                            else
+                            {
+                            <td></td>
+                            }
+                        }
+                        <td>
+                            <a onclick="showComparisonDiagram(@propertyWithDiagramA.Id);return false;" href=" #">
+                                <img src="~/Content/images/curve.png" /></a>
+
+                        </td>
+                    </tr>
+                        }
+                    }
+
+                }
+
+
+
+
+            </tbody>
+        </table>
+    </div>
+    <div id="comparisonContainer" style="display: none;">
+        <div id="comparison">
+        </div>
+    </div>
+    <script type="text/javascript">
+        var showDiagram = '@Url.Action("ShowDigramForProperty", "Comparison")';
+        var showInterctiveDiagramPath = '@Url.Action("ShowInterctiveDiagramForProperty", "Comparison")';
+        var showInterctiveDiagramSelectedPath = '@Url.Action("ShowInterctiveDiagramSelectedForProperty", "Comparison")';
+        var getTablePointsForCurvePath = '@Url.Action("GetTablePointsForCurve", "Comparison")';
+        var removePropertyPath = '@Url.Action("RemoveProperty", "Comparison")';
+        var removeInteractiveDiagramPath = '@Url.Action("RemoveInteractiveDiagram", "Comparison")';
+        var removeCurveFromProperty = '@Url.Action("RemoveCurveFromInteractiveDiagram", "Comparison")';
+    </script>
+}
+else
+{
+    <div style="font-size: 14px; line-height: 164%; color: rgb(102,102,102); text-align: left; margin-top: 50px; margin-left: 10px;">You have not added any materials to Comparison!</div>
+}

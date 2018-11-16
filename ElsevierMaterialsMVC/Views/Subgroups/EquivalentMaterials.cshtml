@@ -1,0 +1,78 @@
+﻿@model ElsevierMaterialsMVC.Models.Subgroups.SubgroupsModel
+@using ElsevierMaterialsMVC.BL.Helpers;
+@Html.HiddenFor(m => m.Filters.FullText, new { id = "searchTextHolder" })
+
+<style>
+    label {
+        width: 140px;
+        display: inline-block;
+    }
+</style>
+
+@Html.Partial("MenuContainer", new ElsevierMaterialsMVC.BL.Binders.TableFiltersBinder().GetSubgroupListMaterialInfoColumns())
+@Html.Partial("MaterialInfo", Model.MaterialInfo)
+@Html.Partial("PropertiesDescriptions", Model.ChemicalElsProperties)
+<div style="clear:both;"></div>
+<div id="subgroupResultsContainer">
+    <div id="filtersSearch">
+        @Html.Partial("FiltersSubgroupsContainer", Model.Filters)
+        @Html.HiddenFor(m => m.Filters.ClassificationTypes, new { id = "classificationId" })
+    </div>
+    <div id="subgroupListResutsContainerContent">
+        @Html.Partial("SubgroupListFilters")
+        <div id="subgroupListTableContainer">
+            @Html.Partial("SubgroupResults", Model)
+        </div>
+    </div>
+    <div style="clear:both;"></div>
+</div>
+@{
+    string sumStd = "";
+}
+<script type="text/javascript">
+    var subgroupListResutsPath =  '@(Url.Action("ApplySubgroupTableFilters", "Subgroups"))';
+    var innerHTMLstandard = "";
+    var innerHTMLspec = "";
+    var innerHTMLdetails = "";
+    var innerHTMLId = "";
+    var innerHTMLsource = "";
+    $(document).ready(function () {
+        $('#home').hide();
+        $('#sampleMaterial').hide();
+        $('#eqMaterial').show();
+        $('#details').hide();
+        $('#materialsSubgroupList > tbody  > tr').each(function () {
+            if ($(this).attr('class').toString().indexOf('trHideMat') >= 0) {
+                $(this).css("display", "none");
+            } else {
+                @{
+                    if (Model.Materials.Any(m => m.SourceId == 1))
+                    {
+                         <text>
+                innerHTMLId = $(this).attr('id');
+                var standardId = $(this).attr('id').toString().replace('trDetails_', 'tdStandard_');
+                var specId = $(this).attr('id').toString().replace('trDetails_', 'tdSpec_');
+                var detailsId = $(this).attr('id').toString().replace('trDetails_', 'tdDetails_');
+                var sourceId = $(this).attr('id').toString().replace('trDetails_', 'tdSourceText_');
+                if (standardId.substring(standardId.length - 1, standardId.length) != '1') {
+                    innerHTMLstandard = $('#' + standardId)[0].innerHTML;
+                    $('#' + standardId).html('@Html.Raw(sumStd).ToString()');
+                    innerHTMLspec = $('#' + specId)[0].innerHTML;
+                    $('#' + specId).html('');
+                    innerHTMLdetails = $('#' + detailsId)[0].innerHTML;
+                    $('#' + detailsId).html('');
+                    innerHTMLsource = $('#' + sourceId)[0].innerHTML;
+                    $('#' + sourceId).html('+ ' + innerHTMLsource);
+                }
+                </text>
+                    }
+              }
+            }
+        });
+    });
+
+    filtersSubgroup={};
+    _RegisterGrid('subgroupListTableContainer', '@(Url.Action("ApplySubgroupTableFilters", "Subgroups"))',  @(Html.DescriptorToJson(Model.Descriptor)), filtersSubgroup);
+
+</script>
+

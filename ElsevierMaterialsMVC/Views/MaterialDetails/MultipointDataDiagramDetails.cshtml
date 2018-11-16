@@ -1,0 +1,18 @@
+﻿@model ElsevierMaterialsMVC.Models.MaterialDetails.MultipointDataDetailsModel
+
+    @if (Model.Conditions.Count>0)
+                    {
+                     
+                       
+                        @:Material Detail: @Html.DropDownListFor(o => o.Conditions[0].Id, new SelectList(Model.Conditions, "Id", "Name"), htmlAttributes: new { @class = "conditions gray", @id = "selectMPCond", @onchange = "materialDetails.changeConditionMultipointData()" })
+              
+               
+
+         <div style="clear:both;"></div>       
+ <div id="condMP">
+     
+                 @Html.Partial("MultipointDataConditionDetails", Model.SelectedCondition)
+
+      </div>
+        
+  }      

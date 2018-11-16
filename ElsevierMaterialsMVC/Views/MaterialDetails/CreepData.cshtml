@@ -1,0 +1,580 @@
+﻿@model ElsevierMaterials.Models.Domain.CreepData.CreepDataContainer
+@{
+    int cnt = 0;
+    int numCols = 1;
+}
+<table class="details" style="width: 100%">
+    <tr style="background-color:#ECECEC;">
+
+        @if (Model.UnitType == 1)
+        {
+            <th>Temperature (°C)</th>        
+        }
+        else
+        {
+            <th>Temperature (°F)</th>      
+
+        }
+
+  
+
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.CRS != null).Any()).Any())
+        {
+            numCols++;
+            <th>
+                Creep Rupture Strength CRS
+                @if (Model.UnitType == 1)
+                {
+                    <span> (MPa) </span>
+                }
+                else
+                {
+                    <span>  (ksi) </span>
+
+                }
+            </th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.CRS_max != null).Any()).Any())
+        {
+            numCols++;
+            <th>CRS_max</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.CRS_min != null).Any()).Any())
+        {
+            numCols++;
+            <th>CRS_min</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.E_el != null).Any()).Any())
+        {
+            numCols++;
+            <th>E_el</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.E_pl != null).Any()).Any())
+        {
+            numCols++;
+            <th>E_pl</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Elongation != null).Any()).Any())
+        {
+            numCols++;
+            <th>Elongation (%)</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.InitialStrain != null).Any()).Any())
+        {
+            numCols++;
+            <th>Initial Strain
+            @if (Model.UnitType == 1)
+            {
+                <span> (MPa) </span>
+            }
+            else
+            {
+                <span>  (ksi) </span>
+
+            }</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Intercept != null).Any()).Any())
+        {
+            numCols++;
+            <th>Intercept</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.RA != null).Any()).Any())
+        {
+            numCols++;
+            <th>Reduction of area (%)</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.TimeStDev != null).Any()).Any())
+        {
+            numCols++;
+            <th>TimeStDev</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield000001 != null).Any()).Any())
+        {
+            numCols++;
+            <th>0.00001% Yield Stress  @Html.Raw("R<sub>p0.00001</sub>") 
+                @if (Model.UnitType == 1)
+                {
+                    <span> (MPa) </span>
+                }
+                else
+                {
+                    <span>  (ksi) </span>
+
+                }</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield00001 != null).Any()).Any())
+        {
+            numCols++;
+            <th>0.0001% Yield Stress @Html.Raw("R <sub>p0.0001</sub>") @if (Model.UnitType == 1)
+            {
+                <span> (MPa) </span>
+            }
+            else
+            {
+                <span>  (ksi) </span>
+
+            }</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield0001 != null).Any()).Any())
+        {
+            numCols++;
+            <th>0.001% Yield Stress  @Html.Raw("R<sub>p0.001</sub>") @if (Model.UnitType == 1)
+            {
+                <span> (MPa) </span>
+            }
+            else
+            {
+                <span>  (ksi) </span>
+
+            }</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield001 != null).Any()).Any())
+        {
+            numCols++;
+            <th>0.01% Yield Stress @Html.Raw("R<sub>p0.01</sub>") @if (Model.UnitType == 1)
+            {
+                <span> (MPa) </span>
+            }
+            else
+            {
+                <span>  (ksi) </span>
+
+            }</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield005 != null).Any()).Any())
+        {
+            numCols++;
+            <th>0.05% Yield Stress  @Html.Raw("R<sub>p0.05</sub>") @if (Model.UnitType == 1)
+            {
+                <span> (MPa) </span>
+            }
+            else
+            {
+                <span>  (ksi) </span>
+
+            }</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield01 != null).Any()).Any())
+        {
+            numCols++;
+            <th>0.1% Yield Stress @Html.Raw("R <sub>p0.1</sub>") @if (Model.UnitType == 1)
+            {
+                <span> (MPa) </span>
+            }
+            else
+            {
+                <span>  (ksi) </span>
+
+            }</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield02 != null).Any()).Any())
+        {
+            numCols++;
+            <th>0.2% Yield Stress  @Html.Raw("R<sub>p0.2</sub>") @if (Model.UnitType == 1)
+            {
+                <span> (MPa) </span>
+            }
+            else
+            {
+                <span>  (ksi) </span>
+
+            }</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield05 != null).Any()).Any())
+        {
+            numCols++;
+            <th>0.5% Yield Stress  @Html.Raw("R<sub>p0.5</sub>") @if (Model.UnitType == 1)
+            {
+                <span> (MPa) </span>
+            }
+            else
+            {
+                <span>  (ksi) </span>
+
+            }</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield1 != null).Any()).Any())
+        {
+            numCols++;
+            <th>1% Yield Stress  @Html.Raw("R<sub>p1</sub>") @if (Model.UnitType == 1)
+            {
+                <span> (MPa) </span>
+            }
+            else
+            {
+                <span>  (ksi) </span>
+
+            }</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield10 != null).Any()).Any())
+        {
+            numCols++;
+            <th>10% Yield Stress @Html.Raw("R<sub>p10</sub>") @if (Model.UnitType == 1)
+            {
+                <span> (MPa) </span>
+            }
+            else
+            {
+                <span>  (ksi) </span>
+
+            }</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield2 != null).Any()).Any())
+        {
+            numCols++;
+            <th>2% Yield Stress @Html.Raw("R<sub>p2</sub>") @if (Model.UnitType == 1)
+            {
+                <span> (MPa) </span>
+            }
+            else
+            {
+                <span>  (ksi) </span>
+
+            }</th>
+        }
+        @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield5 != null).Any()).Any())
+        {
+            numCols++;
+            <th>5% Yield Stress @Html.Raw("R<sub>p5</sub>") @if (Model.UnitType == 1)
+            {
+                <span> (MPa) </span>
+            }
+            else
+            {
+                <span>  (ksi) </span>
+
+            }</th>
+        }
+    </tr>
+    @foreach (var item in Model.Data.Times)
+    {
+        cnt++;
+
+
+
+
+
+        <tr>
+            <td colspan="@numCols" style="background-color:#ECECEC;">
+                @item.Time @item.Unit
+            </td>
+        </tr>
+        foreach (var temp in item.Temperatures)
+        {
+            <tr>
+                <td>@temp.Temperature</td>
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.CRS != null).Any()).Any())
+                {
+                    if (temp.CRS != null)
+                    {
+                        <td>@temp.CRS</td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.CRS_max != null).Any()).Any())
+                {
+                    if (temp.CRS_max != null)
+                    {
+                        <td>@temp.CRS_max</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.CRS_min != null).Any()).Any())
+                {
+                    if (temp.CRS_min != null)
+                    {
+                        <td>@temp.CRS_min</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.E_el != null).Any()).Any())
+                {
+                    if (temp.E_el != null)
+                    {
+                        <td>@temp.E_el</td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.E_pl != null).Any()).Any())
+                {
+                    if (temp.E_pl != null)
+                    {
+                        <td>@temp.E_pl</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Elongation != null).Any()).Any())
+                {
+                    if (temp.Elongation != null)
+                    {
+                        <td>@temp.Elongation</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.InitialStrain != null).Any()).Any())
+                {
+                    if (temp.InitialStrain != null)
+                    {
+                        <td>@temp.InitialStrain</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Intercept != null).Any()).Any())
+                {
+                    if (temp.Intercept != null)
+                    {
+                        <td>@temp.Intercept</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.RA != null).Any()).Any())
+                {
+                    if (temp.RA != null)
+                    {
+                        <td>@temp.RA</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.TimeStDev != null).Any()).Any())
+                {
+                    if (temp.TimeStDev != null)
+                    {
+                        <td>@temp.TimeStDev</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield000001 != null).Any()).Any())
+                {
+                    if (temp.Yield000001 != null)
+                    {
+                        <td>@temp.Yield000001</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield00001 != null).Any()).Any())
+                {
+                    if (temp.Yield00001 != null)
+                    {
+                        <td>@temp.Yield00001</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield0001 != null).Any()).Any())
+                {
+                    if (temp.Yield0001 != null)
+                    {
+                        <td>@temp.Yield0001</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield001 != null).Any()).Any())
+                {
+                    if (temp.Yield001 != null)
+                    {
+                        <td>@temp.Yield001</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield005 != null).Any()).Any())
+                {
+                    if (temp.Yield005 != null)
+                    {
+                        <td>@temp.Yield005</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield01 != null).Any()).Any())
+                {
+                    if (temp.Yield01 != null)
+                    {
+                        <td>@temp.Yield01</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield02 != null).Any()).Any())
+                {
+                    if (temp.Yield02 != null)
+                    {
+                        <td>@temp.Yield02</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield05 != null).Any()).Any())
+                {
+                    if (temp.Yield05 != null)
+                    {
+                        <td>@temp.Yield05</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield1 != null).Any()).Any())
+                {
+                    if (temp.Yield1 != null)
+                    {
+                        <td>@temp.Yield1</td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield10 != null).Any()).Any())
+                {
+                    if (temp.Yield10 != null)
+                    {
+                        <td>@temp.Yield10</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+
+                    }
+                }
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield2 != null).Any()).Any())
+                {
+                    if (temp.Yield2 != null)
+                    {
+                        <td>@temp.Yield2</td>
+                    }
+
+                    else
+                    {
+                        <td>-</td>
+
+                    }
+                }
+                @if (Model.Data.Times.Where(t => t.Temperatures.Where(s => s.Yield5 != null).Any()).Any())
+                {
+                    if (temp.Yield5 != null)
+                    {
+                        <td>@temp.Yield5</td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
+                }
+            </tr>
+        }
+
+
+
+    }
+</table>
+<div style="clear:both"></div>
+                @if (Model.SelectedReferences != null && Model.SelectedReferences.Count > 0) {
+                        <br />
+                    <span><a id="selectedRefPropLinkCreep" onclick="showSelectedRefPropCreep();return false;" href="#">+ </a><B>Reference for the selected material and condition</B></span>
+                        <br />
+                    <div id="selectedReferencePropCreep" style="display:none">
+                    <table>
+                        <tbody>
+                                @{int cntRef = 0;}
+                                @foreach (var reference in Model.SelectedReferences) {
+                                    cntRef++;
+                                    <tr>
+                                        <td style="border-right:none; padding-right:10px">@cntRef</td>
+                                        <td>@reference</td>
+                                    </tr>
+                                }
+                            
+                        </tbody>
+                    </table>
+                        </div>
+                }
+<script type="text/javascript">
+    function showSelectedRefPropCreep() {
+        var divRef = $('#selectedReferencePropCreep');
+        var closedA = $('#selectedRefPropLinkCreep');
+        if (closedA[0].innerHTML == "+ ") {
+            divRef.show();
+            closedA[0].innerHTML = "- ";
+        } else {
+            divRef.hide();
+            closedA[0].innerHTML = "+ ";
+        }
+    }
+</script>

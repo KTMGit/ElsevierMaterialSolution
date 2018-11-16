@@ -1,0 +1,31 @@
+﻿@model ElsevierMaterials.Models.StressStrainModel
+@using ElsevierMaterialsMVC.Models.MaterialDetails;
+@using ElsevierMaterials.Models;
+<div class="conditionContent" id="ssSelectionContainer">
+    @if (Model.TestConditions.Count > 0)
+    {
+        <div class="conditionName">
+            Test Condition:
+        </div>
+
+        @Html.DropDownListFor(o => o.TestConditions[0].No, new SelectList(Model.TestConditions, "No", "Condition"), htmlAttributes: new { @class = "conditions gray", @id = "selectCondSS", @onchange = "materialDetails.changeConditionSS();" })
+
+    }
+</div>
+@if (System.Configuration.ConfigurationManager.AppSettings["DeveloperSite"].ToLower() == "false")
+{
+    <div id="stressStrainPerCondition">
+    @Html.Partial("StressStrain", Model.TestConditions[0])
+    </div>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var isVisibleSelection = @(Model.TestConditions.Count == 1 && Model.TestConditions[0].Condition == "As received" ? "false" : "true");
+        if (!isVisibleSelection) {
+            $("#ssSelectionContainer").hide();
+        }else {
+            $("#fatigueStrainSelectionContainer").show();
+        }
+    });
+</script>

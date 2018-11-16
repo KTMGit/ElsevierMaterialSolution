@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/commonScripts")
+</head>
+<body>
+    <div id="container">
+    <style>
+        .progress-indicator {
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            text-align: center;
+            z-index: 1000;
+            display: none;
+        }
+
+            .progress-indicator img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-left: -36px;
+                margin-top: -36px;
+            }
+    </style>
+
+    <header>
+        <div class="content-wrapper">
+            <div id="logo">
+                <div style="float:left;"><img src="~/Content/images/Logo.png" /></div>
+                <div style="float:right;">
+                    <div id="logoTitle" style="vertical-align:top">Knovel</div>
+                    <div id="logoTitleSmall" style="vertical-align:bottom">Materials Solutions</div>
+                </div>
+            </div>
+            <div id="logged-user" class="normalFont">
+                <a href="#">My Knovel</a>
+                <a href="#">Peter Svenson</a>
+            </div>
+            <div class="horizontalLine">
+            </div>
+            <div id="site-map" class="normalFont">
+                @Html.ActionLink("Home", "Index", "Home")
+                <a href="#">Info </a>
+                <a href="#">Community</a>
+                <a href="#">Share</a>
+                <a href="#">History</a>
+                <a href="#">Support</a>
+            </div>
+            <div style="clear:both;"></div>
+            @Html.Action("FullTextSearch", "Search")
+
+        </div>
+    </header>
+    <div id="main">
+        <div id="divBC">
+            @Html.Action("BreadcrumbView", "Elsevier")
+        </div>
+        <div id="mainContainer">
+            @RenderBody()
+            @RenderSection("scripts", required: false)
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    <div id="footer">
+        © 2018 Elsevier B.V. All Rights Reserved.
+    </div>
+    <div class="progress-indicator" style="display: none;">
+        <img src="@Url.Content("~/Content/images/loader_big.gif")" alt="" />
+    </div>
+
+    <div id="overlay" class="overlayPopUp" style="display: none;">
+        <div id="popup" style="display: none;">
+            <div id="popupTitle"></div>
+            <div id="popupClose"></div>
+            <div id="popupContainer"></div>
+        </div>
+    </div>
+    <div id="confirmContainer" style="display: none; font-size: 1.2em;">
+        <div id="confirm">
+            <div id="confirmMessage"></div>
+            <br />
+            <a href="#" class="confirmOkButton" onclick="" id="confirmOk"><span>OK</span></a>
+            <a href="#" class="reset" onclick="" id="confirmCancel"><span>Cancel</span></a>
+        </div>
+    </div>
+        </div>
+</body>
+</html>
+<script>
+    var comparisonMaterialsPath = '@Url.Action("Materials", "Comparison")';
+    var comparisonAddMaterialPath = '@Url.Action("AddPropertiesForMaterial", "Comparison")';
+    var eXporterAddMaterialPath = '@Url.Action("AddPropertiesForMaterial", "Exporter")';
+    var eXporterPath = '@Url.Action("Materials", "Exporter")';
+    advSearchFunc.applyAdvSearchFiltershPath = '@Url.Action("ApplyAdvSearchFilters", "AdvSearch")';
+
+</script>

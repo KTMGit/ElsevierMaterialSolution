@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CB6E999D-334A-48EC-A67C-24D559F1FAAB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ElsevierMaterials.EF.MaterialsContextUow</RootNamespace>
+    <AssemblyName>ElsevierMaterials.EF.MaterialsContextUow</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>\\denver\BuildData\DLL_Libraries\IniCore\3.0.3.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MaterialsContextUow.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AdvSearchResultsRepository.cs" />
+    <Compile Include="Repositories\ClassificationRepository.cs" />
+    <Compile Include="Repositories\PropertyConversionFactorAndUnitRepository.cs" />
+    <Compile Include="Repositories\PropertyWithConvertedValuesRepository.cs" />
+    <Compile Include="Repositories\FullTextSearchRepository.cs" />
+    <Compile Include="Repositories\MaterialRepository.cs" />
+    <Compile Include="Repositories\PropertyRepository.cs" />
+    <Compile Include="Repositories\SampleMaterialRepository.cs" />
+    <Compile Include="Repositories\TreeRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ElsevierMaterials.Common\ElsevierMaterials.Common.csproj">
+      <Project>{1272ca8d-d590-41b9-8939-1958d46deeb3}</Project>
+      <Name>ElsevierMaterials.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ElsevierMaterials.EF.Common\ElsevierMaterials.EF.Common.csproj">
+      <Project>{ee4d508d-96fb-4416-bd97-4ab9bf3910fb}</Project>
+      <Name>ElsevierMaterials.EF.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ElsevierMaterials.EF.MaterialsContext\ElsevierMaterials.EF.MaterialsContext.csproj">
+      <Project>{f1982bb2-91a3-41c0-b661-89cf7c333375}</Project>
+      <Name>ElsevierMaterials.EF.MaterialsContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ElsevierMaterials.Models\ElsevierMaterials.Models.csproj">
+      <Project>{57b6e443-0948-4132-b252-5164619d60da}</Project>
+      <Name>ElsevierMaterials.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ElsevierMaterials.Services\ElsevierMaterials.Services.csproj">
+      <Project>{ec417360-4f6f-4322-99ed-37f067c8a633}</Project>
+      <Name>ElsevierMaterials.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

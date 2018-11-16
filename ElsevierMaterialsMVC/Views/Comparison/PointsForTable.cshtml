@@ -1,0 +1,19 @@
+﻿@model ElsevierMaterials.Models.Domain.ComparisonDiagram.InterativeCurve
+
+<table id="tablePoints" class="smallSS">
+    <thead>
+        <tr>
+            <td style="width:160px;">@Model.XName@(Model.XUnit == "" ? "" : " (" + Model.XUnit + ")")</td>
+            <td style="width:160px;">@Model.YName@Html.Raw(Model.YUnit == "" ? "" : " (" + Model.YUnit + ")")</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var point in Model.Points)
+        {
+            <tr>             
+                <td>@point.X</td>
+                <td>@point.Y</td>
+            </tr>
+        }
+    </tbody>
+</table>

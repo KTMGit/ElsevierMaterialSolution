@@ -1,0 +1,24 @@
+﻿@model IList<ElsevierMaterials.Models.PropertyUnitModel>
+@{
+    string isChemical = Session["IsChemical"].ToString();   
+}
+
+<div id="advancedSearchBtns" style="@(Model.Count > 0 ? "display:block;" : "display:none;")">
+    <input type="hidden" isChemical="@(isChemical)" id="hdnFlegIsChemical" />
+
+    <p>Search criteria</p>
+
+    <div id="propItems">
+        @foreach (var item in Model)
+        {
+            @Html.Partial("AdvSearchConditionItem", item)
+        }
+    </div>
+    <div style="clear: both;"></div>
+
+    <div style="margin-top:10px;">
+        <button id="btnRunAdvSearch" onclick='(advSearchFunc.checkSelectedProperties? advSearchFunc.fillSelectedProperties():alert("Please select a criteria!"));' style="margin-right: 20px">Search</button>
+        <button id="btnClearAdvSearch" onclick="advSearchFunc.clearSelectedProperties();">Clear search</button>
+    </div>
+</div>
+

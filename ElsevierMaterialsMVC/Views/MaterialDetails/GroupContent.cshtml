@@ -1,0 +1,29 @@
+﻿@model ElsevierMaterialsMVC.Models.MaterialDetails.ProductGroup
+
+<div class="conditionContent">
+    <div class="conditionContentFirst">
+        @if (Model.MaterialConditionsVisible())
+        {
+            <div class="conditionName">Material Condition:</div>
+            <select class="conditions gray jqFormatted" id="selectCondFirst_@((int)Model.ProductGroupId)" name="ConditionIdProductFormId" onchange="materialDetails.changeConditionFirst(@((int)Model.ProductGroupId), this); return false;">
+
+                @foreach (var condition in Model.MaterialConditions)
+                {
+                    //selected="@(Model.MaterialConditions.IndexOf(condition)== 0 ? "selected": "")"
+                    <option value="@condition.ConditionIdProductFormId" matdescr="@condition.MaterialDescription" thickness="@condition.Thickness">@condition.ConditionName</option>
+                }
+
+            </select>
+
+            //<div class="conditionName">Material Condition:</div>@Html.DropDownListFor(o => o.ConditionIdProductFormId, new SelectList(Model.MaterialConditions, "ConditionIdProductFormId", "ConditionName", "MaterialDescription"), htmlAttributes: new { @class = "conditions gray", @id = "selectCondFirst_" + (int)Model.ProductGroupId, @onchange = "materialDetails.changeConditionFirst(" + (int)Model.ProductGroupId + "); return false;" })
+        }
+    </div>
+</div>
+
+<div id="secondConditionsAndDataId_@((int)Model.ProductGroupId)">
+    @Html.Partial("TestConditionsContent", Model)
+</div>
+
+
+
+

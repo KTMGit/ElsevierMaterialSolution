@@ -1,0 +1,41 @@
+﻿@model  ElsevierMaterialsMVC.Models.Home.IndexModel
+
+<style>
+
+</style>
+<div id="fullTextSearch" style="display:none;">
+    @using (Html.BeginForm("Search", "Search", FormMethod.Post, new { id = "form-index-page" }))
+    {
+        <div class="styled-select">
+            <select id="databases">
+                <option value="value">Materials Database</option>
+            </select>
+            </div>
+            <a href="#" id="btnFullTexSearch" onclick="searchFunc.fullTextSearch();return false;"></a>
+            @Html.TextBoxFor(m => m.SearchText, new Dictionary<string, object>() { { "id", "tbFullTexSearch" }, {"placeholder", "Enter search criteria"},{ "class", "tbFullTexSearch" }  })
+
+            }
+        </div>
+
+<script>
+  
+   
+    $('#fullTextSearch').bind("keyup keypress", function (e) {
+        var code = e.keyCode || e.which;
+        if (code == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    $(window).load(function () {
+        $("#tbFullTexSearch").keyup(function (event) {
+            if (event.keyCode == 13) {
+                $("#btnFullTexSearch").click();
+                return false;
+            }
+        });
+        $('#tbFullTexSearch').focus();
+    });
+
+</script>

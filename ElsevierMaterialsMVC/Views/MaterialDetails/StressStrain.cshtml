@@ -1,0 +1,193 @@
+﻿@model ElsevierMaterials.Models.StressStrainConditionModel
+@using ElsevierMaterialsMVC.Models.MaterialDetails;
+<script type="text/javascript">
+    //Initialize Chart data
+    $(document).ready(function () {
+        @*comparisonPlot.InitRadarChart('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model))');*@
+        stressStrainPlot.InitData('@Html.Raw(Json.Encode(Model.StressTemperatures[0]))');
+        stressStrainPlot.PlotChartAll();
+    });
+</script>
+<div id="cond_SS_Table_@(Model.No)" style="display: block; padding-top: 10px; background-color:#ffffff;">
+    <table class="detailsSmall" style="width: 100%; margin-top: 0px; font-size: 12px; font-weight: 100;">
+        <thead>
+            <tr class="propertyRow">
+                <th>Property Condition</th>
+                <th>Property Range</th>
+                <th>Property Units</th>
+                <th>Variable Range</th>
+                <th>Variable Units</th>
+                <th>Graph Data</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="propertyRow">
+                <td class="addToComparisonCell">
+                    <div class="checkbox">
+                        <input type="checkbox" id="cb_@(Model.No)" name="All" class="all_forComparison" modul="stress_strain" />
+                        <label for="cb_@(Model.No)" style="padding-top: 2px;"></label>
+                    </div>
+                    <div>
+                        @if (Model.StressTemperatures.Count() > 1)
+                        {
+                            @Model.StressTemperatures.OrderBy(p => p.Temperature).Select(p => p.TemperatureText).FirstOrDefault() <text> — </text>  @Model.StressTemperatures.OrderByDescending(p => p.Temperature).Select(p => p.TemperatureText).FirstOrDefault();
+                        }
+                        else
+                        { 
+                            @Model.StressTemperatures.Select(m => m.TemperatureText).FirstOrDefault();
+                        }
+                    </div>
+                </td>
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><a href="#" onclick="materialDetails.showStressStrainDiag(@(Model.No));return false;" >
+                    <img src="~/Images/compareDiagram.jpg" /></a></td>
+                <td></td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
+
+<div id="cond_SS_@(Model.No)" style="display: none; padding-top: 10px;">
+
+    <input type="button" onclick="materialDetails.hideStressStrainDiag(@(Model.No)); return false;" value="Show table"/>
+    @if (Model.StressTemperatures != null && Model.StressTemperatures.Count > 0)
+    {        
+        <div><b>True Stress-Strain</b></div>
+        <div style="float: left">
+            <div>
+                <div id="trueChart" style="margin-right: 50px;"></div>
+                <div style="margin-bottom: 20px;"><a id="saveTrue" class="comparison" href="#">save diagram</a></div>
+            </div>
+            <img id="imgTrueSS" src="@Model.StressTemperatures[0].TrueDetails.Diagram.Source" style="display:none;"/>
+        </div>
+        <div style="float: left">
+            @if (Model.StressTemperatures.Count > 1)
+            {
+                <div class="checkbox" style="float: right;">
+                    <input type="checkbox" id="addToComparisonAllTemperaturesCurves" />
+                    <label for="addToComparisonAllTemperaturesCurves">Add curves for all temperatures</label>
+                </div>
+            }
+            
+            <div style="clear: both;"></div>
+            @if (Model.StressTemperatures.Count > 1)
+            {
+                @:Temperature: @Html.DropDownListFor(o => o.StressTemperatures[0].Temperature, new SelectList(Model.StressTemperatures, "Temperature", "TemperatureText"), htmlAttributes: new { @id = "selectTemperature_TrueSS", @onchange = "materialDetails.changeTemperatureTrueSS();" })
+    }
+            else
+            {
+                @:Temperature:@Model.StressTemperatures[0].Temperature°C
+    }
+
+            <div id="stressStrainTableTrue">@Html.Partial("StressStrainDetailsTable", Model.StressTemperatures[0].TrueDetails)</div>
+        </div>
+ 
+     
+     
+        <div style="clear: both"></div>
+        <div><b>Engineering Stress-Strain</b></div>
+        <div style="float: left">
+            <div>
+                <div id="engChart" style="margin-right: 50px;"></div>
+                <div><a id="saveEng" class="comparison" href="#">save diagram</a></div>
+            </div>
+            <img id="imgEngSS" src="@Model.StressTemperatures[0].EngineeringDetails.Diagram.Source" style="display:none;" />
+        </div>
+        <div style="float: left">
+            @if (Model.StressTemperatures.Count > 1)
+            {
+                @:Temperature: @Html.DropDownListFor(o => o.StressTemperatures[0].Temperature, new SelectList(Model.StressTemperatures, "Temperature", "TemperatureText"), htmlAttributes: new { @id = "selectTemperature_EngineeringSS", @onchange = "materialDetails.changeTemperatureEngineeringSS();" })
+    }
+            else
+            {
+                @:Temperature:@Model.StressTemperatures[0].Temperature°C
+    }
+            <div id="stressStrainTableEngineering">@Html.Partial("StressStrainDetailsTable", Model.StressTemperatures[0].EngineeringDetails)</div>
+        </div>
+    }
+    <div style="clear: both"></div>
+    @if (Model.SelectedReferences != null && Model.SelectedReferences.Count > 0)
+    {
+        <br />
+        <span><a id="selectedRefPropLinkStress" onclick="showSelectedRefPropStress();return false;" href="#">+ </a><b>Reference for the selected material and condition</b></span>
+        <br />
+        <div id="selectedReferencePropStress" style="display: none">
+            <table>
+                <tbody>
+                    @{int cntRef = 0;}
+                    @foreach (var reference in Model.SelectedReferences)
+                    {
+                        cntRef++;
+                        <tr>
+                            <td style="border-right: none; padding-right: 10px">@cntRef</td>
+                            <td>@reference</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    var selectedTemperatureStressStrain = @Model.StressTemperatures[0].Temperature;
+    function showSelectedRefPropStress() {
+        var divRef = $('#selectedReferencePropStress');
+        var closedA = $('#selectedRefPropLinkStress');
+        if (closedA[0].innerHTML == "+ ") {
+            divRef.show();
+            closedA[0].innerHTML = "- ";
+        } else {
+            divRef.hide();
+            closedA[0].innerHTML = "+ ";
+        }
+    }
+ 
+    var SStemperatures=@Html.Raw(Json.Encode(Model.StressTemperatures));
+      
+
+</script>
+<style>
+    /* Content is added to the imagesD3.css!!!*/
+    /*.axis path,
+    .axis line {
+        fill: none;
+        stroke: lightgray;
+        stroke-width: 1px;
+        shape-rendering: crispEdges;
+    }
+
+    .axis text {
+        fill: rgb(169, 178, 189);
+    }
+
+    .grid .tick {
+        stroke: lightgrey;
+        opacity: 0.7;
+    }
+
+    .grid path {
+        stroke-width: 0;
+    }
+
+
+    .myXAxes .tick {
+        stroke: lightgray;
+        opacity: 0.7;
+    }
+
+    .legend text {
+        font-size: 12px;
+        fill: gray;
+    }*/
+</style>
+
+@*<script type="text/javascript" src="~/Scripts/Comparison/ComparisonPlot.js"></script>*@
+

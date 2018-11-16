@@ -1,0 +1,27 @@
+﻿@model ElsevierMaterialsMVC.Models.MaterialDetails.FatigueModel
+<div class="conditionContent" id="fatigueStressSelectionContainer">
+    @if (Model.ConditionList.Count > 0)
+    {
+        <div class="conditionName">
+            Test Condition:
+        </div>
+        @Html.DropDownListFor(o => o.ConditionList[0].Value, new SelectList(Model.ConditionList, "Value", "Text"), htmlAttributes: new { @class = "conditions gray", @id = "selectCondFatigueStress", @onchange = "materialDetails.changeConditionFatigueStress();" })
+    }
+</div>
+@if (System.Configuration.ConfigurationManager.AppSettings["DeveloperSite"].ToLower() == "false")
+{
+    <div id="fatigueStressPerCondition">
+        @Html.Partial("FatigueCondition", Model.Condition)
+    </div>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var isVisibleSelection = @(Model.ConditionList.Count == 1 && Model.ConditionList[0].Text == "As received" ? "false" : "true");
+        if (!isVisibleSelection) {
+            $("#fatigueStressSelectionContainer").hide();
+        }else {
+            $("#fatigueStressSelectionContainer").show();
+        }
+    });
+</script>

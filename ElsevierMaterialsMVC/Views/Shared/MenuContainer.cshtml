@@ -1,0 +1,110 @@
+﻿@model ElsevierMaterialsMVC.Models.Shared.TableFilters
+@using ElsevierMaterials.Models.Domain
+<script src="~/Scripts/filters.js"></script>
+<div id="divMenu_@Model.TableName" class="menuFilters" style="width: 150px; position: absolute; display: none">
+    <ul class="menuClass" style="width: 150px;">
+        @if (Model.HasOrderPosibility)
+        {
+            <li><span class="ui-icon ui-icon-arrowthick-1-s" style="float: left;"></span><a href="#" onclick="tableFilters.sortTable(0,'@Model.ContainerId');"> Sort Ascending</a></li>
+            <li><span class="ui-icon ui-icon-arrowthick-1-n" style="float: left;"></span><a href="#" onclick="tableFilters.sortTable(1,'@Model.ContainerId');"> Sort Descending</a></li>
+        }
+        @if (Model.HasColumnsHidePosibility && Model.HasOrderPosibility)
+        {
+            <li><span class="ui-menu-divider"></span></li>
+        }
+        @if (Model.HasColumnsHidePosibility)
+        {
+            <li id="subLi" class="columns_@Model.TableName">
+                <span class="ui-icon ui-icon-calculator" style="float: left;"></span><a href="#"> Columns</a><span class="ui-icon ui-icon-carat-1-e" style="float: right;"></span>
+                <ul id="subUl" style="float: right; top: -10px;">
+                    @foreach (var column in Model.Columns)
+                    {
+                        <li>
+                            <input type="checkbox" @(column.IsChecked ? "checked=checked" : "") @(column.IsDisabled ? "disabled=disabled" : "") onchange="tableFilters.changeVisibility(this, '@(Model.TableName)', @((int)Model.FiltersGroup));" colid="@column.Id" class="@column.Class" />
+                            @Html.Raw(column.Name)
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+        @if ((Model.HasColumnsHidePosibility || Model.HasOrderPosibility) && Model.HasInputSearch)
+        {
+            <li><span class="ui-menu-divider"></span></li>
+        }
+        @if (Model.HasInputSearch)
+        {
+            <li id="subLiFilter">
+                <span class="ui-icon ui-icon-search" style="float: left;"></span><a href="#"> Filter</a><span class="ui-icon ui-icon-carat-1-e" style="float: right;"></span>
+                <ul id="subUlFilter" style="float: right; width:210px;">
+                    <li id="liFilter" style="background-color: #ffffff; border-color: #ffffff; min-height: 20px; float: left; padding: 5px;">
+                        <div id="manuFilterContainerWithInput">
+                            <input type="text" style="width: 141px; height: 15px;" id="typeFilter" filtersgroup="@(Model.FiltersGroup)" />
+                            <span><span style="padding-left:7px; color: rgb(119,119,119); text-decoration: underline;  font-family: NexusSansCompPro, Arial, Helvetica, sans-serif; text-decoration: solid;" onclick="clearFilterForSelectedColumn('@(Model.TableName)'); return false;">Clear</span></span>       
+                         </div> 
+                    </li>
+
+                </ul>
+            </li>
+        }
+    </ul>
+</div>
+@Html.Hidden("filterMenuColumn")
+
+@{
+    string allFiltersList = new ElsevierMaterialsMVC.BL.Binders.TableFiltersBinder().GetFiltersModel(Model.Page, Model.FiltersGroup);    
+}
+
+<script type="text/javascript">
+
+    searchFunc.applySearchResutsTableFilters = '@Url.Action("ApplySearchColumnFilters", "TableFilters")';
+    searchFunc.applyMaterialDetailsTableFilters = '@Url.Action("ApplyMaterialDetailsTableFilters", "TableFilters")';
+    searchFunc.applySubgroupsFiltersColumnsPath = '@Url.Action("ApplySubgroupsColumnFilters", "TableFilters")';
+ 
+    searchFunc.resetAllSearchResultsFilter = '@Url.Action("ResetAllSearchResultsFilter", "TableFilters")';
+    searchFunc.resetSearchResultsFilter = '@Url.Action("ResetSearchResultsFilter", "TableFilters")';
+    searchFunc.resetAllSubgroupListResultsFilter = '@Url.Action("ResetAllSubgroupListResultsFilter", "TableFilters")';
+    searchFunc.resetSubgroupListResultsFilterForSelectedColumn = '@Url.Action("ResetSubgroupListResultsFilterForSelectedColumn", "TableFilters")';
+
+
+    var page = @((int)Model.Page);
+    var pageName =  '@(Model.TableName)';
+
+    var columnsFromServer = null;
+
+    $(document).ready(function () {
+
+        $(".menuClass").menu();
+
+        if ('@allFiltersList' != '') {
+            columnsFromServer =  $.parseJSON('@Html.Raw(allFiltersList)');
+            searchFuncColumnsStatusFromServer = $.parseJSON('@Html.Raw(allFiltersList)');
+        } else {
+            searchFuncColumnsStatusFromServer = '';
+            columnsFromServer =  '';
+
+        };
+
+        tableFilters.initColumnList('@Model.TableName');
+        tableFilters.setAllColumnsVisibility(tableFilters.getListOfColumnsForSelectedTableId('@(Model.TableName)'), '@(Model.TableName)');
+        tableFilters.initClickOnBody('@Model.TableName');
+        tableFilters.initEnterOnFilterInputField('@(Model.TableName)', @((int)Model.FiltersGroup));
+
+    });
+
+
+    function pageLoad() {
+
+        if ('@allFiltersList' != '') {
+            columnsFromServer =  $.parseJSON('@Html.Raw(allFiltersList)');
+            searchFuncColumnsStatusFromServer = $.parseJSON('@Html.Raw(allFiltersList)');
+        } else {
+            searchFuncColumnsStatusFromServer = '';
+            columnsFromServer =  '';
+        };
+
+        tableFilters.initColumnList('@Model.TableName');
+        tableFilters.setAllColumnsVisibility(tableFilters.getListOfColumnsForSelectedTableId('@(Model.TableName)'), '@(Model.TableName)');
+    }
+
+</script>
+

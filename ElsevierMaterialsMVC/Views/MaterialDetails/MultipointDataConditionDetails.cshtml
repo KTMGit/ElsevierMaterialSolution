@@ -1,0 +1,61 @@
+﻿@model ElsevierMaterialsMVC.Models.MaterialDetails.MultipointDataConditionModel
+@using ElsevierMaterials.Models;
+ 
+
+<div style="float:left"><img src="@Model.Diagram.Source" /></div>
+@if (Model.DiagramLegends != null && Model.DiagramLegends.Count > 0)
+{
+           if(Model.DiagramLegends.Count>1)
+        {
+                         @Html.DropDownListFor(o => o.DiagramLegends[0].Id, new SelectList(Model.DiagramLegends, "Id", "Name"), htmlAttributes: new { @class = "", @id = "selectMPLegend" , @onchange = "materialDetails.changeDiagramLegendMultipointData()"})
+                }
+}
+<br />
+<div style="float:left" id="mPTablePoints">
+    @Html.Partial("MultipointDataTablePoints", Model.SelectedDiagramLegend)
+</div>
+
+<div style="clear:both"></div>
+@if (Model.SelectedDiagramLegend.TablePoints.SelectedReferences != null && Model.SelectedDiagramLegend.TablePoints.SelectedReferences.Count > 0){
+    <br />
+    <span><a id="selectedRefMPLink" onclick="materialDetails.showSelectedRefMP();return false;" href="#">+ </a><b>Reference for the selected material and condition</b></span>
+    <br />
+    <div id="selectedReferenceMP" style="display:none">
+        <table>
+            <tbody>
+                @{int cntRef = 0;}
+                @foreach (var reference in Model.SelectedDiagramLegend.TablePoints.SelectedReferences)
+                {
+                    cntRef++;
+                    <tr>
+                        <td style="border-right:none; padding-right:10px">@cntRef</td>
+                        <td>@reference</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+}
+@if (Model.SelectedDiagramLegend.TablePoints.AllReferences != null && Model.SelectedDiagramLegend.TablePoints.AllReferences.Count > 0)
+{
+    <br />
+    <span><a id="allRefMPLink" onclick="materialDetails.showAllRefMP();return false;" href="#">+ </a><b>All references for the selected material</b></span>
+    <br />
+    <div id="allReferenceMP" style="display:none">
+        <table>
+            <tbody>
+                @{int cntRef = 0;}
+                @foreach (var reference in Model.SelectedDiagramLegend.TablePoints.AllReferences)
+                {
+                    cntRef++;
+                    <tr>
+                        <td style="border-right:none; padding-right:10px">@cntRef</td>
+                        <td>@reference</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+}

@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{57B6E443-0948-4132-B252-5164619D60DA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ElsevierMaterials.Models</RootNamespace>
+    <AssemblyName>ElsevierMaterials.Models</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ApiCommon">
+      <HintPath>\\denver\BuildData\DLL_Libraries\KTM\Api\ApiCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ApiModels, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>\\denver\BuildData\DLL_Libraries\KTM\Api\ApiModels.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Domain\AdvancedSearch\AdvSearchBinaryOperators.cs" />
+    <Compile Include="Domain\AdvancedSearch\AdvSearchEquivalentProperty.cs" />
+    <Compile Include="Domain\AdvancedSearch\AdvSearchFilters.cs" />
+    <Compile Include="Domain\AdvancedSearch\AdvSearchFiltersAll.cs" />
+    <Compile Include="Domain\AdvancedSearch\AdvSearchLogicalOperators.cs" />
+    <Compile Include="Domain\AdvancedSearch\AdvSearchMultipointDataView.cs" />
+    <Compile Include="Domain\AdvancedSearch\AdvSearchPropertyConditions.cs" />
+    <Compile Include="Domain\AdvancedSearch\AdvSearchPropertyTypes.cs" />
+    <Compile Include="Domain\AdvancedSearch\AdvSearchResults.cs" />
+    <Compile Include="Domain\AdvancedSearch\AdvSearchSqlQueryDef.cs" />
+    <Compile Include="Domain\AdvancedSearch\AdvStructureSearch.cs" />
+    <Compile Include="Domain\BinaryOperator.cs" />
+    <Compile Include="Domain\Citation.cs" />
+    <Compile Include="Domain\ComparisonDiagram\ComparisonD.cs" />
+    <Compile Include="Domain\ComparisonDiagram\ConditionD.cs" />
+    <Compile Include="Domain\ComparisonDiagram\CurveD.cs" />
+    <Compile Include="Domain\ComparisonDiagram\Info.cs" />
+    <Compile Include="Domain\ComparisonDiagram\ListXNames.cs" />
+    <Compile Include="Domain\ComparisonDiagram\MaterialD.cs" />
+    <Compile Include="Domain\ComparisonDiagram\PointD.cs" />
+    <Compile Include="Domain\ComparisonDiagram\PropertyD.cs" />
+    <Compile Include="Domain\ComparisonDiagram\TemperatureD.cs" />
+    <Compile Include="Domain\Comparison\IComparison.cs" />
+    <Compile Include="Domain\LogicalOperator.cs" />
+    <Compile Include="Domain\MaterialTaxonomy.cs" />
+    <Compile Include="Domain\Material\IMaterialBasicInfo.cs" />
+    <Compile Include="Domain\PropertyConditionModel.cs" />
+    <Compile Include="Domain\PropertyDescription.cs" />
+    <Compile Include="Domain\BaseProperty.cs" />
+    <Compile Include="Domain\Classification.cs" />
+    <Compile Include="Domain\ClassificationType.cs" />
+    <Compile Include="Domain\Classification\ClassModel.cs" />
+    <Compile Include="Domain\Classification\GroupModel.cs" />
+    <Compile Include="Domain\Classification\SubclassModel.cs" />
+    <Compile Include="Domain\Classification\TypeClass.cs" />
+    <Compile Include="Domain\Comparison\Comparison.cs" />
+    <Compile Include="Domain\Comparison\Material.cs" />
+    <Compile Include="Domain\Comparison\Property.cs" />
+    <Compile Include="Domain\Condition.cs" />
+    <Compile Include="Domain\CreepData\TemperatureItem.cs" />
+    <Compile Include="Domain\PropertyGroup.cs" />
+    <Compile Include="Domain\CreepData\CreepDataContainer.cs" />
+    <Compile Include="Domain\Equivalency\CrossReferenceModel.cs" />
+    <Compile Include="Domain\Equivalency\EquivalencyModel.cs" />
+    <Compile Include="Domain\EquivalentMaterial.cs" />
+    <Compile Include="Domain\EquivalentProperty.cs" />
+    <Compile Include="Domain\Exporter\Exporter.cs" />
+    <Compile Include="Domain\Exporter\Material.cs" />
+    <Compile Include="Domain\Exporter\Property.cs" />
+    <Compile Include="Domain\FullTextSearch.cs" />
+    <Compile Include="Domain\Material.cs" />
+    <Compile Include="Domain\MaterialProperty.cs" />
+    <Compile Include="Domain\Material\MaterialBasicInfo.cs" />
+    <Compile Include="Domain\Material\MaterialDetailType.cs" />
+    <Compile Include="Domain\PrefferedNames.cs" />
+    <Compile Include="Domain\Processing\CreepConditionModel.cs" />
+    <Compile Include="Domain\Processing\MachinabilityModel.cs" />
+    <Compile Include="Domain\Processing\MetallographyCCModel.cs" />
+    <Compile Include="Domain\Processing\MetallographyConditionModel.cs" />
+    <Compile Include="Domain\Processing\MetallographyMicrostructureModel.cs" />
+    <Compile Include="Domain\Processing\MetallographyModel.cs" />
+    <Compile Include="Domain\Processing\MetallographyDetailModel.cs" />
+    <Compile Include="Domain\Property.cs" />
+    <Compile Include="Domain\PropertyGroups\Citation.cs" />
+    <Compile Include="Domain\PropertyGroups\DiagramPoint.cs" />
+    <Compile Include="Domain\PropertyGroups\FatigueCondition.cs" />
+    <Compile Include="Domain\PropertyGroups\FatiguePlusCondition.cs" />
+    <Compile Include="Domain\PropertyGroups\Fatigue\DiagramCoordinate.cs" />
+    <Compile Include="Domain\PropertyGroups\Fatigue\FatigueConditionCurve.cs" />
+    <Compile Include="Domain\PropertyGroups\Fatigue\FatigueConditionDiagram.cs" />
+    <Compile Include="Domain\PropertyGroups\GroupChemicalProperty.cs" />
+    <Compile Include="Domain\PropertyGroups\GroupCondition.cs" />
+    <Compile Include="Domain\PropertyGroups\GroupMaterialCondition.cs" />
+    <Compile Include="Domain\PropertyGroups\GroupChemicalPropertyAll.cs" />
+    <Compile Include="Domain\PropertyGroups\GroupTestCondition.cs" />
+    <Compile Include="Domain\PropertyGroups\GroupModel.cs" />
+    <Compile Include="Domain\PropertyGroups\ImageSource.cs" />
+    <Compile Include="Domain\PropertyGroups\PropertyModel.cs" />
+    <Compile Include="Domain\PropertyGroups\StressStrainConditionModel.cs" />
+    <Compile Include="Domain\PropertyGroups\StressStrainDetails.cs" />
+    <Compile Include="Domain\PropertyGroups\StressStrainTestCondition.cs" />
+    <Compile Include="Domain\PropertyGroups\StressStrainMaterialCondition.cs" />
+    <Compile Include="Domain\PropertyGroups\StressStrainModel.cs" />
+    <Compile Include="Domain\PropertyGroups\StressStrainTemperature.cs" />
+    <Compile Include="Domain\PropertyUnitModel.cs" />
+    <Compile Include="Domain\PropertyUnits.cs" />
+    <Compile Include="Domain\Property\IPropertyBasicInfo.cs" />
+    <Compile Include="Domain\Property\PropertyBasicInfo.cs" />
+    <Compile Include="Domain\Property\PropertyFilter.cs" />
+    <Compile Include="Domain\Property\PropertyConversionFactorAndUnit.cs" />
+    <Compile Include="Domain\Property\PropertyWithConvertedValues.cs" />
+    <Compile Include="Domain\RecordLink.cs" />
+    <Compile Include="Domain\SampleMaterial.cs" />
+    <Compile Include="Domain\SearchFilterColumns.cs" />
+    <Compile Include="Domain\SearchFilterCoumnsAll.cs" />
+    <Compile Include="Domain\Source.cs" />
+    <Compile Include="Domain\TaxonomyTreeCount.cs" />
+    <Compile Include="Domain\Tree.cs" />
+    <Compile Include="Domain\TreeCount.cs" />
+    <Compile Include="Domain\Unit.cs" />
+    <Compile Include="Domain\UnitModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TypeAnnotations\" />
+    <Folder Include="TypeValidations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ElsevierMaterials.Export\ElsevierMaterials.Export.csproj">
+      <Project>{74472712-6081-41fe-81c4-bbdc8375282c}</Project>
+      <Name>ElsevierMaterials.Export</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

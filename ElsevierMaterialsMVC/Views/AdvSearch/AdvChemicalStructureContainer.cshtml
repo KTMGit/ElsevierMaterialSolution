@@ -1,0 +1,58 @@
+﻿<script type="text/javascript" language="javascript" src="../Scripts/jsme/jsme.nocache.js"></script>
+
+<script>
+    //this function will be called after the JavaScriptApplet code has been loaded.
+    function jsmeOnLoad() {
+      
+
+        jsmeApplet = new JSApplet.JSME("jsme_container", "380px", "340px", {
+            //optional parameters
+            "options": "query,hydrogens"
+        });
+
+       
+        document.JME = jsmeApplet;
+
+     
+    }
+   
+   
+
+    function getValue() {
+        var molFile = jsmeApplet.jmeFile();
+
+        document.STRQUERY.query.value = molFile;
+
+        if (document.STRQUERY.stereoSearch[0].checked) document.STRQUERY.stereo.value = "";
+        if (document.STRQUERY.stereoSearch[1].checked) document.STRQUERY.stereo.value = "On";
+
+        if (document.STRQUERY.searchType[0].checked) document.STRQUERY.exactsearch.value = "On";
+        if (document.STRQUERY.searchType[1].checked) document.STRQUERY.exactsearch.value = "";
+
+    
+        
+
+    }
+</script>
+<div style="float:left; color:rgb(119,119,119);">
+<div id="jsme_container"></div>
+<form name="STRQUERY" action="@Url.Action("AdvStructureSearch", "AdvSearch")" method="POST"  onsubmit="return getValue()" style="margin-top: 15px;">
+<input type="hidden" name="query">                        <!-- Chemical structure as molfile -->
+<input type="hidden" name="exactsearch">                  <!-- Search type -->
+<input type="hidden" name="stereo">                       <!-- Exact structure-stereo search -->
+
+Search kind <br>
+<input type="Radio" name="searchType" > Exact structure <br>
+<input type="Radio" name="searchType" checked> Fragment of structure <br>
+<br>
+Exact structure search options<br>
+<input type="Radio" name="stereoSearch" >Without stereochemistry<br>
+<input type="Radio" name="stereoSearch" checked>With stereochemistry<br>
+<div style="margin-top:10px;">
+<input type="submit" value="Start Search" name="B1" >
+</div>
+    </form>
+
+    </div>
+<div style="float:left;" id="structureSearchResults">
+    </div>

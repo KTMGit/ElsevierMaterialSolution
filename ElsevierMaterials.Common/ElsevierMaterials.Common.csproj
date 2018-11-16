@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1272CA8D-D590-41B9-8939-1958D46DEEB3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ElsevierMaterials.Common</RootNamespace>
+    <AssemblyName>ElsevierMaterials.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ApiCommon">
+      <HintPath>\\denver\BuildData\DLL_Libraries\KTM\Api\ApiCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ApiModels">
+      <HintPath>\\denver\BuildData\DLL_Libraries\KTM\Api\ApiModels.dll</HintPath>
+    </Reference>
+    <Reference Include="IniCore">
+      <HintPath>\\DENVER\BuildData\DLL_Libraries\IniCore\3.0.0\IniCore.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interfaces\IPropertyConversionFactorAndUnitRepository.cs" />
+    <Compile Include="Interfaces\IPropertyWithConvertedValuesRepository.cs" />
+    <Compile Include="Interfaces\IAdvSearchResultsRepository.cs" />
+    <Compile Include="Interfaces\IClassificationRepository.cs" />
+    <Compile Include="Interfaces\IFullTextSearchRepository.cs" />
+    <Compile Include="Interfaces\IMaterialContextUow.cs" />
+    <Compile Include="Interfaces\ICommandResult.cs" />
+    <Compile Include="Interfaces\IMaterialRepository.cs" />
+    <Compile Include="Interfaces\INavigable.cs" />
+    <Compile Include="Interfaces\IPageDataContainer.cs" />
+    <Compile Include="Interfaces\IPropertyRepository.cs" />
+    <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\ISampleMaterialRepository.cs" />
+    <Compile Include="Interfaces\IPlusService.cs" />
+    <Compile Include="Interfaces\IService.cs" />
+    <Compile Include="Interfaces\IStackNavigation.cs" />
+    <Compile Include="Interfaces\ITreeRepository.cs" />
+    <Compile Include="Interfaces\IUowCommandResult.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ElsevierMaterials.Models\ElsevierMaterials.Models.csproj">
+      <Project>{57b6e443-0948-4132-b252-5164619d60da}</Project>
+      <Name>ElsevierMaterials.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

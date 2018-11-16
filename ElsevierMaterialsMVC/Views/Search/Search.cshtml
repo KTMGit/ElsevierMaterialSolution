@@ -1,0 +1,112 @@
+﻿@model ElsevierMaterialsMVC.Models.Search.BaseSearchModel
+@using ElsevierMaterialsMVC.BL.Global
+@using ElsevierMaterialsMVC.Models.Shared
+@using ElsevierMaterialsMVC.BL.Binders.Search
+@using ElsevierMaterialsMVC.BL.Helpers;
+@{
+    ViewBag.Title = "Elsevier :: Search";
+    Layout = "~/Views/Shared/_LayoutFilters.cshtml";
+}
+
+@{
+    BreadcrumbNavigation nav = (BreadcrumbNavigation)System.Web.HttpContext.Current.Session["Navigation"];
+    SearchFilters sf = null;
+    if (nav != null)
+    {
+        FullSearch fs = nav.GetOrderedItems().Where(n => n.NavigableID == "FullSearch").FirstOrDefault() as FullSearch;
+        if (fs != null)
+        {
+            Dictionary<string, object> allFilters = (Dictionary<string, object>)fs.PageData;
+            if (allFilters != null)
+            {
+                sf = (SearchFilters)(allFilters["filters"]);
+            }
+        }
+    }
+}
+
+<div id="mainContent">
+
+    @Html.HiddenFor(m => m.Filter.FullText, new { id = "searchTextHolder" })
+    @Html.HiddenFor(m => m.Filter.ClasificationId, new { id = "classificationId" })
+    @Html.HiddenFor(m => m.Filter.ClasificationTypeId, new { id = "classificationTypeId" })
+    @Html.HiddenFor(m => m.Filter.FromBrowse, new { id = "fromBrowse" })
+
+    @Html.Partial("Plugins", new Plugin() { HasSearchFilters = Model.HasSearchFilters, ActivePage = PageEnum.SearchResults })
+
+    @if (sf != null && sf.filter != null && sf.filter != "")
+    {
+        <div id="divMaterialList">
+            <div id="resizableFilters" style=" width:400px;">
+                <div id="menageFiltersVisibility">
+                    <a href="#" class="label" style="float:left;display:none;" id="divResizableFiltersOpen" onclick="openFiltersContainer()">Filters</a>
+                    <a href="#" class="label" style="float:left;" id="divClearAllTableFilters" onclick="clearAllSearchResultsTableFilters();">Clear all table filters</a>
+                    <a href="#" class="label" style="float:left;" id="divResizableFiltersClose" onclick="closeFiltersContainer();">Close filters</a>
+                   
+                </div>
+                <div style="clear:both;"></div>
+                <div id="resizable" style="margin-top:10px;width:450px; ">@*@Html.Partial("FiltersContainerAdvProp", Model.Filter)*@</div>
+                <div style="clear:both;"></div>
+            </div>
+            <div id="resultsResizable">
+                @Html.Partial("ResultsContainer", Model)
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+    }
+    else
+    {
+        //TODO:
+        <div class="message">
+            There are no search results to be displayed. Please enter wanted search term in the box on the top or use Advanced Search to find materials of interest.
+        </div>
+    }
+
+    <script type="text/javascript">
+     
+
+        
+        searchFunc.fillSearchConditionItems =  '@Url.Action("GetFilters", "Search")';
+        searchFunc.advSearchPath = '@Url.Action("AdvSearch", "AdvSearch")';
+        searchFunc.searchResultsApplyInputFilter = '@Url.Action("SearchResultsApplyInputFilter", "Search")';
+        searchFunc.subgroupsPath= '@Url.Action("Subgroup", "Subgroups")';
+        searchFunc.fullTextSearchPath = '@Url.Action("FullTextSearchOnly", "Search")';
+
+        _RegisterGrid('resultsResizable', '@(Url.Action("ApplyPager", "Search"))',  @(Html.DescriptorToJson(Model.Descriptor)));
+
+        $(function() {
+            $( "#tabs" ).tabs();
+        });
+
+        var sourcesWidth = $("#sourcesSelection").width();
+        var initialWidthOfContainer =  $("#resizable").width();
+
+        $('#home').hide();
+        $('#sampleMaterial').show();
+        $('#eqMaterial').hide();
+        $('#details').hide();
+
+        $(document).ready(function () {
+            closeFiltersContainer();
+            advSearchFunc.setPropElementsVisability();
+            advSearchFunc.setEnteredValuesVisibility();
+            $('#tbFullTexSearch').val($('#searchTextHolder').val());
+
+            $('#materialList').sorttable({
+            }).disableSelection();
+        });
+
+
+        $("body").on("click", ".deleteProperty", function (e) {
+            $(this).parent().closest('div').remove();
+            searchProp.setPropElementsVisability();
+        });
+
+        // define "change operator" functionality
+        $("body").on("change", ".selectOperator", function (e) {
+            searchProp.onSelectOperatorChanged(this);
+            return false;
+        });
+
+</script>
+</div>

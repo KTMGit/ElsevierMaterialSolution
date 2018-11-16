@@ -1,0 +1,65 @@
+﻿@model ElsevierMaterialsMVC.Models.Search.SearchCondition
+
+<script src="~/Scripts/dist/jstree.js"></script>
+<link href="~/Scripts/dist/themes/default/style.css" rel="stylesheet" />
+
+<div id="browseFilterMaterials">
+    <ul>
+        @foreach (var type in Model.ClassificationTypes)
+        {
+            <li id="@type.TypeClassId" nodetype="1">
+                <a nodetype="1" href="#"  onclick="searchFunc.browseMaterials(@type.TypeClassId);">@type.TypeClassName</a>
+                <ul>
+                    @foreach (var cl in type.Classes)
+                    {
+                        <li id="@cl.ClassModelId" nodetype="2">
+                            <a href="#" class="nodeBrowse"  onclick="searchFunc.browseMaterials(@cl.ClassModelId);" title="@cl.ClassModelName">@cl.ClassModelName</a>
+                            <ul>
+                                @foreach (var subclass in cl.Subclasses)
+                                {
+                                    <li id="@subclass.SubclassModelId" nodetype="3">
+                                        <a class="nodeBrowse"  onclick="searchFunc.browseMaterials(@subclass.SubclassModelId);" title="@subclass.SubclassName" href="#">@subclass.SubclassName</a>
+                                        <ul>
+                                            @foreach (var group in subclass.Groups)
+                                            {
+                                                <li id="@group.GroupModelId" nodetype="4"><a class="nodeBrowse"  onclick="searchFunc.browseMaterials(@group.GroupModelId);" idtree="subclass_@group.GroupModelId" title="@group.GroupModelName" href="#">@group.GroupModelName</a></li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+</div>
+<script type="text/javascript">
+    var numberOfType =@(Model.ClassificationTypes.Count);
+    searchFunc.browseSearchPath = '@Url.Action("BrowseSearch", "Search")';
+    $(document).ready(function () {
+        $('#browseFilterMaterials').jstree({
+            plugins: ["themes", "html_data", "ui", "crrm"]
+        }).bind("select_node.jstree", function (event, data) {
+            return data.instance.toggle_node(data.node);
+        });
+
+        $('#browseFilterMaterials').jstree('select_node', 'ul > li:first').click();
+        $('#710_anchor').css( "background-color","white");        
+        $('#710_anchor').css( "color","rgb(119,119,119)");
+        $('#711_anchor').css( "background-color","white");    
+        $('#711_anchor').css( "color","rgb(119,119,119)");      
+        $('#609397_anchor').css( "background-color","white");    
+        $('#609397_anchor').css( "color","rgb(119,119,119)");      
+        $('#609441_anchor').css( "background-color","white");    
+        $('#609441_anchor').css( "color","rgb(119,119,119)");      
+        if (numberOfType > 1) {
+            $('#browseFilterMaterials').jstree('select_node', 'ul > li:last').click();
+              
+           
+        }
+      
+  
+    });
+</script>

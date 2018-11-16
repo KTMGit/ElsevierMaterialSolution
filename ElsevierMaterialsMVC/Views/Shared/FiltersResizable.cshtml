@@ -1,0 +1,166 @@
+﻿@model ElsevierMaterialsMVC.Models.Search.SearchResultsCondition
+@{
+    int x = Model.Sources.Count();
+}
+
+<script src="~/Scripts/dist/jstree.js"></script>
+<link href="~/Scripts/dist/themes/default/style.css" rel="stylesheet" />
+@*<link href="~/Content/jquery-ui.css" rel="stylesheet" />*@
+
+
+<style>
+    .filtersPage {
+        overflow-y: auto;
+        overflow-x: auto;
+        font-size: 12px;
+        position: relative;
+    }
+</style>
+
+
+
+<div class="filtersPage">
+    <div class="filtersContainerHeader" style="margin-bottom: 20px;">
+        <div>
+            <div class="label" style="text-decoration: none; margin-top: 0px;">
+                Sources:
+            </div>
+            <select id="sourcesSelection" class="gray" style="width: 100%;" onchange="searchFunc.browseMaterialsWithFilters();">
+                <option value="0">All</option>
+                @foreach (var item in Model.Sources.OrderBy(s => s.Name))
+                {
+                    var isSelected = (Model.SelectedSource == String.Concat(item.Id.ToString(), ',', item.Databook_id));
+                    if (isSelected)
+                    {
+                    <option value="@(String.Concat(item.Id.ToString(), '#', item.Databook_id))" selected="selected">@item.Name</option>
+                    }
+                    else
+                    {
+                    <option value="@(String.Concat(item.Id.ToString(), '#', item.Databook_id))">@item.Name</option>
+                    }
+                }
+
+            </select>
+
+        </div>
+    </div>
+
+    <div style="clear: both;"></div>
+    <div id="filtersContainerContent">
+        <div id="containerMaterial">
+            <ul>
+                @foreach (var type in Model.ClassificationTypes)
+                {
+                    <li id="@type.TypeClassId" nodetype="1">
+                        <a href="#" onclick="searchFunc.browseMaterials(@type.TypeClassId);">@type.TypeClassName</a>
+                        <ul>
+                            @foreach (var cl in type.Classes)
+                            {
+                                <li id="@cl.ClassModelId" nodetype="2">
+                                    <a href="#" class="node" title="@cl.ClassModelName" onclick="searchFunc.browseMaterials(@cl.ClassModelId);">@cl.ClassModelName</a>
+                                    <ul>
+                                        @foreach (var subclass in cl.Subclasses)
+                                        {
+                                            <li id="@subclass.SubclassModelId" nodetype="3">
+                                                <a class="node" title="@subclass.SubclassName" href="#" onclick="searchFunc.browseMaterials(@subclass.SubclassModelId);">@subclass.SubclassName</a>
+                                                <ul>
+                                                    @foreach (var gr in subclass.Groups)
+                                                    {
+                                                        <li id="@gr.GroupModelId" nodetype="4"><a class="node" title="@gr.GroupModelName" href="#" onclick="searchFunc.browseMaterials(@gr.GroupModelId);">@gr.GroupModelName</a></li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+    searchFunc.browseSearchPath = '@Url.Action("BrowseSearch", "Search")';
+    searchFunc.applyFiltershPath = '@Url.Action("ApplyFilters", "Search")';
+
+    $(document).ready(function () {
+
+        classificationId= @Model.ClasificationId;
+        classificationTypeId= @Model.ClasificationTypeId;
+        showPropertiesFilters='@(Model.ShowPropertiesFilters)';
+
+        // Get source from url and select it
+        var source = searchFunc.getParameterByName('Source').replace(/,/g, '#');
+        //console.log('Source: ', source);
+        $('#sourcesSelection').val(source);
+       
+
+        if (showPropertiesFilters == 'False') {
+            showPropertiesFilters = false;
+        }
+        
+        $('#tabsFilters').tabs();
+
+        $('#containerMaterial').jstree({
+            plugins: ["themes", "html_data", "ui", "crrm"]
+        }).bind("select_node.jstree", function (event, data) {
+            return data.instance.toggle_node(data.node);
+        });
+
+        $('#containerProperty').jstree({
+            plugins: ["themes", "html_data", "ui", "crrm"]
+        }).bind("select_node.jstree", function (event, data) {
+            return data.instance.toggle_node(data.node);
+        });
+
+        setFirstNodeActive();
+
+        if (classificationId > 0) {
+            $('#containerMaterial').jstree('select_node', '#'+ classificationId).click(function () {
+                var cw = $('#mainContent').width();
+                //console.log(cw);
+
+                var filtersWidth = $("#resizable").width();
+
+                var resultsWidth = cw - filtersWidth - 15;
+
+                $("#resultsResizable").width(resultsWidth);
+                $(".corner-wrapper").width(resultsWidth);
+            });
+        }
+
+        if (showPropertiesFilters == false) {
+
+            $(".filtersPage").hide();
+
+        } else {
+            $(".filtersPage").show();
+
+        }  
+    });
+
+
+
+    function setFirstNodeActive() {
+
+        $('#browseFilterMaterials').jstree('select_node', 'ul > li:first').click();
+        $('#browseFilterMaterials').jstree('select_node', 'ul > li:last').click();
+
+
+        $('#710_anchor').css( "background-color","white");
+        $('#710_anchor').css( "color","rgb(119,119,119)");
+
+        $('#711_anchor').css( "background-color","white");
+        $('#711_anchor').css( "color","rgb(119,119,119)");
+    }
+</script>
+
+

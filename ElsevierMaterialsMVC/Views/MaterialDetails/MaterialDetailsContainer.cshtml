@@ -1,0 +1,189 @@
+﻿@model ElsevierMaterialsMVC.Models.MaterialDetails.MaterialDetailsModel
+@using ElsevierMaterialsMVC.Models.Shared
+@using ElsevierMaterialsMVC.BL.Notifications;
+@{
+    ViewBag.Title = "Elsevier :: Material details";
+    Layout = "~/Views/Shared/_LayoutFilters.cshtml";
+}
+
+@Html.Partial("Plugins", new Plugin() { HasSearchFilters = HasSearchFiltersEnum.Yes, ActivePage = PageEnum.MaterialDetails })
+<div style="clear: both;"></div>
+<div id="components">
+    <a class="componentActive" href="#" onclick="materialDetails.showHideProperties(@Model.Material.SourceMaterialId,@Model.Material.SubgroupId,@Model.Material.SourceId)" id="aProperties">Properties @(Model.Material.NumProperties != 0 ? "(" + Model.Material.NumProperties + ")" : "")</a>
+    @if (!Model.IsChemical)
+    {
+        <a class="component" href="#" onclick="materialDetails.showEquivalency(@Model.Material.SourceMaterialId,@Model.Material.SubgroupId,@Model.Material.SourceId)" id="aEquivalency">Equivalency@(Model.Material.NumEquivalency != 0 ? " (" + Model.Material.NumEquivalency + ")" : "")</a>
+        <a class="component" href="#" onclick="materialDetails.showProcessing(@Model.Material.SourceMaterialId,@Model.Material.SubgroupId,@Model.Material.SourceId)" id="aProcessing">Processing @(Model.Material.NumProcessing != 0 ? "(" + Model.Material.NumProcessing + ")" : "")</a>
+    }
+</div>
+<div style="clear: both;"></div>
+@Html.HiddenFor(m => m.Filter.FullText, new { id = "searchTextHolder" })
+<div id="substitution">
+    @if (!Model.IsChemical)
+    {
+        <div>
+            <a href="#" class="comparison" onclick="addToExporter(@Model.Material.MaterialId, @Model.Material.SubgroupId, @Model.Material.SourceId, @Model.Material.SourceMaterialId);return false;">Add to Export</a>
+        </div> 
+        <div>
+            <a href="#" class="comparison" onclick="materialDetails.AddCheckedToComparison();addToComparison(@Model.Material.MaterialId, @Model.Material.SubgroupId, @Model.Material.SourceId, @Model.Material.SourceMaterialId); return false;">Add to Compare </a>
+        </div>
+    }
+    else
+    {
+    <div>
+        <a href="#" class="comparison" onclick="addToComparison(@Model.Material.MaterialId, @Model.Material.SubgroupId, @Model.Material.SourceId, @Model.Material.SourceMaterialId);return false;">Add to Compare </a>        
+    </div>
+    }    
+</div>
+
+@Html.Partial("MenuContainer", new ElsevierMaterialsMVC.BL.Binders.TableFiltersBinder().GetMaterialDetailsMaterialInfoColumns())
+@Html.Partial("MaterialDetailsInfoTable", Model)
+<div style="width: 100%;">
+    @Html.Partial("PropertiesDescriptions", Model.ChemicalElsProperties)
+</div>
+
+<div id="divProperties">
+
+    @if (Model.Properties != null)
+    {
+        if (Model.Material.SourceId == 1)
+        {
+        <div style="font-size: 14px; line-height: 164%; color: rgb(102,102,102); margin: 10px;">
+            Units:
+                <input id="rb_1" type="radio" checked="checked" value="1" onchange="convertValue(@Model.Material.MaterialId, @Model.Material.SourceMaterialId, @Model.Material.SubgroupId, @Model.Material.SourceId, 1);return false;" name="name" />
+            <span id="defaultText">Original</span>
+            <input id="rb_2" type="radio" value="2" onchange="convertValue(@Model.Material.MaterialId, @Model.Material.SourceMaterialId, @Model.Material.SubgroupId, @Model.Material.SourceId, 2);return false;" name="name" />Metric
+                <input id="rb_3" type="radio" value="3" onchange="convertValue(@Model.Material.MaterialId, @Model.Material.SourceMaterialId, @Model.Material.SubgroupId, @Model.Material.SourceId, 3);return false;" name="name" />US Customary
+        </div>
+        }
+        if (Model.Material.SourceId == 2)
+        {
+        <div style="font-size: 14px; line-height: 164%; color: rgb(102,102,102); margin: 10px;">
+            Units:
+                <input id="rb_2" type="radio" checked="checked" value="2" onchange="convertValue(@Model.Material.MaterialId, @Model.Material.SourceMaterialId, @Model.Material.SubgroupId, @Model.Material.SourceId, 2);return false;" name="name" />Metric
+                <input id="rb_3" type="radio" value="3" onchange="convertValue(@Model.Material.MaterialId, @Model.Material.SourceMaterialId, @Model.Material.SubgroupId, @Model.Material.SourceId, 3);return false;" name="name" />US Customary
+        </div>
+        }
+        if (System.Configuration.ConfigurationManager.AppSettings["DeveloperSite"].ToLower() == "true")
+        { 
+            @Html.Partial("PropertiesMain", Model)
+        }
+        else
+        {
+            @Html.Partial("Properties", Model)
+        }
+        
+    }
+</div>
+<div id="divEquivalency">
+    @if (Model.Equivalency != null)
+    {
+        @Html.Partial("Equivalency", Model.Equivalency)
+    }
+</div>
+<div id="divProcessing">
+    @if (Model.Processing != null)
+    {
+        @Html.Partial("Processing", Model.Processing)
+    }
+</div>
+<script type="text/javascript">
+
+    var fullTextSearchText ='@(Model.Filter.FullText)';
+    var convertValues = '@Url.Action("ConvertValues", "MaterialDetails")';
+    materialDetails.getMechanicalMetal = '@Url.Action("GetMechanicalMetal", "MaterialDetails")';
+    materialDetails.getPhysicalMetal = '@Url.Action("GetPhysicalMetal", "MaterialDetails")';
+    materialDetails.conditionDataPath = '@Url.Action("ConditionData", "MaterialDetails")';
+    materialDetails.propertyGroupDataPath= '@Url.Action("GroupData", "MaterialDetails")';
+    materialDetails.changedFirstCondition = '@Url.Action("FirstConditionData", "MaterialDetails")';
+    materialDetails.changedSecondCondition = '@Url.Action("SecondConditionData", "MaterialDetails")';
+    var changeConditionMaterialID = @Model.Material.MaterialId;
+    var changeConditionSourceMaterialId = @Model.Material.SourceMaterialId;
+    var changeConditionSourceId = @Model.Material.SourceId;
+    var changeConditionSubgroupId=@Model.Material.SubgroupId;
+    searchFunc.fullTextSearchPath = '@Url.Action("FullTextSearchOnly", "Search")';
+    materialDetails.getPropertiesPath= '@Url.Action("GetProperties", "MaterialDetails")';
+    materialDetails.getProcessingPath = '@Url.Action("GetProccesing", "MaterialDetails")';
+    materialDetails.getEquivalencyPath = '@Url.Action("GetEquivalency", "MaterialDetails")';
+    materialDetails.getStressStrainTestConditionsWithDetails = '@Url.Action("GetStressStrainTestConditionsWithDetails", "MaterialDetails")';
+    materialDetails.getStressStrainConditionDetails = '@Url.Action("GetStressStrainDetails", "MaterialDetails")';
+    materialDetails.getStressStrainTemperatureDetails = '@Url.Action("GetStressStrainTemperatureDetails", "MaterialDetails")';
+
+    materialDetails.getFatigueStrainTestConditions = '@Url.Action("GetFatigueStrainTestConditions", "MaterialDetails")';
+    materialDetails.getFatigueStressTestConditions = '@Url.Action("GetFatigueStressTestConditions", "MaterialDetails")';
+
+    materialDetails.getFatigueStrainCondition = '@Url.Action("GetFatigueStrainConditionDetails", "MaterialDetails")';  
+    materialDetails.getFatigueStressCondition = '@Url.Action("GetFatigueStressConditionDetails", "MaterialDetails")';
+
+    materialDetails.getCreepTestConditions = '@Url.Action("GetCreepTestConditions", "MaterialDetails")';
+
+
+    searchFunc.subgroupsBySourceIdPath= '@Url.Action("SubgroupBySourceMaterialId", "Subgroups")';
+    searchFunc.advSearchPath = '@Url.Action("AdvSearch", "AdvSearch")';
+    materialDetails.getFatiguePlusCondition = '@Url.Action("GetFatiguePlusConditionDetails", "MaterialDetails")';
+    materialDetails.getMultipointDataTypeDiagram = '@Url.Action("GetMultipointDataTypeDiagram", "MaterialDetails")';
+    materialDetails.getMultipointDataCondition = '@Url.Action("GetMultipointDataCondition", "MaterialDetails")';
+    materialDetails.getMultipointDataDiagramLegend = '@Url.Action("GetMultipointDataDiagramLegend", "MaterialDetails")';
+    materialDetails.getCreepDataMetal = '@Url.Action("GetCreepDataMetal", "MaterialDetails")';
+    materialDetails.getCreepDataPlus = '@Url.Action("GetCreepDataPlus", "MaterialDetails")';
+    materialDetails.getCreepDataPlusTemp = '@Url.Action("GetCreepDataPlusByTemp", "MaterialDetails")';
+    materialDetails.getCreepDataPlusPoints = '@Url.Action("GetCreepDataPlusPoints", "MaterialDetails")';
+
+    materialDetails.getCreepDataPlusPoints = '@Url.Action("GetCreepDataPlusPoints", "MaterialDetails")';
+
+    materialDetails.getCitation = '@Url.Action("GetCitation", "MaterialDetails")';
+
+    $(document).ready(function () {
+        $("#breadcrumb").append($("#substitution"));
+
+        var processingNum = @Model.Material.NumProcessing;
+        var equivalNum = @Model.Material.NumEquivalency;
+        var tabid=@Model.ActiveTab;
+        if (processingNum == 0) {
+            $("#aProcessing").removeClass("component").addClass("componentInactive");
+            //$("#aProcessing").attr('disabled', 'disabled');
+            $("#aProcessing").prop( "onclick", null );
+
+        }
+
+        if (equivalNum == 0) {
+            $("#aEquivalency").removeClass("component").addClass("componentInactive");
+            //$("#aProcessing").attr('disabled', 'disabled');
+            $("#aEquivalency").prop( "onclick", null );
+        }
+
+        $('#tbFullTexSearch').val($('#searchTextHolder').val());
+        $('#home').hide();
+        $('#sampleMaterial').hide();
+        $('#eqMaterial').hide();
+        $('#details').show();
+
+        $('#divProperties').hide();
+        $('#divProcessing').hide();
+        $('#divEquivalency').hide();
+
+        $(tabid).show();
+
+        if(  $(tabid).prop('id')=='divProcessing')
+        {
+            $("#aProperties").removeClass("componentActive").addClass("component");
+            $("#aEquivalency").removeClass("componentActive").addClass("component");
+            $("#aProcessing").removeClass("component").addClass("componentActive");
+        }
+        if(  $(tabid).prop('id')=='divEquivalency')
+        {
+            $("#aProperties").removeClass("componentActive").addClass("component");
+            $("#aProcessing").removeClass("componentActive").addClass("component");
+            $("#aEquivalency").removeClass("component").addClass("componentActive");
+        }
+
+        $('#tbFullTexSearch').val($('#searchTextHolder').val());
+
+
+        $('[id^="propAccordionProcess_"]').accordion({ active: false })
+        //$(".accordion:first").accordion({ active: 0 })
+        //$('#propAccordionProcess_1').accordion({ active: 0 })
+
+
+    });
+</script>

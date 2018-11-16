@@ -1,0 +1,111 @@
+﻿@*@model IDictionary<ProductGroup.ProductGroupType, ProductGroup>
+@using ElsevierMaterialsMVC.Models.MaterialDetails;
+@using ElsevierMaterials.Models;
+@{
+    IDictionary<ProductGroup.ProductGroupType, ProductGroup> item = Model;
+}
+<div class="accordion" indexofaccordionparent="@cnt" id="propAccordion_@(cnt == 1 ? "first" : "other_" + cnt.ToString())">
+    <h4 class="accordion-header" indexofaccordion="@cnt">
+        <span class="title">@item.Value.ProductGroupName @(item.Value.PropertyCount != 0 ? " (" + item.Value.PropertyCount + ")" : "")</span>
+    </h4>
+    <div class="accordion-content">
+        <div class="conditionContent">
+            @if (item.Value.Conditions.Count > 0)
+            {
+
+                if (!(item.Value.Conditions.Count == 1 && item.Value.Conditions[0].ConditionName == "As Received") && item.Value.Conditions[0].ConditionName.Trim() != "")
+                {
+                    @:Material Detail: @Html.DropDownListFor(o => o.Properties.ProductGroups[item.Key].ConditionId, new SelectList(item.Value.Conditions, "ConditionId", "ConditionName"), htmlAttributes: new { @class = "conditions gray", @id = "selectCond_" + (int)item.Key, @onchange = "changeCondition(" + (int)item.Key + ");" })
+                }
+            }
+
+        </div>
+
+        @for (int i = 0; i < item.Value.Conditions.Count; i++)
+        {
+            <div id="cond_@((int)item.Key)_@(item.Value.Conditions[i].ConditionId)" style="@((item.Value.Conditions[i].ConditionId == item.Value.ConditionId) ? "" : "display:none;")">
+                @if (item.Value.Conditions[i].Properties != null && item.Value.Conditions[i].Properties.Count > 0)
+                {
+                    <table id="tableMaterialDetails_@((int)item.Value.ProductGroupId)" class="details" style="width: 100%; margin-top:0px;">
+                        <thead>
+                            <tr>
+                                <th style="width:35%;">Property</th>
+                                <th style="width:25%;">Value</th>
+                                <th style="width:20%;">Unit</th>
+                                <th style="width:20%;">Note</th>
+                            </tr>
+                        </thead>
+                        @foreach (var itemP in item.Value.Conditions[i].Properties)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td class="addToComparisonCell">
+                                        @if (item.Value.ProductGroupId != ProductGroup.ProductGroupType.Applications)
+                                        {
+                                            <div class="checkbox">
+                                                <input type="checkbox" id="tg_@(itemP.PropertyId)_@((int)item.Value.ProductGroupId)_@(item.Value.Conditions[i].ConditionId)_@(itemP.ValueId)" groupid="@((int)item.Value.ProductGroupId)" conditionid="@item.Value.Conditions[i].ConditionId" rowid="@itemP.ValueId" name="@(itemP.PropertyId)_@(itemP.SourcePropertyId)_@(itemP.ChemicalIdentityId)" typeid="@itemP.PropertyId" sourcepropertyid="@itemP.SourcePropertyId" />
+                                                <label for="tg_@(itemP.PropertyId)_@((int)item.Value.ProductGroupId)_@(item.Value.Conditions[i].ConditionId)_@(itemP.ValueId)"></label>
+                                            </div>
+                                        }
+                                        <div>
+                                            @Html.Raw(itemP.PropertyName)
+                                        </div>
+                                    </td>
+                                    <td>@Html.Raw(itemP.OrigValue)</td>
+                                    <td>@Html.Raw(itemP.OrigUnit)</td>
+                                    <td>@Html.Raw(itemP.OrigValueText)</td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                    if (item.Value.Conditions[i].SelectedReferences != null && item.Value.Conditions[i].SelectedReferences.Count > 0)
+                    {
+                        <br />
+                        <span><a id="selectedRefPropLink_@i" onclick="showSelectedRefProp(@i);return false;" href="#">+ </a><b>Reference for the selected material and condition</b></span>
+                        <br />
+                        <div id="selectedReferenceProp_@i" style="display:none">
+                            <table>
+                                <tbody>
+                                    @{int cntRef = 0;}
+                                    @foreach (var reference in item.Value.Conditions[i].SelectedReferences)
+                                    {
+                                        cntRef++;
+                                        <tr>
+                                            <td style="border-right:none; padding-right:10px">@cntRef</td>
+                                            <td>@reference</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                }
+            </div>
+        }
+        @if (item.Value.AllReferences != null && item.Value.AllReferences.Count > 0)
+        {
+            <br />
+            <span><a id="allRefPropLink_@cnt" onclick="showAllRefProp(@cnt);return false;" href="#">+ </a><b>All references for the selected material</b></span>
+            <br />
+            <div id="allReferenceProp_@cnt" style="display:none">
+                <table>
+                    <tbody>
+                        @{int cntRef = 0;}
+                        @foreach (var reference in item.Value.AllReferences)
+                        {
+                            cntRef++;
+                            <tr>
+                                <td style="border-right:none; padding-right:10px">@cntRef</td>
+                                <td>@reference</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+
+</div>
+<div style="clear:both;"></div>*@

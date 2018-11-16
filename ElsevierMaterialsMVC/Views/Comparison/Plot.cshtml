@@ -1,0 +1,91 @@
+﻿@model ElsevierMaterials.Models.Domain.Comparison.Comparison
+<style>
+    /*body {
+        overflow: hidden;
+        margin: 0;
+        font-size: 14px;
+        font-family: "Helvetica Neue", Helvetica;
+    }*/
+
+    /*#chart {
+        position: absolute;
+        top: 50px;
+        left: 100px;
+    }*/
+
+    .radarLabel {
+        font-size: 12px;
+        font-weight: normal;
+        color: rgb(102,102,102);
+        text-align: left;
+        text-wrap: normal;
+    }
+</style>
+
+@if (Model.MaterialNames.Count > 0 && Model.Properties.Count > 0)
+{
+    <div id="selectChart" style="border-top-color: rgb(225,225,225); border-top-width: 2px; border-top-style: solid; margin-top: 10px;">
+        <div id="plotButtonsContainer" style="margin-top: 10px;">
+            <input id="btnSpiderPlot" type="button" value="Spider Plot" onclick="btnSpiderPlotClick();" />
+            <input id="btnXYPlot" type="button" value="X-Y Plot" onclick="btnXYPlotClick(); /*comparisonPlot.PlotRadarChart();*/" />
+        </div>
+    </div>
+    <div id="spiderPlotContainer">
+        <div id="bodyRadarOptions" style="float: left; width: 255px;">
+            <div style="margin-top: 10px;">
+                <label class="radarLabel" style="font-size: 14px; margin-bottom: 10px;">Materials</label>
+            </div>
+            <div style="clear: both;"></div>
+            <div id="radarMaterials"></div>
+
+            <div style="margin-top: 10px;">
+                <label class="radarLabel" style="font-size: 14px; margin-bottom: 10px;">Properties</label>
+            </div>
+            <div style="clear: both;"></div>
+            <div id="radarProperties"></div>
+        </div>
+        <div id="bodyRadarChart" style="float: right;">
+            <div id="chart"></div>
+        </div>
+    </div>
+    <div id="xyPlotContainer" style="display: none;">
+        <div id="bodyXYOptions" style="float: left; width: 255px;">
+            <div style="margin-top: 10px;">
+                <label class="radarLabel" style="font-size: 14px; margin-bottom: 10px;">Materials</label>
+            </div>
+            <div style="clear: both;"></div>
+            <div id="xyMaterials"></div>
+
+            <div style="margin-top: 10px;">
+                <label class="radarLabel" style="font-size: 14px; margin-bottom: 10px;">Property for X-Axis</label>
+            </div>
+            <div style="clear: both;"></div>
+            <div id="xyPropertiesX"></div>
+
+            <div style="margin-top: 10px;">
+                <label class="radarLabel" style="font-size: 14px; margin-bottom: 10px;">Property for Y-Axis</label>
+            </div>
+            <div style="clear: both;"></div>
+            <div id="xyPropertiesY"></div>
+        </div>
+        <div id="bodyXYChart" style="float: right;">
+            <div id="xyChart"></div>
+        </div>
+    </div>
+}
+else
+{
+    <div style="font-size: 14px; line-height: 164%; color: rgb(102,102,102); text-align: left; margin-top: 50px; margin-left: 10px;">You have not added any materials to Comparison!</div>
+}
+
+<script type="text/javascript" src="~/Scripts/Comparison/ComparisonPlot.js"></script>
+<script type="text/javascript">
+    //Initialize RadarChart data
+    $(document).ready(function () {
+        @*comparisonPlot.InitRadarChart('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model))');*@
+        comparisonPlot.InitRadarChart('@Html.Raw(Json.Encode(Model))');
+        comparisonPlot.InitXYChart('@Html.Raw(Json.Encode(Model))');
+        comparisonPlot.InitSeriesDataXY();
+        comparisonPlot.PlotXYChartTimeout(0);
+    });
+</script>

@@ -1,0 +1,26 @@
+﻿@model IList<Api.Models.CreepDataPLUS.StressPointIso>
+@using ElsevierMaterialsMVC.Models.MaterialDetails;
+    <table class="smallSS" style="width: 100%;">
+        <thead>
+            <tr>
+                <th style="padding-right:40px">Strain (mm/mm)</th>
+                <th>Stress (MPa)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@item.Strain</td>
+
+                    @if (Math.Round(item.Stress, 0) == 0)
+                    {
+                        <td>@item.Stress</td>
+                    }
+                    else
+                    {
+                        <td>@Math.Round(item.Stress, 0)</td>
+                    }                  
+                </tr>
+            }
+        </tbody>
+    </table>

@@ -1,0 +1,108 @@
+﻿     <div id="searchFacetsTab">
+            <div id="areas" style="height:300px;margin-top:100px;">
+                   
+                <div>
+                    <div class="area">
+                        <div class="checkbox">                           
+                            <label for="am_2" >Standards & Codes</label>
+                        </div>
+
+                    </div>
+                    <div class="area">
+                        <div class="checkbox">
+                         
+                            <label for="am_3">References (Interactive Tables & Graphs)</label>
+                        </div>
+
+                    </div>
+                    <div class="area">
+                        <div class="checkbox">
+                           
+                            <label for="am_4">References (All)</label>
+                        </div>
+                    </div>
+                    <div class="area">
+                        <div class="checkbox">
+                         
+                            <label for="am_5">Worksheets</label>
+                        </div>
+
+                    </div>
+                    <div class="area" style="cursor:pointer;" onclick="MaterialsDatabases(); return false;">
+                        <div class="checkbox" style="cursor:pointer;">
+                            <a href="#" class="tablelink" style="cursor:pointer;"> <label for="am_6" style="color: #ff8200;cursor:pointer;">Materials Databases</label></a>
+                        </div>
+
+                        @*<div class="checkbox">
+                <input id="check1" type="checkbox" name="check" value="check1">
+                <label for="check1">Checkbox No. 1</label>
+                <br>
+                <input id="check2" type="checkbox" name="check" value="check2">
+                <label for="check2">Checkbox No. 2</label>
+            </div>*@
+
+                        @*<div class="checkbox">
+                <input id="check2" type="checkbox" name="check" value="check2">
+                <label for="check2">Materials Database</label>
+            </div>*@
+
+                    </div>
+                </div>
+                <div>
+                    <div class="area">
+                        <div class="checkbox">
+                           
+                            <label for="am_7">Patents</label>
+                        </div>
+                    </div>
+                    <div class="area">
+                        <div class="checkbox">
+                           
+                            <label for="am_8">Journals</label>
+                        </div>
+                    </div>
+                    <div class="area">
+                        <div class="checkbox">
+                           
+                            <label for="am_9">CAD Data</label>
+                        </div>
+                    </div>
+                    <div class="area">
+                        <div class="checkbox">
+                           
+                            <label for="am_10">Engineering Equations</label>
+                        </div>
+                    </div>
+                    <div class="area">
+                        <div class="checkbox">
+                           
+                            <label for="am_11">Product Specifications</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          <div style="clear:both;"></div>
+          <div style="clear:both;"></div>
+   <div id="queries">
+                <div>
+                    <div class="queryTitle">Recent Search Queries</div>
+                    <div class="queryContent"></div>
+
+                </div>
+                <div>
+                    <div class="queryTitle">Saved Search Queries</div>
+                    <div class="queryContent"></div>
+                </div>
+                <div>
+                    <div class="queryTitle">Shared Search Queries</div>
+                    <div class="queryContent"></div>
+                </div>
+            </div>
+         </div>
+<script type="text/javascript">
+    var materialsDatabasesPath = '@Url.Action("Browse", "Home")';
+
+    function MaterialsDatabases() {
+        window.location.href = materialsDatabasesPath;
+    }
+</script>

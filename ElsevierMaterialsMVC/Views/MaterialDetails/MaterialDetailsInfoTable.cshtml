@@ -1,0 +1,63 @@
+﻿@model ElsevierMaterialsMVC.Models.MaterialDetails.MaterialDetailsModel
+<div style="clear: both;"></div>
+@{
+    ElsevierMaterialsMVC.Models.Shared.TableFilters tableFilters = new ElsevierMaterialsMVC.BL.Binders.TableFiltersBinder().GetMaterialDetailsMaterialInfoColumns();
+}
+<div style="float: left; width: 100%;">
+    <table class="detailsInfo" id="materialDetailsInfoTable" style="width: 100%;">
+        <thead>
+            <tr>
+                <th colid="0" isvisible="@(tableFilters.Columns.Where(m => m.Id == 0).FirstOrDefault().IsChecked.ToString().ToLower())" filter="" style="cursor: pointer;" colname="material_designation">Material Name<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+
+                <th colid="1" isvisible="@(tableFilters.Columns.Where(m => m.Id == 1).FirstOrDefault().IsChecked.ToString().ToLower())" filter="" style="cursor: pointer;" colname="material_type">Type<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+
+                <th colid="2" isvisible="@(tableFilters.Columns.Where(m => m.Id == 2).FirstOrDefault().IsChecked.ToString().ToLower())" filter="" style="cursor: pointer;" colname="material_group">Class<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+
+                <th colid="3" isvisible="@(tableFilters.Columns.Where(m => m.Id == 3).FirstOrDefault().IsChecked.ToString().ToLower())" filter="" style="cursor: pointer;" colname="material_class">Subclass<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+
+                <th colid="4" isvisible="@(tableFilters.Columns.Where(m => m.Id == 4).FirstOrDefault().IsChecked.ToString().ToLower())" filter="" style="cursor: pointer;" colname="UNS">Group<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+
+                <th colid="5" isvisible="@(tableFilters.Columns.Where(m => m.Id == 5).FirstOrDefault().IsChecked.ToString().ToLower())" filter="" style="cursor: pointer;" colname="reference">Reference<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="6" isvisible="@(tableFilters.Columns.Where(m => m.Id == 6).FirstOrDefault().IsChecked.ToString().ToLower())" filter="" style="cursor: pointer;" colname="supplier">Supplier<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="7" isvisible="@(tableFilters.Columns.Where(m => m.Id == 7).FirstOrDefault().IsChecked.ToString().ToLower())" filter="" style="cursor: pointer;" colname="std">Std. Org.<span> / </span>Specification<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                 <th colid="8" isvisible="@(tableFilters.Columns.Where(m => m.Id == 8).FirstOrDefault().IsChecked.ToString().ToLower())" filter="" style="cursor: pointer;" colname="filler">Filler<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="9" isvisible="@(tableFilters.Columns.Where(m => m.Id == 9).FirstOrDefault().IsChecked.ToString().ToLower())" filter="" style="cursor: pointer;display:none;" colname="UNSNo">UNS No.<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+                <th colid="10" isvisible="@(tableFilters.Columns.Where(m => m.Id == 10).FirstOrDefault().IsChecked.ToString().ToLower())" filter="" style="cursor: pointer;display:none;" colname="CASRN">CAS RN<img src="~/Content/images/arow_down_col.png" class="headerSearch" /></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+               @*//0. material name*@
+                <td title="@Html.Raw(Model.Material.Name)">@Html.Raw(Model.Material.Name)</td>
+                @*//1. type*@
+                <td title="@Model.TypeName">@Model.TypeName</td>
+                @*//2. Class*@
+                <td title="@Model.GroupName">@Model.GroupName</td>
+                @*//3. Subclass*@
+                <td title="@Model.ClassName">@Model.ClassName</td>
+                @*//4. Group*@
+                <td style="display:@( (tableFilters.Columns.Where(m => m.Id == 4).FirstOrDefault().IsChecked) ? "" : "none;")" title="@Model.SubClassName">@Model.SubClassName</td>   
+                                  
+                @*//5. reference*@      
+                <td title="@Model.Material.SourceText">@Model.Material.SourceText</td>     
+             
+                @*//6. Supplier*@           
+                <td style="display:@( (tableFilters.Columns.Where(m => m.Id == 6).FirstOrDefault().IsChecked) ? "" : "none;")" title="@Model.Material.Manufacturer">@Model.Material.Manufacturer</td>
+                
+                @*//7. Standard*@
+                <td style="display:@( (tableFilters.Columns.Where(m => m.Id == 7).FirstOrDefault().IsChecked) ? "" : "none;")" title="@(Model.Material.Standard + "/ " + Model.Material.Specification)">
+                        @Model.Material.Standard<span>
+                            /
+                        </span>@Html.Raw(Model.Material.Specification)
+               </td>            
+                @*//8. Filler*@
+                <td style="display:@( (tableFilters.Columns.Where(m => m.Id == 8).FirstOrDefault().IsChecked) ? "" : "none;")" title="@Model.Material.Filler">@Html.Raw(Model.Material.Filler)</td>      
+                @*//9. UNS No.*@
+                <td title="@Model.UNSNo">@Model.UNSNo</td>
+                @*//10. CAS RN*@
+                <td title="@Model.CASRN">@Model.CASRN</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div style="clear: both;"></div>

@@ -1,0 +1,46 @@
+﻿@model ElsevierMaterials.Models.PropertyUnitModel
+
+<div style="float: left; width: 300px;" propid="@Model.PropertyID" proptype="Property" id="@Model.UniqueID" class="onePropertyDef">
+    <hr style="margin-top:5px;margin-bottom:5px;" />
+    <span style="display: inline-block; width:140px; max-width:140px; word-wrap: break-word;" class="browseFacetContent" id="nm_@Model.UniqueID">
+        @Model.PropertyName
+    </span>
+    <span style="display: inline; float:right">
+        <button class="deleteProperty" id="del_@Model.UniqueID" title="Remove">X</button>
+    </span>
+    <br />
+    <div style="clear:both"></div>
+    @*logical operators (static list)*@
+    <span style="display:inline-block; width:95px; max-width:95px;float:left; vertical-align:middle;">
+            <select name="logical_operator" class="selectOperator" id="lop_@Model.UniqueID" style="width:90px;">
+                @foreach (var item in Model.LogicalOperators) {
+                    <option value="@(item.Id)" @(Model.SelectedLogical == item.Id ? "selected=\"selected\"" : "")>@item.Name</option>
+                }
+            </select>
+    </span>
+
+    @*input values container*@
+    <span style=" display:inline-block; width:50px; max-width:90px; word-wrap: break-word;float:left;vertical-align:middle;">
+        <label class="ivcDefinitions">
+            <input type="text" class="inputExactValue numeric" style="width:40px; display: none;" value="@Model.ValueFrom">
+
+            <input type="text" class="inputFromValue numeric" style="width:40px; display: none;" value="@Model.ValueFrom">
+            <label class="browseFacetContent inputToValueLabel" style="display: none;"> And </label>
+            <input type="text" class="inputToValue numeric" style="width:40px; display: none;" value="@Model.ValueTo">
+        </label>
+    </span>
+
+    <span style="display:inline-block; width:70px; max-width:70px; word-wrap: break-word;float:left;vertical-align:central;">
+        <select id="un_@Model.UniqueID" style="display:none; width:70px; max-width:70px;">
+            @foreach (var item in Model.Units)
+            {
+                    <option name="@item.UnitLabel" value="@item.UnitKey" factor="@item.Factor" offset ="@item.Offset" @(Model.SelectedUnit == item.UnitKey ? "selected=\"selected\"" : "")>@Html.Raw(item.UnitLabel)</option>   
+            }
+
+        </select>
+    </span>
+    <br />
+       <br />
+</div>
+
+<div style="clear:both"></div>

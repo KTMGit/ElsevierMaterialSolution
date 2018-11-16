@@ -1,0 +1,30 @@
+﻿@model ElsevierMaterialsMVC.Models.MaterialDetails.CreepDataModel
+<div class="conditionContent" id="creepSelectionContainer">
+    @if (Model.Conditions.Count > 0)
+    {
+
+        <div class="conditionName">
+            Test Condition:
+        </div>
+        @Html.DropDownListFor(o => o.Conditions[0].ConditionId, new SelectList(Model.Conditions, "ConditionId", "Description"), htmlAttributes: new { @class = "conditions gray", @id = "selectCreepDataCond", @onchange = "materialDetails.changeCreepDataCond()" })
+
+
+    }
+</div>
+@if (System.Configuration.ConfigurationManager.AppSettings["DeveloperSite"].ToLower() == "false")
+{
+    <div id="creepCond" style="width:100%;">
+    @Html.Partial("CreepData", Model.Data)
+</div>
+
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var isVisibleSelection = @(Model.Conditions.Count == 1 && Model.Conditions[0].Description == "As received" ? "false" : "true");
+        if (!isVisibleSelection) {
+            $("#creepSelectionContainer").hide();
+        }else {
+            $("#fatigueStrainSelectionContainer").show();
+        }
+    });
+</script>

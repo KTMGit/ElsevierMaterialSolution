@@ -1,0 +1,109 @@
+﻿@model ElsevierMaterialsMVC.Models.MaterialDetails.ProductGroup
+@using ElsevierMaterialsMVC.Models.MaterialDetails;
+
+<div>
+    @foreach (var item in Model.ChemicalProperties)
+    {
+       
+        <div class="conditionName" id="conditionName_@(item.PropertyId)_@(item.PhaseId)" onclick="materialDetails.changeDisplayDataForCondition(@(item.PropertyId),@(item.PhaseId))" style="font-size: 14px; width: 100%; margin-top: 10px;"><b id="conditionTitle_@(item.PropertyId)_@(item.PhaseId)">+ @item.PNameAndPhase</b></div>
+        <div style="clear: both;"></div>
+       
+        <div style="background-color:#ffffff;" id="propertyData_@(item.PropertyId)_@(item.PhaseId)">
+            <table class="detailsSmall" style="width: 100%; margin-top: 0px; font-size: 12px; font-weight: 100;">
+                <thead>
+                    <tr class="propertyRow">
+                        <th>Property Condition</th>
+                        <th>Property Range</th>
+                        <th>Property Units</th>
+                        <th>Variable Range</th>
+                        <th>Variable Units</th>
+                        <th>Graph Data</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cond in item.ConditionList)
+                    {
+                        <tr class="propertyRow">
+                            <td class="addToComparisonCell">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="All" id="tg_@(item.PropertyId)_@((int)Model.ProductGroupId)_@(cond.RowId)_@(cond.ValueId)"  conditionid="@cond.RowId" rowid="@cond.ValueId" propertyid="@item.PropertyId" variable="@cond.DefaultVariableUnits" hasdiagram="@cond.HasMultipleTemperatures" groupid="@((int)Model.ProductGroupId)"   name="@(item.PropertyId)" typeid="@item.PropertyId" sourcepropertyid="@item.PropertyId"  class="all_forComparison" />
+                                    <label for="tg_@(item.PropertyId)_@((int)Model.ProductGroupId)_@(cond.RowId)_@(cond.ValueId)"  style=" padding-top: 2px;" ></label>
+                                </div>
+                                <div>
+                                    @Html.Raw(cond.Name)
+                                </div>
+                            </td>
+
+                            <td class="valueTd" origvalue="@Html.Raw(cond.PropertyRange)" defaultvalue="@Html.Raw(cond.DefaultPropertyRange)" usvalue="@Html.Raw(cond.USPropertyRange)">@Html.Raw(cond.PropertyRange) </td>
+                            <td class="valueTd" origvalue="@Html.Raw(cond.PropertyUnits)" defaultvalue="@Html.Raw(cond.DefaultPropertyUnits)" usvalue="@Html.Raw(cond.USPropertyUnits)">@Html.Raw(cond.PropertyUnits)</td>
+                            <td>@Html.Raw(cond.VariableRange)</td>
+                            <td>@Html.Raw(cond.VariableUnits)</td>
+                            @if (cond.HasMultipleTemperatures)
+                            {                               
+                                <td><a id="plot_@(item.PropertyId)_@(cond.RowId)" href="#" onclick="materialDetails.plotTemperatures(@item.PropertyId, @cond.RowId,'@item.PropertyName',@item.PhaseId,'@item.Phase','@cond.VariableUnits','@cond.PropertyUnits', '@cond.Name');return false;" origvalue="@Html.Raw(Json.Encode(cond.TemperatureList.Where(c => c.type == ChemicalUnitValuesType.Origin)))" defaultvalue="@Html.Raw(Json.Encode(cond.TemperatureList.Where(c => c.type == ChemicalUnitValuesType.Default)))" usvalue="@Html.Raw(Json.Encode(cond.TemperatureList.Where(c => c.type == ChemicalUnitValuesType.Us)))">
+                                    <img src="~/Images/compareDiagram.jpg" /></a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>  
+                            }
+                            @if (cond.Notes != "")
+                            {
+                                <td><a class="tableLink" href="#" onclick="materialDetails.showCitations(@cond.cit_record_id);return false;">Note</a></td>
+                            }
+                            else
+                            {
+                                <td></td>  
+                            }
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>   
+        
+        <div id="propertyChart_@(item.PropertyId)_@(item.PhaseId)" style="display:none;">
+            <input type="button" onclick="materialDetails.closeTemperatureDiagram(@(item.PropertyId),@(item.PhaseId));return false;" value="Show table"/>
+            <div style="padding-top:10px; padding-left:200px;"><label id="condName_@(item.PropertyId)_@(item.PhaseId)"></label></div>
+
+            <div style="width: 70%; float: left;">
+                <div id="chemPropChart_@(item.PropertyId)_@(item.PhaseId)"></div>
+                <div><a id="saveChemicalMaterials_@(item.PropertyId.ToString())_@(item.PhaseId)" class="comparison" href="#">save diagram</a></div>
+            </div>            
+            <div class="chemPropTable" id="chemPropTable_@(item.PropertyId)_@(item.PhaseId)" style="width:30%; float:left;">
+                @if (item.ConditionList != null && item.ConditionList.Count > 0 && item.ConditionList.Where(c => c.HasMultipleTemperatures).Any())
+                {
+                    string legendX = item.ConditionList.Select(p => p.VariableUnits).FirstOrDefault();
+                    string legendY = item.ConditionList.Select(p => p.PropertyUnits).FirstOrDefault();
+                    
+                    <table id="chemPropTableData_@(item.PropertyId)_@(item.PhaseId)">
+                    </table>
+                }
+
+            </div>
+        </div>
+    }
+</div>
+<div id="citationsContainer" style="display: none;">
+    <div id="citations">
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('div[id^="propertyData_"]').hide();
+        $('div[id^="propertyData_"]').each(function () {
+            $(this).hide();
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+

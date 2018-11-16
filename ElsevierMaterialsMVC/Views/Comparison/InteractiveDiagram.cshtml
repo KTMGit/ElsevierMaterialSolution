@@ -1,0 +1,35 @@
+﻿@model ElsevierMaterials.Models.Domain.ComparisonDiagram.PropertyD
+@using ElsevierMaterials.Models.Domain.ComparisonDiagram;
+<style>
+    .scrollClass {
+        overflow-y: auto;
+        height: 400px;
+    }
+</style>
+@{  
+    IList<string> distinctXNames = (from a in Model.Materials from b in a.Conditions from c in b.Temperatures select (string)c.XName).Distinct().ToList();
+    Model.ListXNamesAll = distinctXNames;
+    Model.SelectedXName = Model.SelectedXName == null || distinctXNames.Count()==1 ? distinctXNames.FirstOrDefault() : Model.SelectedXName;
+    }
+
+<div style="clear: both;"></div>
+
+<div style="margin-top: 10px;">@Model.Name 
+    @if (distinctXNames.Count()>1)
+    { <text>vs.</text>@Html.DropDownListFor(m => m.SelectedXName, Model.ListXNamesAll.Select(c => new SelectListItem() { Text = c, Value = c, Selected = Model.SelectedXName == c }), new Dictionary<string, object>() {{ "id", "XName" },{"onchange","showInteractiveDiagramSelected(" + Model.Id + ")"} }) }
+    else{
+    @Html.DropDownListFor(m => m.SelectedXName, Model.ListXNamesAll.Select(c => new SelectListItem() { Text = c, Value = c, Selected = Model.SelectedXName == c }), new Dictionary<string, object>() {{ "id", "XName" },{"onchange","showInteractiveDiagramSelected(" + Model.Id + ")"},{"style","display:none;"} })    
+    }
+
+
+</div>
+
+
+
+<div id="interactiveDiagramSelected" style="padding: 10px;">
+    @Html.Partial("InteractiveDiagramsSelected", Model)    
+</div>
+
+
+
+

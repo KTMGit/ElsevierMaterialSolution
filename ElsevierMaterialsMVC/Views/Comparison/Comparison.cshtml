@@ -1,0 +1,60 @@
+﻿@model ElsevierMaterials.Models.Domain.Comparison.Comparison
+@using ElsevierMaterialsMVC.Models.Shared
+@using ElsevierMaterials.Models.Domain.ComparisonDiagram;
+@using ElsevierMaterialsMVC.BL.Binders.ComparisonDiagram;
+@{
+    ViewBag.Title = "Elsevier :: Material details";
+    Layout = "~/Views/Shared/_LayoutFilters.cshtml";
+  
+}
+
+<script src="~/Scripts/Comparison/Comparison.js"></script>
+<script type="text/javascript" src="~/Scripts/Comparison/ComparisonPlot.js"></script>
+
+<div id="comparisonCont">
+    @if ((Model.ComparisonD != null && Model.ComparisonD.Properties != null && Model.ComparisonD.Properties.Count > 0) || Model.MaterialNames.Count > 0)
+    {
+        <div>
+            @Html.Partial("Plugins", new Plugin() { HasSearchFilters = HasSearchFiltersEnum.Yes, ActivePage = PageEnum.Comparison })
+            <div style="margin-top: 10px; margin-left: 5px;">
+                <div style="clear: both;"></div>
+                <div>
+                    @if (Model.MaterialNames.Count > 0)
+                    {
+                        <input id="btnCompareTable" type="button" value="Compare Table" onclick="btnCompareTableClick();" />
+                        <input id="btnComparePlot" type="button" value="Compare Plot" onclick="btnComparePlotClick(); comparisonPlot.PlotRadarChart();" />
+                    }
+                    @if (Model.ComparisonD != null && Model.ComparisonD.Properties != null && Model.ComparisonD.Properties.Count > 0)
+                    {
+                        <input id="btnBackToTableView" type="button" style="display:none;" value="Back to table view" onclick="backToTableView();" />
+                    }
+                </div>
+                <div style="clear: both;"></div>
+                <div id="comaprisonProperties">
+                    @Html.Partial("PropertiesWithDiagrams", Model)
+                </div>
+
+                @if (Model.MaterialNames.Count > 0)
+                {
+                    <div id="comaprisonPlot" style="display: none;">
+                        @Html.Partial("Plot", Model)
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div style="color: rgb(102,102,102);margin-left: 5px;">You have not added any materials to Comparison!</div>
+    }
+</div>
+
+
+<script type="text/javascript">
+    var comparisonRemoveMaterialPath = '@Url.Action("RemoveMaterial", "Comparison")';
+    searchFunc.fullTextSearchPath = '@Url.Action("FullTextSearchOnly", "Search")';
+    searchFunc.advSearchPath = '@Url.Action("AdvSearch", "AdvSearch")';
+
+
+
+</script>

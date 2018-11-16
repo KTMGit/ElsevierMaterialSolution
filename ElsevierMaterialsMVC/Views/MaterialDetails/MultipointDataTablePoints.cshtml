@@ -1,0 +1,21 @@
+﻿@model  ElsevierMaterialsMVC.Models.MaterialDetails.MultipointDataDiagramLegendsModel
+
+
+ 
+   <table class="smallSS" style="width: 100%;">
+        <thead>
+            <tr>
+                <th> @Model.TablePoints.XName</th>
+                <th style="max-width:250px">@Model.TablePoints.YName</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.TablePoints.Points)
+            {
+                <tr>
+                    <td>@item.X</td>
+                    <td>@item.Y</td>
+                </tr>
+            }
+        </tbody>
+    </table>

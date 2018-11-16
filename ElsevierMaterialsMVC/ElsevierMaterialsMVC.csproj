@@ -1,0 +1,889 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3CD03E83-09A1-430E-927B-C0BC3EEEEB43}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ElsevierMaterialsMVC</RootNamespace>
+    <AssemblyName>ElsevierMaterialsMVC</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RegisterForComInterop>true</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="ApiCommon">
+      <HintPath>\\denver\BuildData\DLL_Libraries\KTM\Api\ApiCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ApiModels, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>\\denver\BuildData\DLL_Libraries\KTM\Api\ApiModels.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Ado">
+      <HintPath>..\packages\Glimpse.Ado.1.7.3\lib\net45\Glimpse.Ado.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.AspNet">
+      <HintPath>..\packages\Glimpse.AspNet.1.9.2\lib\net45\Glimpse.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Core">
+      <HintPath>..\packages\Glimpse.1.8.6\lib\net45\Glimpse.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.EF5">
+      <HintPath>..\packages\Glimpse.EF5.1.6.5\lib\net45\Glimpse.EF5.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.EF6">
+      <HintPath>..\packages\Glimpse.EF6.1.6.5\lib\net45\Glimpse.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Mvc4">
+      <HintPath>..\packages\Glimpse.Mvc4.1.5.3\lib\net40\Glimpse.Mvc4.dll</HintPath>
+    </Reference>
+    <Reference Include="IniCore, Version=3.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>\\denver\BuildData\DLL_Libraries\IniCore\3.0.3.0\IniCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>\\DENVER\BuildData\DLL_Libraries\DotNetZip\v1.9.1.8\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SkfCore">
+      <HintPath>\\denver\BuildData\DLL_Libraries\IniCore\3.0.3.0\SkfCore.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web.DataVisualization" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Services">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20715.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.2.0.20710.0\lib\net40\Microsoft.Web.WebPages.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.20710.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.AspNet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.AspNet.4.1.4.12333\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.Core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.Core.4.1.4.12333\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Consumer.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Core.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.Core.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OpenId.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.OData, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.4.0.0\lib\net40\System.Web.Http.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Edm, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Data.Edm.5.2.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Data.OData.5.2.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Spatial, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\System.Spatial.5.2.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BL\Binders\ComparisonDiagram\ComparisonDiagramControllerBinder.cs" />
+    <Compile Include="BL\Binders\Comparison\ComaprisonMaterialBinder.cs" />
+    <Compile Include="BL\Binders\Comparison\ComparisonBasicBinder.cs" />
+    <Compile Include="BL\Binders\Comparison\ComparisonControllerBinder.cs" />
+    <Compile Include="BL\Binders\Comparison\ComparisonDiagramBinder.cs" />
+    <Compile Include="BL\Binders\Comparison\ComparisonELSBinder.cs" />
+    <Compile Include="BL\Binders\Comparison\ComparisonPropertyBinder.cs" />
+    <Compile Include="BL\Binders\Comparison\ComparisonTMBinder.cs" />
+    <Compile Include="BL\Binders\Comparison\ComparisonGeneralBinder.cs" />
+    <Compile Include="BL\Binders\Comparison\Factory.cs" />
+    <Compile Include="BL\Binders\Comparison\IFactory.cs" />
+    <Compile Include="BL\Binders\Comparison\IPropertyFactory.cs" />
+    <Compile Include="BL\Binders\Comparison\PropertyFactory.cs" />
+    <Compile Include="BL\Binders\ConditionBasic\ConditionTMPlusBinder.cs" />
+    <Compile Include="BL\Binders\ConditionBasic\ConditionTMMetalsBinder.cs" />
+    <Compile Include="BL\Binders\ConditionBasic\ConditionElsBinder.cs" />
+    <Compile Include="BL\Binders\ConditionBasic\ConditionBinder.cs" />
+    <Compile Include="BL\Binders\Exporter\ExporterBinder.cs" />
+    <Compile Include="BL\Binders\Exporter\ExportFormaterBinder.cs" />
+    <Compile Include="BL\Binders\Exporter\SourceTypeEnum.cs" />
+    <Compile Include="BL\Binders\Group\GroupElsBinder.cs" />
+    <Compile Include="BL\Binders\Group\GroupTMBinder.cs" />
+    <Compile Include="BL\Binders\MaterialBasic\MaterialTMPlusBinder.cs" />
+    <Compile Include="BL\Binders\MaterialBasic\MaterialTMMetalsBinder.cs" />
+    <Compile Include="BL\Binders\MaterialBasic\MaterialElsBinder.cs" />
+    <Compile Include="BL\Binders\PropertyBasic\PropertyElsBinder.cs" />
+    <Compile Include="BL\Binders\PropertyBasic\PropertyTMMetalsBinder.cs" />
+    <Compile Include="BL\Binders\PropertyBasic\PropertyTMPlusBinder.cs" />
+    <Compile Include="BL\Binders\PropertyBasic\PropertyBinder.cs" />
+    <Compile Include="BL\Binders\MaterialDetails\MaterialDetailsBinder.cs" />
+    <Compile Include="BL\Binders\MaterialBasic\MaterialBinder.cs" />
+    <Compile Include="BL\Binders\PropertyBasic\Utility.cs" />
+    <Compile Include="BL\Binders\PropertyDescriptionBinder.cs" />
+    <Compile Include="BL\Binders\Subgroups\SubgroupsBinder.cs" />
+    <Compile Include="BL\Binders\TableFiltersBinder.cs" />
+    <Compile Include="BL\Global\BaseNavigablePage.cs" />
+    <Compile Include="BL\Global\BreadcrumbNavigation.cs" />
+    <Compile Include="BL\Global\ElsevierController.cs" />
+    <Compile Include="App_Start\AuthConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="BL\Global\Navigable\AdvancedSearchNav.cs" />
+    <Compile Include="BL\Global\Navigable\AdvancedSearchResults.cs" />
+    <Compile Include="BL\Global\Navigable\BrowseFacets.cs" />
+    <Compile Include="BL\Global\Navigable\BrowseHome.cs" />
+    <Compile Include="BL\Global\Navigable\Comparison.cs" />
+    <Compile Include="BL\Global\Navigable\Exporter.cs" />
+    <Compile Include="BL\Global\Navigable\Equivalency.cs" />
+    <Compile Include="BL\Global\Navigable\Processing.cs" />
+    <Compile Include="BL\Global\Navigable\Properties.cs" />
+    <Compile Include="BL\Global\Navigable\Subgroups.cs" />
+    <Compile Include="BL\Global\Navigable\FullSearch.cs" />
+    <Compile Include="BL\Global\Navigable\HomePage.cs" />
+    <Compile Include="BL\Global\Navigable\MaterialDetails.cs" />
+    <Compile Include="BL\Helpers\TransformFunctions.cs" />
+    <Compile Include="BL\Helpers\PagerCustom.cs" />
+    <Compile Include="BL\Helpers\PagerHelper.cs" />
+    <Compile Include="BL\Binders\Search\SearchResultsBinder.cs" />
+    <Content Include="BL\DLL\libinchi.dll" />
+    <Content Include="BL\DLL\StructureHandler.dll" />
+    <Content Include="BL\DLL\StructureHandler.ini" />
+    <Content Include="Content\fonts.css" />
+    <Content Include="Content\images\ic-close-k.png" />
+    <Content Include="Content\images\ic-mag-glass-k.png" />
+    <Content Include="Scripts\Comparison\InterDiagrams.js" />
+    <Content Include="Content\imagesD3.css" />
+    <Content Include="Content\Design_V1\bootstrap\css\bootstrap-responsive.css" />
+    <Content Include="Content\Design_V1\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="Content\Design_V1\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\Design_V1\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\Design_V1\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\Design_V1\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="Content\Design_V1\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\Design_V1\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\Design_V1\Skin.css" />
+    <Content Include="Content\Design_V1\Skin.less" />
+    <Content Include="Content\Design_V1\Structure.css" />
+    <Content Include="Content\Design_V1\Structure.less" />
+    <Content Include="Content\images\a-z.png" />
+    <Content Include="Content\images\accordionClose.png" />
+    <Content Include="Content\images\accordionOrangeClose.png" />
+    <Content Include="Content\images\accordionOrangeOpen.png" />
+    <Content Include="Content\images\accordionWhiteClose.png" />
+    <Content Include="Content\images\accordionWhiteOpen.png" />
+    <Content Include="Content\images\arow_down_col.png" />
+    <Content Include="Content\images\arrow.png" />
+    <Content Include="Content\images\column-icon.png" />
+    <Content Include="Content\images\curve.png" />
+    <Content Include="Content\images\diag.png" />
+    <Content Include="Content\images\filter_icon.png" />
+    <Content Include="Content\images\icon-compare-ss.png" />
+    <Content Include="Content\images\L2.png" />
+    <Content Include="Content\images\openFilters.png" />
+    <Content Include="Content\images\accordionDarkClose.png" />
+    <Content Include="Content\images\accordionDarkOpen.png" />
+    <Content Include="Content\images\accordionOpen.png" />
+    <Content Include="Content\images\actCbBg.png" />
+    <Content Include="Content\images\breadCrumbArrow.png" />
+    <Content Include="Content\images\cbx.png" />
+    <Content Include="Content\images\cbxBg.png" />
+    <Content Include="Content\images\cbx_checked.png" />
+    <Content Include="Content\images\checkBoxImage.png" />
+    <Content Include="Content\images\closeFilters.png" />
+    <Content Include="Content\images\delete.png" />
+    <Content Include="Content\images\excel.png" />
+    <Content Include="Content\images\filtersSearch.png" />
+    <Content Include="Content\images\graySearch.png" />
+    <Content Include="Content\images\gray_overlay.png" />
+    <Content Include="Content\images\loader.gif" />
+    <Content Include="Content\images\loader_big.gif" />
+    <Content Include="Content\images\Logo.png" />
+    <Content Include="Content\images\menu_close.png" />
+    <Content Include="Content\images\pdf.png" />
+    <Content Include="Content\images\R2.png" />
+    <Content Include="Content\images\search.png" />
+    <Content Include="Content\images\selection.png" />
+    <Content Include="Content\images\treeItem.png" />
+    <Content Include="Content\images\treeItemActive.png" />
+    <Content Include="Content\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\images\z-a.png" />
+    <Content Include="Content\jquery-ui1.css" />
+    <Content Include="Content\Skin.css" />
+    <Content Include="Content\Layout.css" />
+    <Compile Include="BL\Notifications\UserNotifier.cs" />
+    <Compile Include="Controllers\ComparisonController.cs" />
+    <Compile Include="Controllers\AdvSearchController.cs" />
+    <Compile Include="Controllers\ExporterController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MaterialDetailsController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\SubgroupsController.cs" />
+    <Compile Include="Controllers\TableFiltersController.cs" />
+    <Compile Include="Filters\SessionExpireAttribute.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdvancedSearch\AdvancedSearch.cs" />
+    <Compile Include="Models\AdvancedSearch\BinaryOperator.cs" />
+    <Compile Include="Models\AdvancedSearch\LogicalOperator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\AdvancedSearch\PropertyConditionModel.cs" />
+    <Compile Include="Models\AdvancedSearch\PropertyUnitModel.cs" />
+    <Compile Include="Models\AdvancedSearch\UnitModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Comparison\ChemicalPropertiesForComparison.cs" />
+    <Compile Include="Models\Home\IndexModel.cs" />
+    <Compile Include="Models\Login\LoginModel.cs" />
+    <Compile Include="Models\MaterialDetails\ChemicalConditionModel.cs" />
+    <Compile Include="Models\MaterialDetails\ChemicalConditionPointModel.cs" />
+    <Compile Include="Models\MaterialDetails\ChemicalPropertyModel.cs" />
+    <Compile Include="Models\MaterialDetails\ConditionModel.cs" />
+    <Compile Include="Models\MaterialDetails\CreepDataModel.cs" />
+    <Compile Include="Models\MaterialDetails\CreepPlusConditionModel.cs" />
+    <Compile Include="Models\MaterialDetails\CreepPlusModel.cs" />
+    <Compile Include="Models\MaterialDetails\CreepPlusTimeStresses.cs" />
+    <Compile Include="Models\MaterialDetails\FatigueModel.cs" />
+    <Compile Include="Models\MaterialDetails\FatiguePlusModel.cs" />
+    <Compile Include="Models\MaterialDetails\ManufacturingModel.cs" />
+    <Compile Include="Models\MaterialDetails\MaterialCounters.cs" />
+    <Compile Include="Models\MaterialDetails\MaterialDetailsModel.cs" />
+    <Compile Include="Models\MaterialDetails\MultipointDataConditionModel.cs" />
+    <Compile Include="Models\MaterialDetails\MultipointDataDetailsModel.cs" />
+    <Compile Include="Models\MaterialDetails\MultipointDataDiagramLegendsModel.cs" />
+    <Compile Include="Models\MaterialDetails\MultipointDataModel.cs" />
+    <Compile Include="Models\MaterialDetails\ProcessingModel.cs" />
+    <Compile Include="Models\MaterialDetails\ProductGroupModel.cs" />
+    <Compile Include="Models\MaterialDetails\PropertiesModel.cs" />
+    <Compile Include="Models\Search\MaterialModel.cs" />
+    <Compile Include="Models\Search\SearchCondition.cs" />
+    <Compile Include="Models\Search\SearchResultsModel.cs" />
+    <Compile Include="Models\Search\SampleMaterialModel.cs" />
+    <Compile Include="Models\Shared\FiltersGroup.cs" />
+    <Compile Include="Models\Shared\HasSearchFilters.cs" />
+    <Compile Include="Models\Shared\PageEnum.cs" />
+    <Compile Include="Models\Shared\Plugin.cs" />
+    <Compile Include="Models\Shared\PropertyDescription.cs" />
+    <Compile Include="Models\Shared\PropertyDescriptionEnum.cs" />
+    <Compile Include="Models\Shared\TableFilters.cs" />
+    <Compile Include="Models\Subgroups\SubgroupColumnEnum.cs" />
+    <Compile Include="Models\Subgroups\SubgroupsModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\smoothness\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\smoothness\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\smoothness\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\smoothness\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\smoothness\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\smoothness\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\smoothness\jquery-ui.css" />
+    <Content Include="Images\compareDiagram.jpg" />
+    <Content Include="readMe.txt" />
+    <Content Include="Scripts\Comparison\Comparison.js" />
+    <Content Include="Scripts\Comparison\ComparisonPlot.js" />
+    <Content Include="Scripts\Comparison\D3\d3-transform.js" />
+    <Content Include="Scripts\Comparison\D3\d3.js" />
+    <Content Include="Scripts\Comparison\D3\d3min.js" />
+    <Content Include="Scripts\Comparison\D3\RadarChart.js" />
+    <Content Include="Scripts\Comparison\InteractiveDaigram.js" />
+    <Content Include="Scripts\dist\jstree.js" />
+    <Content Include="Scripts\dist\jstree.min.js" />
+    <Content Include="Scripts\dist\themes\default-dark\32px.png" />
+    <Content Include="Scripts\dist\themes\default-dark\40px.png" />
+    <Content Include="Scripts\dist\themes\default-dark\style.css" />
+    <Content Include="Scripts\dist\themes\default-dark\style.min.css" />
+    <Content Include="Scripts\dist\themes\default-dark\throbber.gif" />
+    <Content Include="Scripts\dist\themes\default\32px.png" />
+    <Content Include="Scripts\dist\themes\default\32_1px.png" />
+    <Content Include="Scripts\dist\themes\default\40px.png" />
+    <Content Include="Scripts\dist\themes\default\style.css" />
+    <Content Include="Scripts\dist\themes\default\styleOld.css" />
+    <Content Include="Scripts\dist\themes\default\style.min.css" />
+    <Content Include="Scripts\dist\themes\default\throbber.gif" />
+    <Content Include="Content\images\ic-close-k.svg" />
+    <Content Include="Content\images\ic-mag-glass-k.svg" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro-Bold.eot" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro-Bold.svg" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro-Bold.ttf" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro-Bold.woff" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro-Bold.woff2" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro-BoldItalic.eot" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro-BoldItalic.svg" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro-BoldItalic.ttf" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro-BoldItalic.woff" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro-BoldItalic.woff2" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro-Italic.eot" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro-Italic.svg" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro-Italic.ttf" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro-Italic.woff" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro-Italic.woff2" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro.eot" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro.svg" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro.ttf" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro.woff" />
+    <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro.woff2" />
+    <None Include="Properties\PublishProfiles\EMS.pubxml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Scripts\jquery-1.8.3-vsdoc.js" />
+    <Content Include="Scripts\Exporter\exporter.js" />
+    <Content Include="Scripts\jquery-1.8.3.js" />
+    <Content Include="Scripts\jquery-1.8.3.min.js" />
+    <Content Include="Scripts\jquery-ui-1.9.2.js" />
+    <Content Include="Scripts\jquery-ui-1.9.2.min.js" />
+    <Content Include="Scripts\jquery.limit-1.2.source.js" />
+    <Content Include="Scripts\jquery.sc.js" />
+    <Content Include="Scripts\jquery.sorttable.js" />
+    <Content Include="Scripts\jsme\14CE9D7EA7F43EBABC5E6E48352FB9EB.cache.js" />
+    <Content Include="Scripts\jsme\1ACAF329ADDCDD00886BFC9733C1BEA4.cache.js" />
+    <Content Include="Scripts\jsme\23DDD9FAA0341A835A3FDE496E5AFB2A.cache.js" />
+    <Content Include="Scripts\jsme\348F016BC42C7B9150A824DFDCA1090D.cache.js" />
+    <Content Include="Scripts\jsme\396F806CD63ABD414BFBB9D57429F05B.cache.png" />
+    <Content Include="Scripts\jsme\40BAF81124143A595056A9CCA0E9DBBA.cache.png" />
+    <Content Include="Scripts\jsme\43089F2597B442BE44176E40C72D529F.cache.js" />
+    <Content Include="Scripts\jsme\4841BDE9DC293BA35F7762B4D8EFD236.cache.png" />
+    <Content Include="Scripts\jsme\5A4F9F96C92F9C516F65C48A53295513.cache.js" />
+    <Content Include="Scripts\jsme\647C2AA4E91751C37AC70C5E2AFE86F5.cache.js" />
+    <Content Include="Scripts\jsme\97EF32D5F564A92C212785C831EB98F1.cache.js" />
+    <Content Include="Scripts\jsme\A6DBDE07E3A8F66E8959A4F32505E16B.cache.png" />
+    <Content Include="Scripts\jsme\AC2E7FED694687208E07473BB1D04AC7.cache.js" />
+    <Content Include="Scripts\jsme\C001FF75B41855DFE33FE79EA443E44E.cache.js" />
+    <Content Include="Scripts\jsme\clear.cache.gif" />
+    <Content Include="Scripts\jsme\compilation-mappings.txt" />
+    <Content Include="Scripts\jsme\deferredjs\14CE9D7EA7F43EBABC5E6E48352FB9EB\1.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\14CE9D7EA7F43EBABC5E6E48352FB9EB\2.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\14CE9D7EA7F43EBABC5E6E48352FB9EB\3.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\14CE9D7EA7F43EBABC5E6E48352FB9EB\4.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\14CE9D7EA7F43EBABC5E6E48352FB9EB\5.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\14CE9D7EA7F43EBABC5E6E48352FB9EB\6.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\1ACAF329ADDCDD00886BFC9733C1BEA4\1.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\1ACAF329ADDCDD00886BFC9733C1BEA4\2.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\1ACAF329ADDCDD00886BFC9733C1BEA4\3.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\1ACAF329ADDCDD00886BFC9733C1BEA4\4.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\1ACAF329ADDCDD00886BFC9733C1BEA4\5.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\1ACAF329ADDCDD00886BFC9733C1BEA4\6.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\23DDD9FAA0341A835A3FDE496E5AFB2A\1.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\23DDD9FAA0341A835A3FDE496E5AFB2A\2.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\23DDD9FAA0341A835A3FDE496E5AFB2A\3.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\23DDD9FAA0341A835A3FDE496E5AFB2A\4.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\23DDD9FAA0341A835A3FDE496E5AFB2A\5.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\23DDD9FAA0341A835A3FDE496E5AFB2A\6.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\348F016BC42C7B9150A824DFDCA1090D\1.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\348F016BC42C7B9150A824DFDCA1090D\2.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\348F016BC42C7B9150A824DFDCA1090D\3.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\348F016BC42C7B9150A824DFDCA1090D\4.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\348F016BC42C7B9150A824DFDCA1090D\5.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\348F016BC42C7B9150A824DFDCA1090D\6.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\43089F2597B442BE44176E40C72D529F\1.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\43089F2597B442BE44176E40C72D529F\2.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\43089F2597B442BE44176E40C72D529F\3.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\43089F2597B442BE44176E40C72D529F\4.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\43089F2597B442BE44176E40C72D529F\5.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\43089F2597B442BE44176E40C72D529F\6.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\5A4F9F96C92F9C516F65C48A53295513\1.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\5A4F9F96C92F9C516F65C48A53295513\2.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\5A4F9F96C92F9C516F65C48A53295513\3.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\5A4F9F96C92F9C516F65C48A53295513\4.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\5A4F9F96C92F9C516F65C48A53295513\5.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\5A4F9F96C92F9C516F65C48A53295513\6.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\647C2AA4E91751C37AC70C5E2AFE86F5\1.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\647C2AA4E91751C37AC70C5E2AFE86F5\2.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\647C2AA4E91751C37AC70C5E2AFE86F5\3.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\647C2AA4E91751C37AC70C5E2AFE86F5\4.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\647C2AA4E91751C37AC70C5E2AFE86F5\5.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\647C2AA4E91751C37AC70C5E2AFE86F5\6.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\97EF32D5F564A92C212785C831EB98F1\1.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\97EF32D5F564A92C212785C831EB98F1\2.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\97EF32D5F564A92C212785C831EB98F1\3.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\97EF32D5F564A92C212785C831EB98F1\4.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\97EF32D5F564A92C212785C831EB98F1\5.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\97EF32D5F564A92C212785C831EB98F1\6.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\AC2E7FED694687208E07473BB1D04AC7\1.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\AC2E7FED694687208E07473BB1D04AC7\2.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\AC2E7FED694687208E07473BB1D04AC7\3.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\AC2E7FED694687208E07473BB1D04AC7\4.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\AC2E7FED694687208E07473BB1D04AC7\5.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\AC2E7FED694687208E07473BB1D04AC7\6.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\C001FF75B41855DFE33FE79EA443E44E\1.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\C001FF75B41855DFE33FE79EA443E44E\2.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\C001FF75B41855DFE33FE79EA443E44E\3.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\C001FF75B41855DFE33FE79EA443E44E\4.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\C001FF75B41855DFE33FE79EA443E44E\5.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\C001FF75B41855DFE33FE79EA443E44E\6.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\E6A7C74C27B3661F282A63AB89F6ABCC\1.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\E6A7C74C27B3661F282A63AB89F6ABCC\2.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\E6A7C74C27B3661F282A63AB89F6ABCC\3.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\E6A7C74C27B3661F282A63AB89F6ABCC\4.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\E6A7C74C27B3661F282A63AB89F6ABCC\5.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\E6A7C74C27B3661F282A63AB89F6ABCC\6.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\F6A038876A64046A224E6414F11D1F76\1.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\F6A038876A64046A224E6414F11D1F76\2.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\F6A038876A64046A224E6414F11D1F76\3.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\F6A038876A64046A224E6414F11D1F76\4.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\F6A038876A64046A224E6414F11D1F76\5.cache.js" />
+    <Content Include="Scripts\jsme\deferredjs\F6A038876A64046A224E6414F11D1F76\6.cache.js" />
+    <Content Include="Scripts\jsme\DF7764EEC1903CD03C9545B354D8D8E4.cache.png" />
+    <Content Include="Scripts\jsme\E6A7C74C27B3661F282A63AB89F6ABCC.cache.js" />
+    <Content Include="Scripts\jsme\F6A038876A64046A224E6414F11D1F76.cache.js" />
+    <Content Include="Scripts\jsme\gwt\chrome\chrome.css" />
+    <Content Include="Scripts\jsme\gwt\chrome\chrome_rtl.css" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\button\menu-button-arrow-disabled.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\button\menu-button-arrow.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\button\split-button-arrow-active.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\button\split-button-arrow-disabled.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\button\split-button-arrow-focus.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\button\split-button-arrow-hover.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\button\split-button-arrow.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\combobox\arrow-down-disabled.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\combobox\arrow-down.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\combobox\ellipsis-disabled.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\combobox\ellipsis.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\corner.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\corner_ie6.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\fastree\selectionBar.gif" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\fastree\treeClosed.gif" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\fastree\treeLoading.gif" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\fastree\treeOpen.gif" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\glasspanel\blue_ridge.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\hborder.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\hborder_ie6.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\ie6\corner_dialog_topleft.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\ie6\corner_dialog_topright.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\ie6\hborder_blue_shadow.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\ie6\hborder_gray_shadow.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\ie6\vborder_blue_shadow.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\ie6\vborder_gray_shadow.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\scrolltable\bg_header_gradient.gif" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\splitPanelThumb.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\valuespinner\bg_textbox.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\vborder.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\images\vborder_ie6.png" />
+    <Content Include="Scripts\jsme\gwt\chrome\mosaic.css" />
+    <Content Include="Scripts\jsme\gwt\chrome\mosaic_rtl.css" />
+    <Content Include="Scripts\jsme\jsa.css" />
+    <Content Include="Scripts\jsme\jsme.devmode.js" />
+    <Content Include="Scripts\jsme\jsme.nocache.js" />
+    <Content Include="Scripts\MaterialDetails\MechanicalPlot.js" />
+    <Content Include="Scripts\MaterialDetails\PhysicalPlot.js" />
+    <Content Include="Scripts\MaterialDetails\ChemicalMaterialsPlot.js" />
+    <Content Include="Scripts\MaterialDetails\FatiguePlot.js" />
+    <Content Include="Scripts\MaterialDetails\materialDetails.js" />
+    <Content Include="Scripts\MaterialDetails\StressStrainPlot.js" />
+    <Content Include="Scripts\Search\advSearch.js" />
+    <Content Include="Scripts\filters.js" />
+    <Content Include="Views\MaterialDetails\Properties.cshtml" />
+    <Content Include="Views\MaterialDetails\Processing.cshtml" />
+    <Content Include="Views\MaterialDetails\Equivalency.cshtml" />
+    <Content Include="Views\Subgroups\Subgroups.cshtml" />
+    <Content Include="Views\Shared\_LayoutHomeOld.cshtml" />
+    <Content Include="Views\Home\BrowseFacets.cshtml" />
+    <Content Include="Views\Login\IndexOld.cshtml" />
+    <Content Include="Views\Shared\_LayoutLoginOld.cshtml" />
+    <Content Include="Views\Shared\FiltersContainerMaterials.cshtml" />
+    <Content Include="Views\Subgroups\FiltersSubgroupsContainer.cshtml" />
+    <Content Include="Views\Comparison.cshtml" />
+    <Content Include="Views\Comparison\Comparison.cshtml" />
+    <Content Include="Views\Comparison\Diagram.cshtml" />
+    <Content Include="Views\MaterialDetails\StressStrain.cshtml" />
+    <Content Include="Views\MaterialDetails\StressStrainDetailsTable.cshtml" />
+    <Content Include="Views\AdvSearch\AdvSearch.cshtml" />
+    <Content Include="Views\AdvSearch\AdvFiltersContainer.cshtml" />
+    <Content Include="Views\AdvSearch\ConditionsContainer.cshtml" />
+    <Content Include="Views\AdvSearch\AdvSearchConditionItem.cshtml" />
+    <Content Include="Views\AdvSearch\AdvResultsContainer.cshtml" />
+    <Content Include="Views\MaterialDetails\FatigueCondition.cshtml" />
+    <Content Include="Views\Home\BrowseHome.cshtml" />
+    <Content Include="Views\Home\Browse.cshtml" />
+    <Content Include="Views\AdvSearch\AdvSearchResults.cshtml" />
+    <Content Include="Views\Shared\FiltersResizable.cshtml" />
+    <Content Include="Views\Search\BrowseResultsContainer.cshtml" />
+    <Content Include="Views\MaterialDetails\FatiguePlusCondition.cshtml" />
+    <Content Include="Views\MaterialDetails\StressStrainPlus.cshtml" />
+    <Content Include="Views\Exporter\Exporter.cshtml" />
+    <Content Include="Views\Exporter\MaterialProperties.cshtml" />
+    <Content Include="Views\Comparison\Plot.cshtml" />
+    <Content Include="Views\MaterialDetails\MultipointDataDiagramDetails.cshtml" />
+    <Content Include="Views\MaterialDetails\MultipointDataConditionDetails.cshtml" />
+    <Content Include="Views\MaterialDetails\MultipointDataTablePoints.cshtml" />
+    <Content Include="Views\MaterialDetails\CreepData.cshtml" />
+    <Content Include="Views\Search\BrowseSearch.cshtml" />
+    <Content Include="Views\MaterialDetails\GroupContent.cshtml" />
+    <Content Include="Views\MaterialDetails\ConditionPropertiesContent.cshtml" />
+    <Content Include="Views\MaterialDetails\CreepPlusData.cshtml" />
+    <Content Include="Views\MaterialDetails\CreepPlusConditionDiagrams.cshtml" />
+    <Content Include="Views\MaterialDetails\CreepDetailsTable.cshtml" />
+    <Content Include="Views\MaterialDetails\CreepDetailsTableIso.cshtml" />
+    <Content Include="Views\MaterialDetails\TMProperties.cshtml" />
+    <Content Include="Views\Shared\FiltersContainerAdvProp.cshtml" />
+    <Content Include="Views\Search\SearchConditionItem.cshtml" />
+    <Content Include="Views\Search\SearchConditionItemContainer.cshtml" />
+    <Content Include="Views\MaterialDetails\TestConditionsContent.cshtml" />
+    <Content Include="Views\Search\SelectedFilters.cshtml" />
+    <Content Include="Views\Shared\Plugins.cshtml" />
+    <Content Include="Views\Shared\MaterialInfo.cshtml" />
+    <Content Include="Views\Subgroups\SubgroupResults.cshtml" />
+    <Content Include="Views\Subgroups\SubgroupListFilters.cshtml" />
+    <Content Include="Views\AdvSearch\SelectedAdvancedFilters.cshtml" />
+    <Content Include="Views\MaterialDetails\MaterialDetailsInfoTable.cshtml" />
+    <Content Include="Views\Shared\MenuContainer.cshtml" />
+    <Content Include="Views\MaterialDetails\StressStrainGroup.cshtml" />
+    <Content Include="Views\MaterialDetails\FatigueStrainGroup.cshtml" />
+    <Content Include="Views\MaterialDetails\FatigueStressGroup.cshtml" />
+    <Content Include="Views\MaterialDetails\CreepGroup.cshtml" />
+    <Content Include="Views\Shared\PropertiesDescriptions.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout_.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutHome.cshtml" />
+    <Content Include="Views\Shared\_LayoutFilters.cshtml" />
+    <Content Include="Views\Comparison\PropertiesWithDiagrams.cshtml" />
+    <Content Include="Views\Comparison\InteractiveDiagram.cshtml" />
+    <Content Include="Views\Comparison\PointsForTable.cshtml" />
+    <Content Include="Views\MaterialDetails\ChemicalGroupContent.cshtml" />
+    <Content Include="Views\AdvSearch\AdvChemicalStructureContainer.cshtml" />
+    <Content Include="Views\AdvSearch\AdvChemicalStructureResults.cshtml" />
+    <Content Include="Views\Comparison\InteractiveDiagramsSelected.cshtml" />
+    <Content Include="Views\MaterialDetails\ShowCitation.cshtml" />
+    <Content Include="Views\Comparison\SSSelectTemperatures.cshtml" />
+    <Content Include="Views\AdvSearch\AdvSearchMultipointConditionItem.cshtml" />
+    <Content Include="Views\MaterialDetails\PropertiesMain.cshtml" />
+    <Content Include="Views\MaterialDetails\ConditionProperties.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\common.js" />
+    <Content Include="Scripts\images\ui-icons.png" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-2.2.0.debug.js" />
+    <Content Include="Scripts\knockout-2.2.0.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\mtree\mtree.css" />
+    <Content Include="Scripts\mtree\mtree.js" />
+    <Content Include="Scripts\Search\search.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Images\accent.png" />
+    <Content Include="Images\bullet.png" />
+    <Content Include="Images\heroAccent.png" />
+    <Content Include="Images\orderedList0.png" />
+    <Content Include="Images\orderedList1.png" />
+    <Content Include="Images\orderedList2.png" />
+    <Content Include="Images\orderedList3.png" />
+    <Content Include="Images\orderedList4.png" />
+    <Content Include="Images\orderedList5.png" />
+    <Content Include="Images\orderedList6.png" />
+    <Content Include="Images\orderedList7.png" />
+    <Content Include="Images\orderedList8.png" />
+    <Content Include="Images\orderedList9.png" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\_RemoveExternalLoginsPartial.cshtml" />
+    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Manage.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Subgroups\EquivalentMaterials.cshtml" />
+    <Content Include="Views\MaterialDetails\MaterialDetailsContainer.cshtml" />
+    <Content Include="Views\Shared\FiltersContainer.cshtml" />
+    <Content Include="Views\Shared\Breadcrumb.cshtml" />
+    <Content Include="Views\Shared\FullTextSearch.cshtml" />
+    <Content Include="Views\Search\Search.cshtml" />
+    <Content Include="Views\Search\ResultsContainer.cshtml" />
+    <Content Include="Views\Shared\_LayoutFiltersOld.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Temp\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ElsevierMaterials.Common\ElsevierMaterials.Common.csproj">
+      <Project>{1272ca8d-d590-41b9-8939-1958d46deeb3}</Project>
+      <Name>ElsevierMaterials.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ElsevierMaterials.EF.MaterialsContextUow\ElsevierMaterials.EF.MaterialsContextUow.csproj">
+      <Project>{cb6e999d-334a-48ec-a67c-24d559f1faab}</Project>
+      <Name>ElsevierMaterials.EF.MaterialsContextUow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ElsevierMaterials.Export\ElsevierMaterials.Export.csproj">
+      <Project>{74472712-6081-41fe-81c4-bbdc8375282c}</Project>
+      <Name>ElsevierMaterials.Export</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ElsevierMaterials.Models\ElsevierMaterials.Models.csproj">
+      <Project>{57b6e443-0948-4132-b252-5164619d60da}</Project>
+      <Name>ElsevierMaterials.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ElsevierMaterials.Services\ElsevierMaterials.Services.csproj">
+      <Project>{ec417360-4f6f-4322-99ed-37f067c8a633}</Project>
+      <Name>ElsevierMaterials.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>55326</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/ElsevierMaterialsMVC</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>
