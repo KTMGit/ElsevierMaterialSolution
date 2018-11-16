@@ -472,16 +472,16 @@ namespace ElsevierMaterialsMVC.Controllers
              return Json(ResponseStatus.Success, new { data = RenderPartialViewToString("ShowCitation", model) }, JsonRequestBehavior.AllowGet);
          }
 
-         [SessionExpire]
-         public ActionResult GetMechnaical(int materialId = 0, int subgroupId = 0, int sourceId = 0, int sourceMaterialId = 0, string searchText = "", string tabId = "divProperties", int type = 1)
-         {
+         //[SessionExpire]
+         //public ActionResult GetMechnaical(int materialId = 0, int subgroupId = 0, int sourceId = 0, int sourceMaterialId = 0, string searchText = "", string tabId = "divProperties", int type = 1)
+         //{
 
-             string sessionId = System.Web.HttpContext.Current.Session["TotalMateriaSession"].ToString();
-             BreadcrumbNavigationGetSet(ref materialId, ref subgroupId, ref sourceId, ref sourceMaterialId, ref searchText, ref type);
-             MaterialDetailsModel model = MaterialDetailsBinder.GetMaterialMechanical(materialId, subgroupId, sourceId, sourceMaterialId, searchText, sessionId, materialContextUow, tabId);
-             model.ActiveTab = tabId;
-             return Json(ResponseStatus.Success, RenderPartialViewToString("ConditionPropertiesContent", model), JsonRequestBehavior.AllowGet);
-         }
+         //    string sessionId = System.Web.HttpContext.Current.Session["TotalMateriaSession"].ToString();
+         //    BreadcrumbNavigationGetSet(ref materialId, ref subgroupId, ref sourceId, ref sourceMaterialId, ref searchText, ref type);
+         //    MaterialDetailsModel model = MaterialDetailsBinder.GetMaterialMechanical(materialId, subgroupId, sourceId, sourceMaterialId, searchText, sessionId, materialContextUow, tabId);
+         //    model.ActiveTab = tabId;
+         //    return Json(ResponseStatus.Success, RenderPartialViewToString("ConditionPropertiesContent", model), JsonRequestBehavior.AllowGet);
+         //}
         
         public MaterialDetailsController()
         {
