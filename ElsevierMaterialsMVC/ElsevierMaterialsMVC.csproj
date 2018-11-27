@@ -475,7 +475,7 @@
     <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro.ttf" />
     <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro.woff" />
     <Content Include="Content\fonts\NexusSansCompPro\NexusSansCompPro.woff2" />
-    <None Include="Properties\PublishProfiles\EMS.pubxml">
+    <None Include="Properties\PublishProfiles\EMS_Auto.pubxml">
       <SubType>Designer</SubType>
     </None>
     <None Include="Scripts\jquery-1.8.3-vsdoc.js" />
