@@ -19,7 +19,7 @@ namespace ElsevierMaterials.EF.MaterialsContext
     public class MaterialsDbContext : BaseDbContext
     {
         public MaterialsDbContext()
-            : base("ems_cleanup_forSite") // production address
+            : base("emt") // production address
         //: base("kms_test") // test address
         {
             //TypeCorrectors.Add(new MovieCorrector());
